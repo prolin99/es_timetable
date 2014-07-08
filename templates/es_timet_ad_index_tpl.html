@@ -1,0 +1,18 @@
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+
+目前課表<{$data.info.year}>  <{$data.info.semester}> 學期 <{$data.info.class}>班<a class="btn btn-success" href="ed_timetable.php">開始編輯</a>
+
+    <form action="index.php" enctype="multipart/form-data" method="post">
+    <fieldset>
+    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" placeholder="學年度"><input type="text" placeholder="學期">
+    </fieldset>
+    </form>
+ 
+    <form action="ed_timetable.php" enctype="multipart/form-data" method="get">
+    <fieldset>
+    <button type="submit" name="do_key" class="btn btn-primary">建製新學期</button><input type="text" name="year" placeholder="學年度"><input type="text"  name="semester" placeholder="學期">
+    </fieldset>
+    </form>    
+ 

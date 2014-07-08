@@ -1,0 +1,70 @@
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+ 
+<div class="row-fluid" >
+    <form action="set_subject.php" enctype="multipart/form-data" method="POST">
+    <fieldset>
+    <input type="text" name="new_kmo" placeholder="新增科目，可以逗號分隔多項" class="span4">
+    <button type="submit" name="do_key" class="btn btn-primary">新增科目</button> 
+    </fieldset>
+    </form>  
+<table class="table table-hover">
+<tr><td>代號</td><td>科目</td>
+<{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
+<td><{$grade}>年級</td>
+<{/foreach}>
+</tr>
+
+<{foreach  key=s_key item=subject   from=$data.subject_name  }>
+<tr><td><{$s_key}></td><td><{$subject}></td>
+<{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
+	<td> 
+		<{if $data.grade_subject[$grade][$s_key]}>
+   		 	<label class="checkbox"><input type="checkbox"  value="1" id="chk_<{$grade}>_<{$s_key}>" checked class="chk" >使用</label>
+   		<{else}>
+   			<label class="checkbox"><input type="checkbox"  value="1" id="chk_<{$grade}>_<{$s_key}>" class="chk" >使用</label>
+   		<{/if}> 	
+    	 
+  	</td>
+<{/foreach}>
+</tr>
+<{/foreach}>
+
+</table>
+ 
+</div>
+
+<script>
+$(function () {
+        $(".chk").click(function(){
+ 			var id = $(this).attr('id')  ;
+
+ 			var var_data = "do_" + $(this).attr('checked') ;
+ 			//alert (var_data) ;
+ 			ajax_grade_subject(id ,var_data)
+        });
+
+});
+
+      var ajax_grade_subject=function( tid ,mode ){
+
+      	  //記錄
+            var URLs="ajax_set_grade_subject.php" ;
+    
+            $.ajax({
+                url: URLs,
+                type:"GET",
+                dataType:'text',
+				data:{id:tid,do:mode },
+                success: function(msg){
+                   // alert(msg);
+                },
+
+                 error:function(xhr, ajaxOptions, thrownError){
+                    alert('error:' + xhr.status);
+                    alert(thrownError);
+                 }
+           })
+        }
+</script>
