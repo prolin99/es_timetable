@@ -1,0 +1,91 @@
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+ 
+<div class="row-fluid" >
+    <form action="set_teacher.php" enctype="multipart/form-data" method="POST">
+    <fieldset>
+    <input type="text" name="new_teacher" placeholder="新增教師，可以逗號分隔多人" class="span4">
+    <button type="submit" name="do_key" class="btn btn-primary">新增</button> 
+    </fieldset>
+    </form>  
+<table class="table table-hover span5">
+<tr><td>代號</td><td>姓名</td><td>顯示/隱藏</td></tr>
+
+<{foreach  key=s_key item=teacher   from=$data.teacher  }>
+<tr><td><{$s_key}></td>
+<td><input type="text" id="<{$s_key}>" value="<{$teacher.name}>" class="name_edit" title="自動存入"></td>
+<td>
+	<{if ($teacher.hide==0) }>
+	<button class="btn btn-primary" type="button" data_ref="<{$teacher.teacher_id}>" >顯示</button>
+	<{else}>
+	<button class="btn btn-inverse" type="button" data_ref="<{$teacher.teacher_id}>" >隱藏</button>
+	<{/if}>
+</td>
+</tr>
+<{/foreach}>
+
+</table>
+ 
+</div>
+      <div class="alert alert-info">
+      	<p>
+            <span class="label label-info">說明</span><br />
+            課表人員名單是獨立的，但會試著加入系統人員。<br />
+            隱藏時，代表在編排時，不出現該人名。<br />
+            不建議直接更改姓名為其他人名，以免造成不一致的情形。
+        </p>  
+      </div>
+<script>
+
+//顯/隱
+$(function() {
+	$("button").click(function(){
+			var v_id = $( this ).attr('data_ref') ;
+			//alert(v_id) ;
+			var class_mode = $( this ).attr('class') ;
+			$(this).removeClass() ;
+			if (class_mode =="btn btn-primary" ) {
+				$(this).addClass('btn btn-inverse') ;
+				$(this).text('隱藏') ;
+			}else {
+ 				$(this).addClass('btn btn-primary') ;
+ 				$(this).text('顯示') ;
+ 			}	
+ 		save_teacher( 'hide' ,v_id ,  class_mode ) ;
+	});
+});	
+
+ 
+//修改科目
+$(function() {
+	$(".name_edit").change(function(){
+		var v_id = $( this ).attr('id') ;
+		var edit_text = $( this ).val();
+		//alert(v_id) ;
+ 		save_teacher( 'edit' ,v_id ,  edit_text ) ;
+	});
+});	 
+	
+ //寫入 
+ function save_teacher(do_mode ,tid , sdata )  {
+  	$.ajax({
+ 		url: 'ajax_set_teacher.php',
+ 		type: 'GET',
+ 		data: {do: do_mode , id:tid  , setdata :sdata    },
+ 	})
+ 	.done(function(data) {
+ 		console.log("success");
+ 		alert(data) ;
+ 	})
+ 	.fail(function() {
+ 		console.log("error");
+ 		
+ 	})
+ 	.always(function() {
+ 		console.log("complete");
+ 	});
+  }	
+  
+ 
+</script>

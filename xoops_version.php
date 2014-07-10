@@ -63,7 +63,10 @@ $i++ ;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_set_sub_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_ad_set_sub_tpl.html';
 
- 
+$i++ ;
+$modversion['templates'][$i]['file'] = 'es_timet_ad_set_teacher_tpl.html';
+$modversion['templates'][$i]['description'] = 'es_timet_ad_set_teacher_tpl.html';
+
 $i++ ;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_table_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_ad_table_tpl.html';

@@ -96,7 +96,21 @@ function join_table_teacher($uid ,$user) {
 	
 }
 
+function get_table_teacher_data() {
+	//取得目前教師
+	global  $xoopsDB ;
+	//由學校資料表中取得
 
+ 
+	$sql =  "  SELECT  *  FROM " . $xoopsDB->prefix("es_timetable_teacher") ." order by hide "   ;
+	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+ 		$table_teacher[$row['teacher_id']] = $row  ;
+		
+	}	
+	return $table_teacher ;	
+ 
+}
 
 function get_table_teacher_list() {
 	//取得目前教師
@@ -104,7 +118,7 @@ function get_table_teacher_list() {
 	//由學校資料表中取得
 
  
-	$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")   ;
+	$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ." where  hide='0'  "   ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
  		$table_teacher[$row['teacher_id']] = $row['name'] ;

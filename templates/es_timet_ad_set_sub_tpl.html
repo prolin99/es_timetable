@@ -9,7 +9,7 @@
     <button type="submit" name="do_key" class="btn btn-primary">新增科目</button> 
     </fieldset>
     </form>  
-<table class="table table-hover">
+<table class="table table-hover span8">
 <tr><td>代號</td><td>科目</td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 <td><{$grade}>年級</td>
@@ -17,7 +17,8 @@
 </tr>
 
 <{foreach  key=s_key item=subject   from=$data.subject_name  }>
-<tr><td><{$s_key}></td><td><{$subject}></td>
+<tr><td><{$s_key}></td>
+<td><input type="text" id="name_<{$s_key}>" value="<{$subject}>" class="sub_edit" title="自動存入"><i class="icon-remove" data_ref="<{$s_key}>" title="刪除"></i></td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 	<td> 
 		<{if $data.grade_subject[$grade][$s_key]}>
@@ -35,7 +36,54 @@
  
 </div>
 
+      
 <script>
+
+//刪除
+$(function() {
+	$(".icon-remove").click(function(){
+		if ( confirm ("確定要刪除？ ") ) {
+			var v_id = $( this ).attr('data_ref') ;
+			//alert(v_id) ;
+ 			window.location.href = 'set_subject.php?do=del&id='+ v_id;
+ 		}
+	});
+});	
+
+ 
+//修改科目
+$(function() {
+	$(".sub_edit").change(function(){
+		var v_id = $( this ).attr('id') ;
+		var edit_text = $( this ).val();
+		//alert(v_id) ;
+ 		save_subject( 'edit' ,v_id ,  edit_text ) ;
+	});
+});	
+
+	
+ //寫入科目
+ function save_subject(do_mode ,tid , sdata )  {
+  	$.ajax({
+ 		url: 'ajax_set_subject.php',
+ 		type: 'GET',
+ 		data: {do: do_mode , id:tid  , setdata :sdata    },
+ 	})
+ 	.done(function(data) {
+ 		console.log("success");
+ 		//alert(data) ;
+ 	})
+ 	.fail(function() {
+ 		console.log("error");
+ 		
+ 	})
+ 	.always(function() {
+ 		console.log("complete");
+ 	});
+  }	
+  
+	
+//指定年級使用
 $(function () {
         $(".chk").click(function(){
  			var id = $(this).attr('id')  ;

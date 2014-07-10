@@ -24,30 +24,36 @@
       
       
    
-      <div class="span4" id="kmo_div">
+      <div class="span2" > <!-- left  -->
+        
+        <div id="kmo_div">
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
-      		   <span class="span4 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  ><label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
+      		   <span class="span5 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  ><label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
       		   <{$subject}></label><i id="i_<{$s_key}>" ></i></span>
       	<{/foreach }>
+      	</div>
+      	
+      	<div>
       	<!--  教師 -->
       	<{foreach  key=t_key item=teacher    from= $data.teacher_list }>
-      		   <span class="span2 tea" data_ref="tea_<{$t_key}>_<{$teacher}>"  ><label  id="tea_<{$t_key}>" title='<{$teacher}>' name_title='<{$teacher}>' class="label label-info">
+      		   <span class="span4 tea" data_ref="tea_<{$t_key}>_<{$teacher}>"  ><label  id="tea_<{$t_key}>" title='<{$teacher}>' name_title='<{$teacher}>' class="label label-info">
       		   <{$teacher}></label><i id="i_<{$t_key}>" ></i></span>
       	<{/foreach }>      
+      	</div>
       	
-      </div> <!-- kmo_div end-->
+      </div> <!--left end-->
 
-      <div class="span8" id="table_div">
+      <div class="span10" id="table_div">
       	<div class="row-fluid" >
       	<div class='span3'>
-      	班級：<{html_options name=class_id  options=$data.class_list  selected=$data.select_class_id  onchange="class_chang();"  class="span8" }> 
+      	班級：<{html_options name=class_id id=class_id  options=$data.class_list  selected=$data.select_class_id  onchange="class_chang();"  class="span8" }> 
       	</div>
       	<div class='span4'>
-      	<span class="span3">任教者</span><div class="span8 teacher_set" id="teacher_point" data_ref="" ></div>
+      	<span class="span3">任教者</span><div class="span8 teacher_set" id="teacher_point" data_ref="" >教師拖入</div>
       	</div>
       	<div class='span4'>
-      	<span class="span3">教室</span><input name="room" placeholder="教室" class="span6" type="text">
+      	<span class="span3">教室</span><input name="room" id='room' placeholder="教室" class="span6" type="text">
       	</div>
       	</div>
 
@@ -62,21 +68,16 @@
       <tr>
       <td class="span1"><{$smarty.section.si.index}></td>
       <{section name=di  start=1  loop=$DEF_SET.days    step=1  }>
-      <td><div class="groupbox span12" data_ref="group_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"  ><{$group}><br /><br /></div></td>
+      <td class="span2">
+      	<i   id="lock_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"  title="有課"></i>
+      	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
+
+      </td>
       <{ /section }>
       </tr>
       <{ /section }>
       </table>
-      <{foreach  key=g_key item=group    from= $data.group_list }>
-      <div class="row-fluid">
-      	<div class="groupbox span2" data_ref="group_<{$g_key}>"  ><{$group}><br /><br /></div>
-      	<div class="groupbox_list span10" data_ref="group_<{$g_key}>" id="group_<{$g_key}>">
-      		<{foreach  key=u_key item=user    from= $data.group_users_list[$g_key] }>
-      		  <span class="span2" data_ref="tea_<{$u_key}>_<{$user.name}>_group_<{$g_key}>"><label class="label label-success"><{$user.name}><i class="icon-trash icon-white del"></i></label></span>
-      		<{/foreach}>
-      	</div>
-      </div>
-      <{/foreach}>
+
       
       </div>      <!-- table_div end-->
 
@@ -92,7 +93,11 @@
       </div>
       
 <script>
- 
+
+var now_teacher_array='' ;
+var now_teacher_ref='' ;
+
+//可拖拉
 $(function () {
         $(".tea").draggable({
                 revert: "valid",
@@ -109,58 +114,82 @@ $(function () {
 
         $(".groupbox").droppable({
                 drop: function (event, ui) {
-                	var group = $(this).attr("data_ref")  ;
-                    var user_data = ui.draggable.attr('data_ref')
-                    set_group(user_data ,group) ; 
+                	var sect = $(this).attr("data_ref")  ;
+                    var user_data = ui.draggable.attr('data_ref') ;
+                    sect_show(sect , user_data , now_teacher_array) ;
+ 
 
-                },
-                out: function (event, ui) {
-                        $(this).css("background-color", "")
-                }
+                } 
+ 
         });
         
         $(".teacher_set").droppable({
                 drop: function (event, ui) {
-                	var group = $(this).attr("data_ref")  ;
-                    var user_data = ui.draggable.attr('data_ref')
-                    set_group(user_data ,group) ; 
+
+                    var user_data = ui.draggable.attr('data_ref');
+                    var splits = user_data.split('_') ;
+                    if (splits[0]=='tea'){
+ 						now_teacher_array =splits ;
+ 						teacher_box(now_teacher_array ) ;
+ 						now_teacher_ref=user_data ;
+ 					}	
 
                 },
                 out: function (event, ui) {
-                        $(this).css("background-color", "")
+                      now_teacher='' ;
+                      teacher_box ('教師拖入') ;
                 }
         });        
 });
 
-function set_group(user_data ,group_box) {
-	// user_data  tea_1_管理員
-	var splits = user_data.split('_') ;
-	var user = '<span class="span2" data_ref="'+ user_data + '_' +group_box +'"><label class="label label-success">'+ splits[2]+ '<i class="icon-trash icon-white del"></i></label></span>' ;
- //   $('#' + group_box ).append(user) ;
-  //  ajax_teacher_group(user_data +'_'+group_box , 'add') ;
-
+function teacher_box(tea) {
+	$('#teacher_point').html( '<span class="label label-important" data_ref="" >'+tea[2] + '</span>') ;
+	
+	//秀出是否已有課的記號
+	
 }
 
-    //消除 ----------------------------------------------------------------------------------
-  $(document).on("click", ".del", function(){
 
-    var mark_id = $(this).parent().parent().attr("data_ref")  ;
-    //alert (mark_id) ;
-    var splits = mark_id.split('_') ;
-    $(this).parent().parent().remove() ;
- //	ajax_teacher_group(mark_id, 'del') ;
+function sect_show(sect , subject_data , now_teacher) {
+	if(now_teacher=='') 
+	 	alert('未指定教師')  ;
+	else { 
+	
+		var splits = subject_data.split('_') ;
+		if (splits[0]=='subj') {
+			var room = $('#room').val() ;
+			
+			$('#' + sect).html('<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" title="刪除"></i></span><br/><span class="label label-info">'+ now_teacher[2]+'</span><br/><span class="label">'+room+'</span> ') ;
+			ajax_time_table('add' , sect , subject_data , now_teacher_ref , room ) ;
+		}
+	}
+	
+}
+
+ 
+
+    //消除 ----------------------------------------------------------------------------------
+  $(document).on("click", ".icon-remove", function(){
+
+    var mark_id = $(this).attr("data_ref")  ;
+   // alert (mark_id) ;
+    $('#' + mark_id).html('<br/><br/>') ;
+ //   var splits = mark_id.split('_') ;
+//    $(this).parent().parent().remove() ;
+ 	ajax_time_table('del' , mark_id , '' , '') ;
   });
   
-      var ajax_teacher_group=function( tid ,mode ){
-
+ var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place ){
+ 
       	  //記錄
-            var URLs="ajax_set_group.php" ;
+            var URLs="ajax_set_timetable.php" ;
+            var class = $("class_id").val() ;
     
             $.ajax({
                 url: URLs,
                 type:"GET",
                 dataType:'text',
-				data:{id:tid,do:mode },
+				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,class_id:class , sect:sect_num, subject:subject_data , teacher:user, room:room_place , do:do_mode },
                 success: function(msg){
                    // alert(msg);
                 },
@@ -170,6 +199,6 @@ function set_group(user_data ,group_box) {
                     alert(thrownError);
                  }
            })
-        }  
+ }  
 
 </script> 

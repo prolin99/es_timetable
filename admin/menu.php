@@ -17,6 +17,12 @@ $adminmenu[$i]['desc'] = '增修報名表';
 $adminmenu[$i]['icon'] = 'images/admin/logadm.png';
 
 $i++ ;
+$adminmenu[$i]['title'] = "任課教師";
+$adminmenu[$i]['link'] = "admin/set_teacher.php";
+$adminmenu[$i]['desc'] = '增修報名表';
+$adminmenu[$i]['icon'] = 'images/admin/logadm.png';
+
+$i++ ;
 $adminmenu[$i]['title'] = "修改課表";
 $adminmenu[$i]['link'] = "admin/ed_timetable.php";
 $adminmenu[$i]['desc'] = '增修報名表';

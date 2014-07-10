@@ -8,27 +8,23 @@
 /*-----------引入檔案區--------------*/
 include_once "header_admin.php";
 //樣版
-$xoopsOption['template_main'] = "es_timet_ad_set_sub_tpl.html";
+$xoopsOption['template_main'] = "es_timet_ad_set_teacher_tpl.html";
 include_once "header.php";
  
 
 /*-----------function區--------------*/
 //取得參數
-if ($_GET['do']='del') {
-	$id= $_GET['id'] ;
-	$sql =   " DELETE FROM "  . $xoopsDB->prefix("es_timetable_subject") .  "    where   subject_id= '$id' " ;
-	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
-}	
 
-if ($_POST['new_kmo']) {
+
+if ($_POST['new_teacher']) {
 	$myts =& MyTextSanitizer::getInstance();
 
-	$kmo = preg_split('/[,]/' ,$myts->addSlashes($_POST['new_kmo']) )  ;
+	$kmo = preg_split('/[,]/' ,$myts->addSlashes($_POST['new_teacher']) )  ;
 	foreach ($kmo as $k =>$v) {
 		$kmo_o = trim($v) ;
-		$sql = " INSERT INTO   "  . $xoopsDB->prefix("es_timetable_subject") .  
-				" (`subject_name`, `subject_school`, `subject_kind`, `enable`)  " .
-				"  VALUES  ( '$kmo_o' , '','subject' ,'1' )   " ; 
+		$sql = " INSERT INTO   "  . $xoopsDB->prefix("es_timetable_teacher") .  
+				" (`name` )  " .
+				"  VALUES  ( '$kmo_o' )   " ; 
 		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 		
 	}	
 	
@@ -36,14 +32,8 @@ if ($_POST['new_kmo']) {
 
  
 /*-----------執行動作判斷區----------*/
+ $data['teacher']= get_table_teacher_data() ;
  
-//取得目前科目名
-$data['subject_name'] = get_subject_list() ;
- 
-//各科目使用的年級
-$data['grade_subject'] = get_subject_grade_list() ;
-
-
 
 /*-----------秀出結果區--------------*/
 
