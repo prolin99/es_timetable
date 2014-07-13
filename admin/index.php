@@ -26,9 +26,23 @@ $data['info'] = get_timetable_info() ;
 $data['school_class_num'] = get_class_num() ;
  
 
-
+//複製
+if ( ($_POST['year'] > $data['info']['year'] ) or  (($_POST['year'] == $data['info']['year'] ) and ($_POST['semester'] > $data['info']['semester'] ))  ){ 
  
-
+	$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '{$data['info']['year']}'  and  semester= '{$data['info']['semester']}'     order by class_id,day,sector " ;
+	echo $sql ;
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+		$class_id=$row['class_id'] ;
+		$sql2 = " INSERT INTO   "  . $xoopsDB->prefix("es_timetable") .  
+				" (`school_year`, `semester`, `class_id`, `teacher`,`day` , sector ,ss_id,room )  " .
+				"  VALUES  ( '{$_POST['year']}' , '{$_POST['semester']}','{$row['class_id']}' ,'{$row['teacher']}' ,'{$row['day']}','{$row['sector']}' , '{$row['ss_id']}' , '{$row['room']}' )   " ; 
+		$result2 = $xoopsDB->queryF($sql2) or die($sql."<br>". mysql_error()); 			
+	}	
+	
+	//檢查目前的課表
+	$data['info'] = get_timetable_info() ;	
+}
 
 /*-----------秀出結果區--------------*/
 

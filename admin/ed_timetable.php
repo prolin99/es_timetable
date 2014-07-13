@@ -24,7 +24,7 @@ include_once "header.php";
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
  
-if ( ($_GET['year'] >= $data['info']['year'] ) and ($_GET['semester'] >= $data['info']['semester'] )  ){
+if ( ($_GET['year'] > $data['info']['year'] ) or  (($_GET['year'] == $data['info']['year'] ) and ($_GET['semester'] >= $data['info']['semester'] ))  ){
 	$n_year = $_GET['year'] ;
 	$n_semester =$_GET['semester'] ;
 } else {

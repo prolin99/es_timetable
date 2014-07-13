@@ -1,14 +1,34 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
-
-目前課表<{$data.info.year}>  <{$data.info.semester}> 學期 <{$data.info.class}>班<a class="btn btn-success" href="ed_timetable.php">開始編輯</a>
-
+<{if $data.info.year }>
+<div class="row-fluid" >
+	<span class="span6" ><h2>目前課表<{$data.info.year}>學年度  第<{$data.info.semester}>學期</h2></span>
+	<span class="span6" ><a class="btn btn-success" href="ed_timetable.php">開始編輯</a></span>
+</div>
+	<a class="btn btn-info" href="export.php?mode=class_id">班級總表匯出</a> 
+	<a class="btn btn-info" href="export.php?mode=teacher">教師個別課表匯出</a> 
+	<a class="btn btn-info" href="export.php?mode=room">專科教室課表匯出</a><br />
+	
+	<a class="btn btn-inverse" href="export_excel.php?mode=teacher">教師總表匯出</a> 
+	<a class="btn btn-inverse" href="export_excel.php?mode=subject">班級配課表匯出</a><br />
+	
     <form action="index.php" enctype="multipart/form-data" method="post">
     <fieldset>
-    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" placeholder="學年度"><input type="text" placeholder="學期">
+    
+    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" name="year" placeholder="新學年度"><input type="text"  name="semester" placeholder="新學期">
     </fieldset>
+
+
     </form>
+	
+
+<{else}>
+尚未建立課表資料！
+<{/if}>
+
+
+
  
     <form action="ed_timetable.php" enctype="multipart/form-data" method="get">
     <fieldset>
