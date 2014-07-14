@@ -14,8 +14,8 @@ $isAdmin=isAdmin();
 //ini_set('display_errors', 'On');
 
  
-$interface_menu['校園報名']="index.php";
-
+$interface_menu['課表查詢']="index.php";
+$interface_menu['班級設定']="class_set.php";
 
 
 if($isAdmin){

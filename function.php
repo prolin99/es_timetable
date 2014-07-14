@@ -166,6 +166,23 @@ function get_table_teacher_list() {
  
 }	
 
+function get_my_id_in_timetable($uid =0   ) {
+	//取得$uid 在課表中 teacher_id
+	global  $xoopsDB ,$xoopsUser  ;
+	if (!$uid)  
+		$uid = $xoopsUser->uid() ;
+	$sql =  "  SELECT  teacher_id  FROM " . $xoopsDB->prefix("es_timetable_teacher") . 
+	               " where user_id= '$uid'   " ;
+ 
+	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($data_row=$xoopsDB->fetchArray($result)){
+ 			$teacher_id = $data_row['teacher_id'] ;
+	}	
+	return $teacher_id  ;
+}
+
+
+
 //取得教師名冊， 群組代碼， 顯示模式(0:只取資料， 1:轉換EMAIL、職稱)
 function get_teacher_list($teach_group_id ,$show=0){
 

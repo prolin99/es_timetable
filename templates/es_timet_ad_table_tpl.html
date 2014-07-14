@@ -97,7 +97,7 @@
         </p>  
       </div>
       
-<script>
+<SCRIPT type="text/javascript">
 //指定教師
 var now_teacher_array =[] ;
 var now_teacher_ref='' ;
@@ -106,7 +106,20 @@ var subject_name =[] ;
 var subject_count =[] ;
 
 //目前教師已排的節數
-var teacher_has_sect=0 ;  	
+var teacher_has_sect=0 ; 
+
+var class_teacher_array = [] ;
+//級任
+      	<!--  級任教師 -->
+      	<{foreach  key=t_key item=teacher    from= $data.class_teacher }>
+	class_teacher_array[<{$t_key}>]= '<{$teacher}>' ;      		    
+      	<{/foreach }> 
+
+//科目
+var subject_list_array = [] ;
+      	<{foreach  key=s_key item=subject    from= $data.subject_name }>
+    subject_list_array[<{$s_key}>]='<{$subject}>'
+      	<{/foreach }>
 
 //可拖拉
 $(function () {
@@ -243,7 +256,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 function class_change() {
 	//陣列初始值
   	for (i = 1;i<=50;i++) {
-  		subject_name[i]='' ;
+  		//subject_name[i]='' ;
   		subject_count[i]=0 ;
   	}
   	
@@ -263,9 +276,19 @@ function show_subject_count() {
 	var smsg='' ;
 	for (i = 1;i<=50;i++) {
 		if (subject_count[i]>0 ) 
-			smsg = smsg + subject_name[i] + ':' + subject_count[i] + ',' ;
+			smsg = smsg + subject_list_array[i] + ':' + subject_count[i] + ',' ;
 	}
-	$('#sub_count').text( smsg) ;
+	//級任
+	var class_id = $("#class_id").val() ;
+	
+	var tt = '' ;
+	if (class_teacher_array[class_id] != undefined ) {
+		var tt =  class_teacher_array[class_id] ;
+		 
+	}	
+ 
+	
+	$('#sub_count').text( '級任：'+ tt + ' ,  ' + smsg) ;
 }
 
 //讀取課表內容(教師 / 班級) 
@@ -346,7 +369,7 @@ function sect_show(sect , subject_data , now_teacher) {
  	for (i =1 ; i <= ss[0]['id'] ;i++ ) {
  		html_tmp = html_tmp + '<span class="span5 subj" data_ref="subj_' + ss[i]['id']+ '_'+ ss[i]['name']+'"  ><label  id="subj_' + ss[i]['id']+ '" class="label label-success">'+ ss[i]['name']+'</label></span>' ;
 		//科目名放在陣列中 		
- 		subject_name[ss[i]['id']] =ss[i]['name'] ;
+ 		//subject_name[ss[i]['id']] =ss[i]['name'] ;
  	}	
  	$('#kmo_div').html(	html_tmp ) ;
  	

@@ -1,0 +1,274 @@
+<{$bootstrap}>
+<{$jquery}>
+<{$toolbar}>
+<link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/jquery/themes/base/jquery-ui.css">
+<script src="<{$xoops_url}>/modules/tadtools/jquery/ui/jquery-ui.js"></script>
+<style>
+.groupbox {
+ 
+    border: 1px dotted gray;
+    background-color: #EEE;
+
+}
+ 
+ 
+</style>
+ 
+ <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期   班級：<{$data.my_class_id}>功課表 </h3>
+  
+      <div class="row-fluid" > <!-- box1 -->
+
+      <div class="span2" > <!-- left  -->
+        
+        <div id="kmo_div">
+        <!--  科目 -->
+      	<{foreach  key=s_key item=subject    from= $data.subject_name }>
+      		   <span class="span10 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  ><label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
+      		   <{$subject}></label></span>
+      	<{/foreach }>
+      	</div>
+
+      </div> <!--left end-->
+
+      <div class="span10" id="table_div">
+ 
+      	
+      	<div class="row-fluid" >
+      		<span id="sub_count" class="alert alert-info"></span>
+      	</div>
+
+      <table class="table table-bordered">
+      <tr>
+      <td class="span1">節</td>
+      <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
+      <td ><{$smarty.section.di.index}></td>
+      <{ /section }>
+      </tr>      
+      <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
+      <tr>
+      <td class="span1"><{$smarty.section.si.index}></td>
+      <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
+      <td class="span2">
+      	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><{$group}><br /><br /></div>
+
+      </td>
+      <{ /section }>
+      </tr>
+      <{ /section }>
+      </table>
+
+      
+      </div>      <!-- table_div end-->
+
+      
+      </div><!-- box1 end-->
+      
+      <div class="row-fluid">
+      	<p>
+            <span class="label label-info">說明</span><br/>
+           要先設定要科目及任課教師。<br/>
+           先把任課教師拖入，再把科目拖入各節。<br/>
+           左方科目、教師，可以自由拖放在各個角落。
+        </p>  
+      </div>
+      
+<SCRIPT type="text/javascript">
+//可拖拉
+$(function () {
+
+        $(".subj").draggable({
+                revert: "valid",
+                drag: function (event, ui) {
+                        
+                }
+        });        
+
+        $(".groupbox").droppable({
+                drop: function (event, ui) {
+                	var sect = $(this).attr("data_ref")  ;
+                	if (sect) {	//科任時為空值
+                    	var user_data = ui.draggable.attr('data_ref') ;
+                    	sect_show(sect , user_data , now_teacher_array) ;
+                    }
+ 
+
+                } 
+ 
+        });
+        
+      
+});
+//指定教師
+var now_teacher_array =[] ;
+now_teacher_array[1]= <{$data.my_teacher_id}> ;
+now_teacher_array[2]= '<{$data.my_name}>' ;
+
+var now_teacher_ref='tea_<{$data.my_teacher_id}>_<{$data.my_name}>' ;
+//目前班級排課科目統計
+var subject_name =[] ;
+var subject_count =[] ;
+
+//科目
+var subject_list_array = [] ;
+      	<{foreach  key=s_key item=subject    from= $data.subject_name }>
+    subject_list_array[<{$s_key}>]='<{$subject}>'
+      	<{/foreach }>
+
+
+
+$(function () {
+	//第一次進入要列出班級課表
+    class_change() ;
+
+    	
+});
+
+
+//顯示出已排課表內容
+function teacher_sect_show(do_mode , teacher_tab) {
+
+  
+  	//班級
+	for (d = 1;d<=<{$DEF_SET.days}>;d++) {
+		for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
+			var sectt = 'sect_'+ d +'_'+ s ;
+			$('#' + sectt).html('<br/><br/>') ;
+			if (teacher_tab[d][s]['ss_id']> 0){
+				if (teacher_tab[d][s]['teacher']==	<{$data.my_teacher_id}>) 
+				  $('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s]['ss_id'] + '" title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+				else {
+				  //科任	
+				  $('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+				  $('#' + sectt).attr("data_ref" ,'') ;
+				}  
+	
+ 				subject_count[teacher_tab[d][s]['ss_id']]  = subject_count[teacher_tab[d][s]['ss_id']]  +1 ;
+ 				
+			}				
+		}
+	}
+
+	//顯示科目的已排節數
+ 	show_subject_count() ;	
+ 	
+
+ 		
+}	
+
+//換班級
+function class_change() {
+	//陣列初始值
+  	for (i = 1;i<=50;i++) {
+
+  		subject_count[i]=0 ;
+  	}
+  	
+	//現在班級
+	var class_id = <{$data.my_class_id}> ;
+ 
+	//秀出是否已有課的記號
+	ajax_get_table('class' , class_id) ;
+	
+
+ 
+}
+
+
+function show_subject_count() {
+	//顯示出各科排課節數
+	var smsg='' ;
+	for (i = 1;i<=50;i++) {
+		if (subject_count[i]>0 ) 
+			smsg = smsg + subject_list_array[i] + ':' + subject_count[i] + ',' ;
+	}
+ 
+ 
+	
+	$('#sub_count').text(  smsg) ;
+}
+
+//讀取課表內容(教師 / 班級) 
+ var ajax_get_table=function( do_mode ,tid ){
+ 
+      	  //記錄
+            var URLs="ajax_get_timetable.php" ;
+
+    
+            $.ajax({
+                url: URLs,
+                type:"GET",
+                dateType:'json', //接收資料格式
+				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,id:tid ,  do:do_mode },
+                success: function(data){
+                  //  alert(msg);
+                  var json_obj = jQuery.parseJSON(data) ;
+ 
+                  teacher_sect_show( do_mode ,json_obj ) ;
+                },
+
+                 error:function(xhr, ajaxOptions, thrownError){
+                    alert('error:' + xhr.status);
+                    alert(thrownError);
+                 }
+           })
+ } 
+
+ //排課，放入科目
+function sect_show(sect , subject_data , now_teacher) {
+ 
+		 
+		var splits = subject_data.split('_') ;
+		if (splits[0]=='subj') {
+			var room = $('#room').val() ;
+		    //科目節數 +1
+    		subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
+    		show_subject_count() ;
+			$('#' + sect).html('<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span><br/><span class="label label-info">'+ now_teacher[2]+'</span><br/>') ;
+			ajax_time_table('add' , sect , subject_data , now_teacher_ref , room ) ;
+		}
+ 
+	
+}
+ 	   
+      		   
+    //消除 ----------------------------------------------------------------------------------
+  $(document).on("click", ".icon-remove", function(){
+
+    var mark_id = $(this).attr("data_ref")  ;
+    var ss_id = $(this).attr("data_ref_sub")  ;
+    //清空格子
+    $('#' + mark_id).html('<br/><br/>') ;
+    //科目節數 -1 
+    subject_count[ss_id] = subject_count[ss_id] -1 ;
+    show_subject_count() ;
+ 	ajax_time_table('del' , mark_id , '' , now_teacher_ref , '') ;
+ 
+
+  });
+  
+ //增刪課表 動作
+ var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place ){
+ 
+      	  //記錄
+            var URLs="ajax_set_timetable.php" ;
+            var class_id = <{$data.my_class_id}> ;
+            
+    
+            $.ajax({
+                url: URLs,
+                type:"GET",
+                dataType:'text',
+				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,class_id:class_id , sect:sect_num, subject:subject_data , teacher:user, room:room_place , do:do_mode },
+                success: function(data){
+                    //alert(data);
+
+                },
+
+                 error:function(xhr, ajaxOptions, thrownError){
+                    alert('error:' + xhr.status);
+                    alert(thrownError);
+                 }
+           })
+ }  
+
+</script> 

@@ -6,9 +6,8 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once "header_admin.php";
- 
 include_once "header.php";
+include_once XOOPS_ROOT_PATH."/header.php";
 
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] and $_GET['sect'] ) {
 	list( $name,$day,$sect ) =preg_split('/[_]/' ,$_GET['sect'])  ;
@@ -16,7 +15,7 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id']
  	//把舊節除去
 		$nsubj = $_GET['setdata'] ;
 	if ($_GET['do'] =='del' ) {
-		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'    " ;
+		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}' and  teacher= '$tea_id'    " ;
 		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
 		//echo $_GET['do'] . $sql ;
 	}
@@ -25,14 +24,15 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id']
 		list( $name,$day,$sect ) =preg_split('/[_]/' ,$_GET['sect'])  ;
 		list( $subj0,$subj_id,$subj ) =preg_split('/[_]/' ,$_GET['subject'])  ;
 		
-		
+		/*
 		//教師這節要去除
 		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   and day='$day' and sector='$sect'  and  teacher= '$tea_id'    " ;
 		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
-		//echo $_GET['do'] . $sql ;
+		echo $_GET['do'] . $sql ;
+ 		*/
  		
 		//班級這節要去除
-		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'   " ;
+		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}' and  teacher= '$tea_id'   " ;
 		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
  		
 	

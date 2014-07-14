@@ -6,9 +6,9 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once "header_admin.php";
- 
 include_once "header.php";
+include_once XOOPS_ROOT_PATH."/header.php";
+
 
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 	//讀取科目

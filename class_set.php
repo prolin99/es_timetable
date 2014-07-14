@@ -6,15 +6,26 @@
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
 
-$xoopsOption['template_main'] = "es_timet_index_tpl.html";
+$xoopsOption['template_main'] = "es_timet_class_table_tpl.html";
 include_once "header.php";
 include_once XOOPS_ROOT_PATH."/header.php";
 
-/* 
+  
  if (!$xoopsUser) 
   	redirect_header(XOOPS_URL,3, "需要登入，才能使用！");
- */
+ 
+  	
 /*-----------function區--------------*/
+//取得所在級任班級
+$data['my_class_id']=get_my_class_id() ;
+if (!$data['my_class_id']) 
+  	redirect_header(XOOPS_URL,3, "非級任，無法使用此課表設定功能！");
+
+//在課表人員的代號  	
+$data['my_teacher_id'] = get_my_id_in_timetable() ;
+$data['my_name'] = $xoopsUser->name() ;
+
+
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
  
@@ -25,7 +36,15 @@ $data['n_s']= $data['info']['semester'];
 $data['class_list'] = get_class_list() ;
  
 //取得目前科目名
-$data['subject_name'] = get_subject_list() ;
+$all_subject_name = get_subject_list() ;
+ 
+//該學年的科目
+$grade_subject = get_subject_grade_list() ;
+$y = substr($data['my_class_id'],0,1) ;
+foreach ($grade_subject[$y] as $id =>$sid) {
+	$subject_name[$id] =$all_subject_name[$id]  ;
+}	
+$data['subject_name'] = $subject_name ;
 
   //教師名冊
 $data['teacher_list'] =get_table_teacher_list($DEF_SET['teacher_group']) ;

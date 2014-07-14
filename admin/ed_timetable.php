@@ -55,6 +55,11 @@ $data['subject_name'] = get_subject_list() ;
   //教師名冊
 $data['teacher_list'] =get_table_teacher_list($DEF_SET['teacher_group']) ;
 
+//取得級任名冊
+$data['class_teacher'] = get_class_teacher_list() ;
+
+
+
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign( "data" , $data ) ; 
