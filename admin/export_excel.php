@@ -100,6 +100,7 @@ if  ($_GET['mode']) {
 
 	//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+	ob_clean();
 	$objWriter->save('php://output');
 	exit;		
  

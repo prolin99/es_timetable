@@ -127,6 +127,7 @@ foreach ($timetable as $key =>	$table_data) {
 	header('Content-Disposition: attachment;filename=功課表.docx');
 	header('Cache-Control: max-age=0');
 	$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
+	ob_clean();
 	$objWriter->save('php://output');	
 	exit;		 	
 }	
