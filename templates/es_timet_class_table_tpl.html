@@ -23,7 +23,7 @@
         <div id="kmo_div">
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
-      		   <span class="span10 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  ><label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
+      		   <span class="subj" data_ref="subj_<{$s_key}>_<{$subject}>"  ><label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
       		   <{$subject}></label></span>
       	<{/foreach }>
       	</div>
@@ -66,9 +66,8 @@
       <div class="row-fluid">
       	<p>
             <span class="label label-info">說明</span><br/>
-           要先設定要科目及任課教師。<br/>
-           先把任課教師拖入，再把科目拖入各節。<br/>
-           左方科目、教師，可以自由拖放在各個角落。
+           拖拉左方的科目到節次中，新增課程，科任課無法更動。<br/>
+           先排好的科目，可以拖拉到其它節次中。<br/>
         </p>  
       </div>
       
@@ -88,7 +87,8 @@ $(function () {
                 	var sect = $(this).attr("data_ref")  ;
                 	if (sect) {	//科任時為空值
                     	var user_data = ui.draggable.attr('data_ref') ;
-                    	sect_show(sect , user_data , now_teacher_array) ;
+                    	var old_sect = ui.draggable.attr('old_sect') ;
+                    	sect_show(sect , user_data , now_teacher_array , old_sect) ;
                     }
  
 
@@ -135,10 +135,11 @@ function teacher_sect_show(do_mode , teacher_tab) {
 			$('#' + sectt).html('<br/><br/>') ;
 			if (teacher_tab[d][s]['ss_id']> 0){
 				if (teacher_tab[d][s]['teacher']==	<{$data.my_teacher_id}>) 
-				  $('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s]['ss_id'] + '" title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+				  //級任	
+				  $('#' + sectt).html('<span id="subj_' + teacher_tab[d][s]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s]['ss_id'] +'_'+ teacher_tab[d][s]['subject_name'] +'" class="label label-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s]['subject_name']+'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s]['ss_id'] + '" title="刪除"></i></span><br /><br />') ;
 				else {
 				  //科任	
-				  $('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+				  $('#' + sectt).html('<span class="label label-important" >'+teacher_tab[d][s]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
 				  $('#' + sectt).attr("data_ref" ,'') ;
 				}  
 	
@@ -147,7 +148,14 @@ function teacher_sect_show(do_mode , teacher_tab) {
 			}				
 		}
 	}
-
+	
+        $(".subj").draggable({
+                revert: "valid",
+                drag: function (event, ui) {
+                        
+                }
+        });
+        
 	//顯示科目的已排節數
  	show_subject_count() ;	
  	
@@ -214,17 +222,32 @@ function show_subject_count() {
  } 
 
  //排課，放入科目
-function sect_show(sect , subject_data , now_teacher) {
+function sect_show(sect , subject_data , now_teacher ,old_sect) {
  
 		 
 		var splits = subject_data.split('_') ;
 		if (splits[0]=='subj') {
 			var room = $('#room').val() ;
-		    //科目節數 +1
-    		subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
-    		show_subject_count() ;
-			$('#' + sect).html('<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span><br/><span class="label label-info">'+ now_teacher[2]+'</span><br/>') ;
+ 
+			//外加的科目，非移動的
+			if (old_sect == undefined ) {
+		    	//科目節數 +1
+    			subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
+    			show_subject_count() ;
+    		}
+			$('#' + sect).html('<span id="' + subject_data +'" data_ref="' + subject_data + '" class="label label-success subj" old_sect="'+sect+'" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span> <br/><br/>') ;
+        	
+			$(".subj").draggable({
+                revert: "valid",
+                drag: function (event, ui) {
+                        
+                }
+        	});			
+        	ajax_time_table('del' , old_sect , '' , now_teacher_ref , '') ;
+
 			ajax_time_table('add' , sect , subject_data , now_teacher_ref , room ) ;
+        	//清空格子
+    		$('#' + old_sect).html('<br/><br/>') ;			
 		}
  
 	

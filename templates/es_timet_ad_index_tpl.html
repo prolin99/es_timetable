@@ -11,12 +11,12 @@
 	<a class="btn btn-info" href="export.php?mode=room">專科教室課表匯出</a><br />
 	
 	<a class="btn btn-inverse" href="export_excel.php?mode=teacher">教師總表匯出</a> 
-	<a class="btn btn-inverse" href="export_excel.php?mode=subject">班級配課表匯出</a><br />
+	<a class="btn btn-inverse" href="export_subject.php">班級配課表匯出</a><br />
 	
     <form action="index.php" enctype="multipart/form-data" method="post">
     <fieldset>
     
-    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" name="year" placeholder="新學年度"><input type="text"  name="semester" placeholder="新學期">
+    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" name="year" placeholder="新學年度" class="span2"><input type="text"  name="semester" placeholder="新學期" class="span1" title="1 或 2">
     </fieldset>
 
 
@@ -32,7 +32,7 @@
  
     <form action="ed_timetable.php" enctype="multipart/form-data" method="get">
     <fieldset>
-    <button type="submit" name="do_key" class="btn btn-primary">建製新學期</button><input type="text" name="year" placeholder="學年度"><input type="text"  name="semester" placeholder="學期">
+    <button type="submit" name="do_key" class="btn btn-primary">建製新學期</button><input type="text" name="year" placeholder="學年度" class="span2"><input type="text"  name="semester" placeholder="學期" class="span1" title="1 或 2">
     </fieldset>
     </form>    
  

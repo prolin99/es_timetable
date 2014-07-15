@@ -94,7 +94,7 @@ function get_subject_list() {
 function get_subject_grade_list() {
 	//取得目前的各年級使用科目
 	global  $xoopsDB ;
-	$sql =  "  SELECT  subject_id , grade   FROM " . $xoopsDB->prefix("es_timetable_subject_year") . " order by grade  " ;
+	$sql =  "  SELECT  subject_id , grade   FROM " . $xoopsDB->prefix("es_timetable_subject_year") . " order by grade ,subject_id " ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
 		$data[$row['grade']][$row['subject_id']] = $row['subject_id'] ;

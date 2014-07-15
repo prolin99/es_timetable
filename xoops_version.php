@@ -108,7 +108,7 @@ $modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_T4';
 $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D4';
 $modversion['config'][$i]['formtype']    = 'yesno';
 $modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default'] = true  ;
+$modversion['config'][$i]['default'] = false  ;
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_grade';
