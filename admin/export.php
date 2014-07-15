@@ -37,13 +37,15 @@ if  ($_GET['mode']) {
 	$PHPWord = new PHPWord();
 	//$section = $PHPWord->createSection();
 	
-
+ 
  	$PHPWord->setDefaultFontName('標楷體'); //設定預設字型
 	$PHPWord->setDefaultFontSize(14);     //設定預設字型大小
-	
-
+ 	
+/*
 	$sectionStyle = array('orientation' => null,  'marginLeft' => 900); //頁面設定（orientation 的值可以是橫向landscape或直向portrait。設定項目有：orientation、marginTop、marginLeft、marginRight、marginBottom、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
-	$section = $PHPWord->createSection([$sectionStyle]); //建立一個頁面
+	$section = $PHPWord->createSection($sectionStyle); //建立一個頁面
+*/	
+	$section = $PHPWord->createSection(); //建立一個頁面
 	$styleFont_h1 = array('name'=>'Tahoma',  'size'=>32, 'bold'=>true);
 	$styleParagraph_h1 = array('align'=>'center', 'spaceAfter'=>100);
 	$styleFont_h2 = array('name'=>'Tahoma',  'size'=>24, 'bold'=>true);
@@ -121,7 +123,6 @@ foreach ($timetable as $key =>	$table_data) {
 	}	
  	
 }
-
 	header('Content-Type: application/vnd.ms-word');
 	header('Content-Disposition: attachment;filename=功課表.docx');
 	header('Cache-Control: max-age=0');

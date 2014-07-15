@@ -62,7 +62,7 @@ CREATE TABLE   `es_timetable_teacher` (
   `teacher_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` mediumint(8) NOT NULL DEFAULT  '0',
   `name` varchar(20)  NOT NULL DEFAULT  '',
-  `hide` enum('0','1') NOT NULL DEFAULT '0',
+   hide tinyint(4) NOT NULL DEFAULT '0',
   `kind` tinyint(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=MyISAM  COMMENT='授課教師';

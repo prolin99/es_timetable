@@ -14,7 +14,7 @@ if ( $_GET['id'] and $_GET['setdata']) {
 	$id= $_GET['id']  ;
 	$new = $_GET['setdata'] ;
 	if ($_GET['do']=='hide') 
-		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_teacher") .  " SET hide = not hide  where   teacher_id= '$id' " ;
+		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_teacher") .  " SET hide =( not hide)  where   teacher_id= '$id' " ;
 	else	
 		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_teacher") .  " SET name = '$new'  where   teacher_id= '$id' " ;
 		
