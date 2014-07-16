@@ -155,7 +155,7 @@ function get_table_teacher_list($mode='hide') {
 	global  $xoopsDB ;
 	//由學校資料表中取得
 
- 	if  ($mode = 'all') 
+ 	if  ($mode == 'all') 
  		//全部
  		$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ."     order by name "   ;
  	else 
