@@ -138,17 +138,22 @@ $(function () {
                 }
         });        
 
+        //放入排課區
         $(".groupbox").droppable({
                 drop: function (event, ui) {
+                	//現在這一格
                 	var sect = $(this).attr("data_ref")  ;
-                    var user_data = ui.draggable.attr('data_ref') ;
-                    sect_show(sect , user_data , now_teacher_array) ;
+                	//拖拉進來的
+                    	var user_data = ui.draggable.attr('data_ref') ;
+                    	
+                    	sect_show(sect , user_data , now_teacher_array) ;
  
 
                 } 
  
         });
         
+        //指定教師
         $(".teacher_set").droppable({
                 drop: function (event, ui) {
 
@@ -235,12 +240,19 @@ function teacher_sect_show(do_mode , teacher_tab) {
 			var sectt = 'sect_'+ d +'_'+ s ;
 			$('#' + sectt).html('<br/><br/>') ;
 			if (teacher_tab[d][s]['ss_id']> 0){
-				$('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s]['ss_id'] + '" title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+				$('#' + sectt).html('<div id="box_'+sectt+'" class="subj" old_sect="'+sectt+'" data_ref="box_'+ teacher_tab[d][s]['ss_id'] +'_'+ teacher_tab[d][s]['subject_name']+'_'+ teacher_tab[d][s]['teacher']+'_'+teacher_tab[d][s]['teacher_name']+'_'+ teacher_tab[d][s]['room'] +'">'+
+				'<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+
+				'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s]['ss_id'] + '" title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span>'+
+				'</div> ') ;
  				subject_count[teacher_tab[d][s]['ss_id']]  = subject_count[teacher_tab[d][s]['ss_id']]  +1 ;
  				
 			}				
 		}
 	}
+	//再次指定可拖拉
+	        $(".subj").draggable({
+                	revert: "valid",
+		});   
 
 	//顯示科目的已排節數
  	show_subject_count() ;	
@@ -321,19 +333,42 @@ function show_subject_count() {
 
  //排課，放入科目
 function sect_show(sect , subject_data , now_teacher) {
-	if(now_teacher=='') 
+	//data_ref="box_6_綜合活動_2_管理者林_"
+	var splits = subject_data.split('_') ;
+	var t_now_teacher_ref='' ;
+	var t_now_teacher=[] ;
+ 
+	if ( (now_teacher=='')  && (splits[0]=='subj')  ) 
 	 	alert('未指定教師')  ;
 	else { 
-	
-		var splits = subject_data.split('_') ;
+		if (splits[0]=='box') {
+			var t_now_teacher_ref	='tea_' +  splits[3] +'_'+ splits[4] ;
+			
+			var room = splits[5] ;
+			t_now_teacher[1] = splits[3] ;
+			t_now_teacher[2] = splits[4] ;
+			
+		}
 		if (splits[0]=='subj') {
 			var room = $('#room').val() ;
+			t_now_teacher[1] = now_teacher[1] ;
+			t_now_teacher[2] = now_teacher[2] ;	
+			var t_now_teacher_ref=now_teacher_ref ;
+ 
+			
+		}
+		//alert(sect +','+ subject_data+','+  t_now_teacher_ref+','+ room) ;
 		    //科目節數 +1
     		subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
     		show_subject_count() ;
-			$('#' + sect).html('<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span><br/><span class="label label-info">'+ now_teacher[2]+'</span><br/><span class="label">'+room+'</span> ') ;
-			ajax_time_table('add' , sect , subject_data , now_teacher_ref , room ) ;
-		}
+			$('#' + sect).html('<div id="box_'+sect+'" class="subj" old_sect="'+sect+'" data_ref="box_'+splits[1] +'_'+ splits[2]+'_'+ t_now_teacher[1]+'_'+t_now_teacher[2]+'_'+ room +'">'+
+			'<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span><br/><span class="label label-info">'+ t_now_teacher[2]+'</span><br/><span class="label">'+room+'</span></div> ') ;
+			ajax_time_table('add' , sect , subject_data , t_now_teacher_ref , room ) ;		
+		
+		//再次指定可拖拉
+	        $(".subj").draggable({
+                	revert: "valid",
+		});   			
 	}
 	
 }
