@@ -43,14 +43,18 @@ function get_timetable_info() {
 }	
 
 //取出課表內容
-function get_timetable_data($mode, $y ,$s ) {
+function get_timetable_data($mode, $y ,$s , $class_sel='all' ) {
 	global  $xoopsDB ;
  
 	if ($mode == 'teacher' )  
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'     order by teacher,day,sector " ;
  
- 	if ($mode =='class_id' )  
-		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'     order by class_id,day,sector   " ; 
+ 	if ($mode =='class_id' )  {
+		if  ($class_sel =='all') 
+			$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'     order by class_id,day,sector   " ; 
+		else 
+			$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   and class_id='$class_sel'    order by class_id,day,sector   " ; 
+	}	
  	
 	if ($mode =='room' )  
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   and room <>''   order by room,day,sector   " ; 
