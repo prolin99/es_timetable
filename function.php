@@ -1,7 +1,7 @@
 <?php
 //  ------------------------------------------------------------------------ //
 // 本模組由 prolin 製作
-// 製作日期：2014-02-16
+// 製作日期：2014-07-20
 // $Id:$
 // ------------------------------------------------------------------------- //
 //引入TadTools的函式庫
@@ -150,13 +150,17 @@ function get_table_teacher_data() {
  
 }
 
-function get_table_teacher_list() {
+function get_table_teacher_list($mode='hide') {
 	//取得目前教師
 	global  $xoopsDB ;
 	//由學校資料表中取得
 
- 
-	$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ." where  hide='0'  "   ;
+ 	if  ($mode = 'all') 
+ 		//全部
+ 		$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ."     order by name "   ;
+ 	else 
+ 		//不出現隱去者
+		$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ." where  hide='0'  order by name  "   ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
  		$table_teacher[$row['teacher_id']] = $row['name'] ;

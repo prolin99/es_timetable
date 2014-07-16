@@ -1,7 +1,7 @@
 <?php
 //  ------------------------------------------------------------------------ //
 // 本模組由 prolin 製作
-// 製作日期：2014-05-01
+// 製作日期：2014-07-20
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
@@ -32,7 +32,7 @@ if  ($_GET['mode']) {
 	
 	//取得級任姓名
 	$class_teacher_list = get_class_teacher_list() ;
-	$teacher_list = get_table_teacher_list() ;
+	$teacher_list = get_table_teacher_list('all') ;
  
 
  	$objPHPExcel = new PHPExcel();

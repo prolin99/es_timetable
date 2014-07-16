@@ -19,7 +19,7 @@ include_once XOOPS_ROOT_PATH."/header.php";
 //取得所在級任班級
 $data['my_class_id']=get_my_class_id() ;
 if (!$data['my_class_id']) 
-  	redirect_header(XOOPS_URL,3, "非級任，無法使用此課表設定功能！");
+  	redirect_header('index.php',3, "非級任，無法設定班級課表！");
 
 //在課表人員的代號  	
 $data['my_teacher_id'] = get_my_id_in_timetable() ;

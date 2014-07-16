@@ -1,7 +1,7 @@
 <?php
 //  ------------------------------------------------------------------------ //
 // 本模組由 prolin 製作
-// 製作日期：2014-05-01
+// 製作日期：2014-07-20
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
@@ -26,7 +26,7 @@ $s = $data['info']['semester']  ;
  	//班級
  	$class_list = get_class_list() ;
  	//人員
- 	$teacher_list = get_table_teacher_list() ;
+ 	$teacher_list = get_table_teacher_list('all') ;
  
  	$sql = " select class_id, ss_id, teacher ,count(*) as cc  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  " ; 
  
