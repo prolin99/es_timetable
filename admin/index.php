@@ -25,12 +25,19 @@ $data['info'] = get_timetable_info() ;
 //目前班級數
 $data['school_class_num'] = get_class_num() ;
  
+//清空
+if ($_POST['act_clear']=='刪除') {
+	$sql = " DELETE  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '{$data['info']['year']}'  and  semester= '{$data['info']['semester']}' " ;
+	//echo $sql ;
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+ 	$data['info'] = get_timetable_info() ;	
+}	
 
 //複製
 if ( ($_POST['year'] > $data['info']['year'] ) or  (($_POST['year'] == $data['info']['year'] ) and ($_POST['semester'] > $data['info']['semester'] ))  ){ 
  
 	$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '{$data['info']['year']}'  and  semester= '{$data['info']['semester']}'     order by class_id,day,sector " ;
-	echo $sql ;
+	//echo $sql ;
  	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
 		$class_id=$row['class_id'] ;

@@ -3,8 +3,12 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
 <{if $data.info.year }>
 <div class="row-fluid" >
-	<span class="span6" ><h2>目前課表<{$data.info.year}>學年度  第<{$data.info.semester}>學期</h2></span>
-	<span class="span6" ><a class="btn btn-success" href="ed_timetable.php">開始編輯</a></span>
+      	<form action="index.php" enctype="multipart/form-data" method="post">
+      	<span class="span6" ><h2>目前課表<{$data.info.year}>學年度  第<{$data.info.semester}>學期</h2></span>
+      	<span class="span6" ><a class="btn btn-success" href="ed_timetable.php">開始編輯</a>
+      	<button type="submit" name='act_clear'  value='刪除'  class="btn btn-danger" onclick='return confirm("真的要清空本學期課表?")' >清空</button>
+      	</span>
+      	</form>
 </div>
 	<a class="btn btn-info" href="export.php?mode=class_id">班級總表匯出</a> 
 	<a class="btn btn-info" href="export.php?mode=teacher">教師個別課表匯出</a> 
@@ -16,9 +20,8 @@
     <form action="index.php" enctype="multipart/form-data" method="post">
     <fieldset>
     
-    <button type="submit" name="do_key" class="btn btn-danger">複製為</button><input type="text" name="year" placeholder="新學年度" class="span2"><input type="text"  name="semester" placeholder="新學期" class="span1" title="1 或 2">
+    <button type="submit" name="do_key" class="btn btn-warning">複製為</button><input type="text" name="year" placeholder="新學年度" class="span2"><input type="text"  name="semester" placeholder="新學期" class="span1" title="1 或 2">
     </fieldset>
-
 
     </form>
 	
