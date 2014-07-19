@@ -62,7 +62,9 @@ var class_teacher_array = [] ;
 //級任
       	<!--  級任教師 -->
       	<{foreach  key=t_key item=teacher    from= $data.class_teacher }>
-	class_teacher_array[<{$t_key}>]= '<{$teacher}>' ;      		    
+      	<{if ($t_key) }>
+		class_teacher_array[<{$t_key}>]= '<{$teacher}>' ;      		    
+		<{/if}>
       	<{/foreach }> 
 
 //科目

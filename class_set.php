@@ -21,6 +21,10 @@ $data['my_class_id']=get_my_class_id() ;
 if (!$data['my_class_id']) 
   	redirect_header('index.php',3, "非級任，無法設定班級課表！");
 
+  	
+if (!$DEF_SET['input'])
+ 	redirect_header('index.php',3, "尚未開放級任編修課表！請先向負責人員確認。");
+  	
 //在課表人員的代號  	
 $data['my_teacher_id'] = get_my_id_in_timetable() ;
 $data['my_name'] = $xoopsUser->name() ;
