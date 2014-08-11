@@ -9,6 +9,10 @@
 include_once "header.php";
 include_once XOOPS_ROOT_PATH."/header.php";
 
+$_GET['year'] = intval($_GET['year'] ) ;
+$_GET['semester']= intval($_GET['semester'] ) ;
+$_GET['class_id']  = intval($_GET['class_id'] ) ;
+
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] and $_GET['sect'] ) {
 	list( $name,$day,$sect ) =preg_split('/[_]/' ,$_GET['sect'])  ;
 	list( $tea0,$tea_id,$tea ) =preg_split('/[_]/' ,$_GET['teacher'])  ;

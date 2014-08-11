@@ -9,6 +9,9 @@
 include_once "header.php";
 include_once XOOPS_ROOT_PATH."/header.php";
 
+$_GET['year'] = intval($_GET['year'] ) ;
+$_GET['semester']= intval($_GET['semester'] ) ;
+$_GET['id']  = intval($_GET['id'] ) ;
 
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 	//讀取科目
