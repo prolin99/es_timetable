@@ -144,7 +144,7 @@ function get_table_teacher_data() {
 	//由學校資料表中取得
 
  
-	$sql =  "  SELECT  *  FROM " . $xoopsDB->prefix("es_timetable_teacher") ." order by hide "   ;
+	$sql =  "  SELECT  *  FROM " . $xoopsDB->prefix("es_timetable_teacher") ." order by hide , name  "   ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
  		$table_teacher[$row['teacher_id']] = $row  ;
