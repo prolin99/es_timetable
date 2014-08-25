@@ -230,6 +230,55 @@ order by  u.user_occ ,c.class_id
 }	
 
 
+function check_timetable_double($y , $s) {
+	//檢查是否有重複
+	global  $xoopsDB ;
+	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector  HAVING cc>1    " ;
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while($row= $xoopsDB->fetchArray($result)){
+		$data .= $row['class_id'] .'班' .$row['day'] .'-' .$row['sector'] .'  <br />' ;
+ 	}
+
+ 	$teacher_list = get_table_teacher_data() ;
+ 	
+	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector  HAVING cc>1    " ;
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while($row= $xoopsDB->fetchArray($result)){
+		$data .= $teacher_list[$row['teacher']]['name']   .'教師' .$row['day'] .'-' .$row['sector'] .'  <br />' ;
+ 	} 	
+
+	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector  HAVING cc>1    " ;
+	//echo $sql ;
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while($row= $xoopsDB->fetchArray($result)){
+		$data .= $row['room'] .'教室' .$row['day'] .'-' . $row['sector'] .'  <br />' ;
+ 	} 
+ 
+ 	return $data ;
+}
+
+function get_ones_timetable( $mode , $y ,$s  ,$id){
+	global  $xoopsDB ;
+	$subject= get_subject_list() ;
+	//讀取人名
+	$teacher_list = get_table_teacher_data() ;
+	for ($d=1 ; $d<=$DEF_SET['days'] ;$d++) 
+		for ($s=1 ; $s<=$DEF_SET['sects'] ;$s++) 
+			$data[$d][$s]['ss_id']= 0 ;
+
+	if ($mode =='teacher' ) 
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'    and  teacher= '$id'   order by day,sector   " ;
+	else 
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'    and  class_id= '$id'  order by day,sector   " ;
+ 	//echo $sql ;
+ 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
+	while($row=$xoopsDB->fetchArray($result)){
+		$row['subject_name']= $subject[$row['ss_id']] ;
+		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
+		$data[$row['day']][$row['sector']]= $row ;
+	}
+	return $data ;
+}	
 //=================================================================================================
 function get_class_list(  ) {
 	//取得全校班級列表 

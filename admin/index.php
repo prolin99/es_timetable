@@ -51,6 +51,10 @@ if ( ($_POST['year'] > $data['info']['year'] ) or  (($_POST['year'] == $data['in
 	$data['info'] = get_timetable_info() ;	
 }
 
+//check double
+
+$data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
+
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign( "data" , $data ) ; 

@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] ='課表';				//模組名稱
-$modversion['version']	= '0.2';				//模組版次
+$modversion['version']	= '0.3';				//模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';		//模組作者
 $modversion['description'] ='展示功課表';			//模組說明
 $modversion['credits']	= 'prolin';				//模組授權者
@@ -70,6 +70,10 @@ $modversion['templates'][$i]['description'] = 'es_timet_ad_set_teacher_tpl.html'
 $i++ ;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_table_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_ad_table_tpl.html';
+
+$i++ ;
+$modversion['templates'][$i]['file'] = 'es_timet_setroom_tpl.html';
+$modversion['templates'][$i]['description'] = 'es_timet_setroom_tpl.html'; 
 
 $i++ ;
 $modversion['templates'][$i]['file'] = 'es_timet_class_table_tpl.html';
