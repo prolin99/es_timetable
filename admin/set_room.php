@@ -65,7 +65,7 @@ else
 $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;
 //var_dump($tab) ;
 
-
+$data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
 
 /*-----------秀出結果區--------------*/
 

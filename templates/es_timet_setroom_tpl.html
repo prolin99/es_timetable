@@ -35,7 +35,14 @@
       	班級：<{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="span8" }> 
         </form>
       	</div>
-
+      <div class='span8'>
+        <{if ($data.error)}>
+          <div class="alert alert-error">
+          重複:<br />
+          <{$data.error}>
+          </div>
+        <{/if}>        
+      </div>
       	</div>
 
       <table class="table table-bordered">

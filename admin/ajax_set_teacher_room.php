@@ -10,9 +10,12 @@ include_once "header_admin.php";
  
 include_once "header.php";
 
-if ( $_GET['id'] and $_GET['setdata']) {
+if ( $_GET['id'] ) {
 	$id= intval($_GET['id'] ) ;
-	$new = $_GET['setdata'] ;
+	$myts =& MyTextSanitizer::getInstance();
+	$new  =$myts->htmlspecialchars($myts->addSlashes ($_GET['setdata']  )  )  ;
+
+	//$new = $_GET['setdata'] ;
 	$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable") .  " SET room = '$new'  where   course_id= '$id' " ;
 		
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
