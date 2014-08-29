@@ -15,8 +15,8 @@ $isAdmin=isAdmin();
 
  
 $interface_menu['課表查詢']="index.php";
-$interface_menu['班級設定']="class_set.php";
-
+$interface_menu['教師查詢']="teacher_list.php";
+$interface_menu['級任排課']="class_set.php";
 
 if($isAdmin){
   $interface_menu[_TO_ADMIN_PAGE]="admin/index.php";
@@ -31,7 +31,5 @@ $module_menu=toolbar($interface_menu);
 
 //引入CSS樣式表檔案
 $module_css="<link rel='stylesheet' type='text/css' media='screen' href='module.css' />";
-
- 
 
 ?>
