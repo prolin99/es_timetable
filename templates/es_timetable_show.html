@@ -10,18 +10,16 @@
 
       <div class="span10" id="table_div">
       	<div class="row-fluid" >
-      	<div class='span3'>
+      	<div class='span5'>
           <form action="teacher_list.php"  method="post">
-      	教師：<{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="span8" }> 
+      	查詢教師：<{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="span8" }> 
         </form>
+    
       	</div>
-      <div class='span8'>
-        <{if ($data.error)}>
-          <div class="alert alert-error">
-          重複:<br />
-          <{$data.error}>
-          </div>
-        <{/if}>        
+      <div class='span6'>
+          <form action="teacher_list.php"  method="post">
+        查詢教室：<{html_options name=room_id id=room_id  options=$data.room_list  selected=$data.room_sel  onchange="submit();"  class="span8" }> 
+        </form>         
       </div>
       	</div>
 
@@ -40,7 +38,10 @@
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;">
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}><br />
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
-           <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].class_id) }>
+          <{if ($data.room_sel ) }>
+           <{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher_name}><br />
+           <{/if}>
+           <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].room) }>
            <{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>
            <{/if}>
           <br /></div>

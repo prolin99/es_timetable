@@ -82,6 +82,22 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all' ) {
 	return $data ;			
 }	
 
+//取出課表  room 
+function get_class_room_list( $y ,$s ) {
+	global  $xoopsDB ;
+
+	$data[0] = '選擇查看教室' ;
+ 
+	$sql = " select  room   FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'     and room <>''   group by  room " ;
+ 
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+		$data[] = $row['room'] ;
+	}	
+ 
+	return $data ;			
+}	
+
 
 function get_subject_list() {
 	//取得目前的科目名稱
@@ -268,7 +284,9 @@ function get_ones_timetable( $mode , $y ,$s  ,$id){
 
 	if ($mode =='teacher' ) 
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'    and  teacher= '$id'   order by day,sector   " ;
-	else 
+	elseif ($mode =='room') 
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'    and  room= '$id'  order by day,sector   " ;
+	else 	
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'    and  class_id= '$id'  order by day,sector   " ;
  	//echo $sql ;
  	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());

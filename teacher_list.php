@@ -53,9 +53,20 @@ $data['class_list'] = get_class_list() ;
 //取得目前科目名
 $data['subject_name'] = get_subject_list() ;
 */
+//
+
+
   //教師名冊
 $data['teacher_list'] =get_table_teacher_list() ;
- //var_dump($data['teacher_list'] ) ;
+//$data['teacher_list'][0] = '選擇教師' ;
+//ksort($data['teacher_list']) ;
+ //var_dump($data['teacher_list'] ) ; 
+
+$data['room_list'] = get_class_room_list($n_year , $n_semester ) ;
+ if  (intval($_POST['room_id']) ) 
+    $data['room_sel'] = intval($_POST['room_id']) ;
+else 
+    $data['room_sel'] = 0 ;
 
  if  (intval($_POST['teacher_id']) ) 
     $data['teacher_sel'] = intval($_POST['teacher_id']) ;
@@ -63,7 +74,12 @@ else
     $data['teacher_sel'] = key($data['teacher_list']) ;
 
 //echo  $data['teacher_sel']   ;
-$tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;
+if ($data['room_sel'] >0 ) {
+    $room_name = $data['room_list'][$data['room_sel']] ;
+    $tab = get_ones_timetable( 'room' , $n_year , $n_semester  ,  $room_name  ) ;
+
+}else 
+    $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;
 //var_dump($tab) ;
 
 $data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
