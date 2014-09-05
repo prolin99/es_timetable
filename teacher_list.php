@@ -13,6 +13,9 @@ $xoopsOption['template_main'] = "es_timetable_show.html";
 include_once "header.php";
 include_once XOOPS_ROOT_PATH."/header.php"; 
 
+ if (!$xoopsUser) 
+    redirect_header("index.php",3, "需要登入，才能使用！");
+
 /*-----------function區--------------*/
 //取得參數
 
