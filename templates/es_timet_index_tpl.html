@@ -1,12 +1,7 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
-<style>
-.groupbox {
-    border: 1px dotted gray;
-    background-color: #EEE;
-}
-</style>
+
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
   
       <div class="row-fluid" > <!-- box1 -->
@@ -33,7 +28,7 @@
       <td class="span1"><{$smarty.section.si.index}></td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
-      	<div class="groupbox span12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><{$group}><br /><br /></div>
+      	<div class="groupbox span12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
 		 
       </td>
       <{ /section }>
