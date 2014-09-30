@@ -79,11 +79,13 @@
       </div>
       
 <SCRIPT type="text/javascript">
+var zindex=1000 ;
 //可拖拉
 $(function () {
-
+        
         $(".subj").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
                 }
@@ -158,6 +160,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 	
         $(".subj").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
         });
         
 	//顯示科目的已排節數
@@ -243,6 +246,7 @@ function sect_show(sect , subject_data , now_teacher ,old_sect) {
         	
 			$(".subj").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
                 }

@@ -99,6 +99,7 @@
       </div>
       
 <SCRIPT type="text/javascript">
+var zindex = 1000;
 //指定教師
 var now_teacher_array =[] ;
 var now_teacher_ref='' ;
@@ -149,14 +150,17 @@ $(function() {
 
 //可拖拉
 $(function () {
+        
         $(".tea").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
                 }
         });
         $(".subj").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
                 }
@@ -285,6 +289,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 	//再次指定可拖拉
 	        $(".subj").draggable({
                 	revert: "valid",
+                    start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
 		});   
 
 	//顯示科目的已排節數
@@ -413,8 +418,9 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 			ajax_time_table('add' , sect , subject_data , t_now_teacher_ref , room ) ;		
 		
 			//再次指定可拖拉
-				$(".subj").draggable({
-						revert: "valid",
+			$(".subj").draggable({
+				revert: "valid",
+                            start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
 			});   	
 			
 			//移動的模式
@@ -467,6 +473,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
  	
         $(".subj").draggable({
                 revert: "valid",
+                start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
                 }
