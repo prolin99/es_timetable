@@ -10,6 +10,10 @@
     background-color: #EEE;
 
 }
+.nobox {
+    border: 1px dotted gray;
+    background-color: #AAA;
+}
  
  
 </style>
@@ -37,7 +41,7 @@
 
       </div> <!--left end-->
 
-      <div class="span10" id="table_div">
+      <div class="span10" id="table_div">  <!--               table                          -->
  
       	
       	<div class="row-fluid" >
@@ -56,7 +60,12 @@
       <td class="span1"><{$smarty.section.si.index}></td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
+
+      <{if ( ($data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id) and ( $data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id<> $data.my_class_id)) }>  
+      <div class="span12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'><{$group}><br /><br /></div>已排<{$data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id}>_<{$data.my_table[$smarty.section.di.index][$smarty.section.si.index].subject_name}>
+      <{else}>
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><{$group}><br /><br /></div>
+      <{/if}>  
 
       </td>
       <{ /section }>

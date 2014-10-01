@@ -37,7 +37,7 @@ $data['n_y']= $data['info']['year'] ;
 $data['n_s']= $data['info']['semester'];
 
 //目前班級數
-$data['class_list'] = get_class_list() ;
+//$data['class_list'] = get_class_list() ;
  
 //取得目前科目名
 $all_subject_name = get_subject_list() ;
@@ -56,8 +56,9 @@ $data['teacher_list'] =get_table_teacher_list($DEF_SET['teacher_group']) ;
 //取得級任名冊
 $data['class_teacher'] = get_class_teacher_list() ;
 
+ //該級任在別班任課，不可以填寫修改
+$data['my_table'] = get_ones_timetable('teacher'  , $data['n_y'] ,$data['n_s'] , $data['my_teacher_id']  ) ;
  
-
  
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
