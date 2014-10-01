@@ -260,14 +260,34 @@ function check_timetable_double($y , $s) {
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector  HAVING cc>1    " ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $teacher_list[$row['teacher']]['name']   .'教師' .$row['day'] .'-' .$row['sector'] .'  <br />' ;
+		$data .= $teacher_list[$row['teacher']]['name']   .'--教師--' .$row['day'] .'-' .$row['sector'] .'節 --  ' ;
+		//取得該教師那一節課
+		$sql2 =  "   SELECT class_id  FROM  " . $xoopsDB->prefix("es_timetable") . 
+			"  where school_year= '$y'  and  semester= '$s'    and  teacher='{$row['teacher']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       " ;
+
+		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
+		while($row2= $xoopsDB->fetchArray($result2)){
+			$data .= $row2['class_id']  . ' 班 , ' ;
+		}
+ 
+		$data .= "<br />" ;
  	} 	
 
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector  HAVING cc>1    " ;
 	//echo $sql ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $row['room'] .'教室' .$row['day'] .'-' . $row['sector'] .'  <br />' ;
+		$data .= $row['room'] .'--教室--' .$row['day'] .'-' . $row['sector'] .'節 --  ' ;
+		$sql2 =  "   SELECT class_id , teacher  FROM  " . $xoopsDB->prefix("es_timetable") . 
+			"  where school_year= '$y'  and  semester= '$s'    and  room='{$row['room']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       " ;
+
+		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
+		while($row2= $xoopsDB->fetchArray($result2)){
+			$data .= $row2['class_id']  . ' 班(' . $teacher_list[$row2['teacher']]['name'] .  ') , ' ;
+		}
+ 
+		$data .= "<br />" ;		
+
  	} 
  
  	return $data ;
