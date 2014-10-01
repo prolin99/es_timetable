@@ -14,6 +14,9 @@ $_GET['semester']= intval($_GET['semester'] ) ;
 $_GET['id']  = intval($_GET['id'] ) ;
 
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
+
+	$room_list = get_class_room_list( $_GET['year'] , $_GET['semester']  ) ;
+
 	//讀取科目
 	$subject= get_subject_list() ;
 	//讀取人名
@@ -31,6 +34,8 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 	while($row=$xoopsDB->fetchArray($result)){
 		$row['subject_name']= $subject[$row['ss_id']] ;
 		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
+		if ($row['room'] ) 
+			$row['room_id']= array_search( $row['room']  ,$room_list ) ;
 		$data[$row['day']][$row['sector']]= $row ;
 	} 	
 

@@ -33,8 +33,9 @@ $data['teacher_list'] =get_table_teacher_list($DEF_SET['teacher_group']) ;
 //取得級任名冊
 $data['class_teacher'] = get_class_teacher_list() ;
 
- 
-
+//有指定班級
+if ($_GET['class_id'])
+	$data['select_class_id'] = intval($_GET['class_id']) ;
  
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;

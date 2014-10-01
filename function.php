@@ -276,6 +276,8 @@ function check_timetable_double($y , $s) {
 function get_ones_timetable( $mode , $y ,$s  ,$id){
 	global  $xoopsDB ;
 	$subject= get_subject_list() ;
+
+	$room_list = get_class_room_list( $y , $s ) ;
 	//讀取人名
 	$teacher_list = get_table_teacher_data() ;
 	for ($d=1 ; $d<=$DEF_SET['days'] ;$d++) 
@@ -293,6 +295,7 @@ function get_ones_timetable( $mode , $y ,$s  ,$id){
 	while($row=$xoopsDB->fetchArray($result)){
 		$row['subject_name']= $subject[$row['ss_id']] ;
 		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
+		$row['room_id']= array_search( $row['room']  ,$room_list ) ;
 		$data[$row['day']][$row['sector']]= $row ;
 	}
 	return $data ;

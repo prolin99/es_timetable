@@ -1,6 +1,16 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
+<style>
+.groupbox {
+ 
+    border: 1px dotted gray;
+    background-color: #EEE;
+    height:4.5em;
+
+}
+
+</style>
 
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
   
@@ -92,7 +102,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 				if (now_class_teacher == teacher_tab[d][s]['teacher_name']) 
 					$('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> '+ teacher_tab[d][s]['teacher_name']+' <br/> '+teacher_tab[d][s]['room'] ) ;				
 				else 
-					$('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> '+ teacher_tab[d][s]['teacher_name']+' <br/> '+teacher_tab[d][s]['room'] +'' ) ;
+					$('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s]['teacher']+ '>'+ teacher_tab[d][s]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s]['room_id'] + '>'+teacher_tab[d][s]['room'] +'</a>' ) ;
  				//subject_count[teacher_tab[d][s]['ss_id']]  = subject_count[teacher_tab[d][s]['ss_id']]  +1 ;
  				
 			}				

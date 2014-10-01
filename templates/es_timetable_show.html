@@ -1,7 +1,15 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
+ <style>
+.groupbox {
  
+    border: 1px dotted gray;
+    background-color: #EEE;
+    height:5.5em;
+
+}
+ </style>
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
   
       <div class="row-fluid" > <!-- box1 -->
@@ -11,13 +19,13 @@
       <div class="span10" id="table_div">
       	<div class="row-fluid" >
       	<div class='span5'>
-          <form action="teacher_list.php"  method="post">
+          <form action="teacher_list.php"  method="GET">
       	查詢教師：<{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="span8" }> 
         </form>
     
       	</div>
       <div class='span6'>
-          <form action="teacher_list.php"  method="post">
+          <form action="teacher_list.php"  method="GET">
         查詢教室：<{html_options name=room_id id=room_id  options=$data.room_list  selected=$data.room_sel  onchange="submit();"  class="span8" }> 
         </form>         
       </div>
@@ -36,14 +44,25 @@
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
       	<div class="groupbox  span12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >
+
+          <a href="index.php?class_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>">
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}><br />
+          </a>
+
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
+
           <{if ($data.room_sel ) }>
-           <{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher_name}><br />
+            <a href="teacher_list.php?teacher_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher}>">
+            <{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher_name}><br />
+            </a>
            <{/if}>
+
            <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].room) }>
-           <{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>
+             <a href="teacher_list.php?room_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].room_id}>">
+              <{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>
+            </a>
            <{/if}>
+
           <br /></div>
 		 
       </td>
