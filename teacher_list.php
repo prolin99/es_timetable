@@ -16,6 +16,10 @@ include_once XOOPS_ROOT_PATH."/header.php";
  if (!$xoopsUser) 
     redirect_header("index.php",3, "需要登入，才能使用！");
 
+//校內教師群組代號
+if (! in_array(   $DEF_SET['teacher_group'] , $xoopsUser->groups() )  ) 
+  	redirect_header("index.php",3, "教職員，才能使用！");
+  
 /*-----------function區--------------*/
 //取得參數
 
