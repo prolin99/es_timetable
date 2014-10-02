@@ -14,6 +14,7 @@ include_once XOOPS_ROOT_PATH."/header.php";
  if (!$xoopsUser) 
   	redirect_header(XOOPS_URL,3, "需要登入，才能使用！");
  */
+
 /*-----------function區--------------*/
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
@@ -41,6 +42,7 @@ if ($_GET['class_id'])
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
 $xoopsTpl->assign( "data" , $data ) ; 
 $xoopsTpl->assign( "DEF_SET" , $DEF_SET ) ; 
+$xoopsTpl->assign( "isUser" , $xoopsUser ) ; 
  
  
 include_once XOOPS_ROOT_PATH.'/footer.php';
