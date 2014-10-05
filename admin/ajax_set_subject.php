@@ -17,7 +17,7 @@ if ( $_GET['id'] and $_GET['setdata']) {
 	$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_subject") .  " SET subject_name ='$nsubj'  where   subject_id= '$id' " ;
 		
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
-	//echo $_GET['do'] . $sql ;
+	echo $_GET['do'] . $sql ;
 }
 
 ?>

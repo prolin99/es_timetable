@@ -88,7 +88,7 @@ $(function () {
         $(".chk").click(function(){
  			var id = $(this).attr('id')  ;
 
- 			var var_data = "do_" + $(this).attr('checked') ;
+ 			var var_data = "do_" + $(this).prop("checked") ;
  			//alert (var_data) ;
  			ajax_grade_subject(id ,var_data)
         });
