@@ -46,7 +46,8 @@
       	<div class="groupbox  span12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >
 
           <a href="index.php?class_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>">
-          <{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}><br />
+            <{assign var="cid" value=$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>
+          <{$data.class_list_c[$cid]}><br />
           </a>
 
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />

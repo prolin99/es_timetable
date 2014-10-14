@@ -16,6 +16,10 @@ include_once XOOPS_ROOT_PATH."/header.php";
  
   	
 /*-----------function區--------------*/
+//取得中文班名
+$data['class_list_c'] = es_class_name_list_c()  ;
+
+
 //取得所在級任班級
 $data['my_class_id']=get_my_class_id() ;
 if (!$data['my_class_id']) 

@@ -20,7 +20,7 @@
  
  <div class="row-fluid" >  
       <div class="span8" > 
- <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期   班級：<{$data.my_class_id}>功課表 </h3>
+ <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期   <{$data.class_list_c[$data.my_class_id]}>功課表 </h3>
  	</div>
  	<div class="span3" > 
  	<a class="btn btn-info" href="export.php?class_id=<{$data.my_class_id}>">下載課表</a> 
@@ -62,7 +62,8 @@
       <td class="span2">
 
       <{if ( ($data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id) and ( $data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id<> $data.my_class_id)) }>  
-      <div class="span12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'><{$group}><br /><br /></div>已排<{$data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id}>_<{$data.my_table[$smarty.section.di.index][$smarty.section.si.index].subject_name}>
+      <{assign var="cid" value=$data.my_table[$smarty.section.di.index][$smarty.section.si.index].class_id}>
+      <div class="span12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'><{$group}><br /><br /></div><{$data.class_list_c[$cid]}>_<{$data.my_table[$smarty.section.di.index][$smarty.section.si.index].subject_name}>
       <{else}>
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><{$group}><br /><br /></div>
       <{/if}>  

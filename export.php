@@ -13,6 +13,8 @@ include_once "../tadtools/PHPWord.php";
 
 /*-----------function區--------------*/
 
+//取得中文班名
+$class_list_c = es_class_name_list_c('long')  ;
 
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
@@ -56,7 +58,7 @@ $data['info'] = get_timetable_info() ;
 	$styleFont_cell_red =  array('name'=>'Tahoma',  'size'=>14 ,  'color'=>'red');
 	
 	//
-	$cellStyle = array(	 'bgColor'=>'C0C0C0','valign'=>'center');
+	$cellStyle = array(	 'bgColor'=>'EEEEEE','valign'=>'center');
 	//cell 字型
 	
 	$styleFont_cell_top =  array('name'=>'Tahoma',  'size'=>14 , 'bold'=>true);
@@ -71,11 +73,11 @@ foreach ($timetable as $key =>	$table_data) {
 	 if ($page >0) $section->addPageBreak();  //換頁 (第一次不換頁)
 	 $page++ ;
 	//標題處
-	$section->addText($data['info']['year'].'學年度 第' .$data['info']['semester'] .'學期 課表', $styleFont_h1,$styleParagraph_h1);
+	$section->addText($data['info']['year'].'學年度第' .$data['info']['semester'] .'學期課表', $styleFont_h1,$styleParagraph_h1);
  
 	//
 	if ($mid =='teacher') $h2_title = $teacher_list[$key]['name']. '-教師課表'; 
-	if ($mid =='class_id') $h2_title = $key . '-班級課表  (級任：' .$class_teacher_list[$key] .')' ; 
+	if ($mid =='class_id') $h2_title = $class_list_c[$key] . ' 班級課表  (級任：' .$class_teacher_list[$key] .')' ; 
 	if ($mid =='room') $h2_title = $key . '-教室課表'; 
 	$section->addText( $h2_title ,$styleFont_h2,$styleParagraph_h2);
  
@@ -100,9 +102,9 @@ foreach ($timetable as $key =>	$table_data) {
 		
 		$table->addCell(1000,$cellStyle )->addText("第 $s 節",$styleFont_cell_top,$style_cell_top); //新增一格
 		for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  {
-			if ($mid =='teacher') $cell_doc = $table_data[$i][$s]['class_id'] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$table_data[$i][$s]['room'] ;
+			if ($mid =='teacher') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$table_data[$i][$s]['room'] ;
 			if ($mid =='class_id') $cell_doc =  $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ."\n" .$table_data[$i][$s]['room'] ;
-			if ($mid =='room') $cell_doc = $table_data[$i][$s]['class_id'] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ;
+			if ($mid =='room') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ;
 			
 			//班級課表，科任
 			if( ($mid =='class_id') and ($teacher_list[$table_data[$i][$s]['teacher']]['name']<> $class_teacher_list[$key]) )

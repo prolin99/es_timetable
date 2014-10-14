@@ -10,7 +10,10 @@ if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
 }
 include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 
-
+if(!file_exists(XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php")){
+ redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=33",3, '需要單位名稱模組(e_stud_import)');
+}
+include_once XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php";
 /********************* 自訂函數 *********************/
 
 $DEF_SET['days']=   $xoopsModuleConfig['es_tt_days']  ;
@@ -249,10 +252,14 @@ order by  u.user_occ ,c.class_id
 function check_timetable_double($y , $s) {
 	//檢查是否有重複
 	global  $xoopsDB ;
+	
+	//取得中文班名
+	$class_list_c = es_class_name_list_c()  ;
+
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector  HAVING cc>1    " ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $row['class_id'] .'班' .$row['day'] .'-' .$row['sector'] .'  <br />' ;
+		$data .= $class_list_c[$row['class_id']]  .$row['day'] .'-' .$row['sector'] .'  <br />' ;
  	}
 
  	$teacher_list = get_table_teacher_data() ;
@@ -260,14 +267,14 @@ function check_timetable_double($y , $s) {
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector  HAVING cc>1    " ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $teacher_list[$row['teacher']]['name']   .'--教師--' .$row['day'] .'-' .$row['sector'] .'節 --  ' ;
+		$data .= $teacher_list[$row['teacher']]['name']   .' 教師--' .$row['day'] .'-' .$row['sector'] .'節 --  ' ;
 		//取得該教師那一節課
 		$sql2 =  "   SELECT class_id  FROM  " . $xoopsDB->prefix("es_timetable") . 
 			"  where school_year= '$y'  and  semester= '$s'    and  teacher='{$row['teacher']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       " ;
 
 		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
 		while($row2= $xoopsDB->fetchArray($result2)){
-			$data .= $row2['class_id']  . ' 班 , ' ;
+			$data .= $class_list_c[$row2['class_id']]  . '  , ' ;
 		}
  
 		$data .= "<br />" ;
@@ -277,13 +284,13 @@ function check_timetable_double($y , $s) {
 	//echo $sql ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $row['room'] .'--教室--' .$row['day'] .'-' . $row['sector'] .'節 --  ' ;
+		$data .= $row['room'] .' 教室--' .$row['day'] .'-' . $row['sector'] .'節 --  ' ;
 		$sql2 =  "   SELECT class_id , teacher  FROM  " . $xoopsDB->prefix("es_timetable") . 
 			"  where school_year= '$y'  and  semester= '$s'    and  room='{$row['room']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       " ;
 
 		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
 		while($row2= $xoopsDB->fetchArray($result2)){
-			$data .= $row2['class_id']  . ' 班(' . $teacher_list[$row2['teacher']]['name'] .  ') , ' ;
+			$data .= $class_list_c[$row2['class_id']]  . ' (' . $teacher_list[$row2['teacher']]['name'] .  ') , ' ;
 		}
  
 		$data .= "<br />" ;		

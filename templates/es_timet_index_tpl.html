@@ -20,7 +20,7 @@
       <div class="span10" id="table_div">
       	<div class="row-fluid" >
       	<div class='span3'>
-      	班級：<{html_options name=class_id id=class_id  options=$data.class_list  selected=$data.select_class_id  onchange="class_change();"  class="span8" }> 
+      	班級：<{html_options name=class_id id=class_id  options=$data.class_list_c  selected=$data.select_class_id  onchange="class_change();"  class="span8" }> 
       	</div>
       	級任：<span id="class_teacher_name"></span>
       	</div>
@@ -79,6 +79,17 @@ var subject_list_array = [] ;
       	<{/foreach }>
 
 
+//轉成使用班級名稱
+function class_name( class_id) {
+  var class_name_array= [];
+  <{foreach  key=cid item=cname    from= $data.class_list_c }>
+     class_name_array[<{$cid}>] = '<{$cname}>' ;
+  <{/foreach}>
+  return class_name_array[class_id] ;
+}
+
+
+
 $(function () {
 	//第一次進入要列出班級課表
     class_change() ;
@@ -98,11 +109,16 @@ function teacher_sect_show(do_mode , teacher_tab) {
 			$('#' + sectt).html('<br/><br/>') ;
 			if (teacher_tab[d][s]['ss_id']> 0){
 				//$('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
-				
-				if (now_class_teacher == teacher_tab[d][s]['teacher_name']) 
-					$('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> '+ teacher_tab[d][s]['teacher_name']+' <br/> '+teacher_tab[d][s]['room'] ) ;				
-				else{ 
-                                  <{if ($isUser)}>
+
+				<{*  級任 *}>
+				if (now_class_teacher == teacher_tab[d][s]['teacher_name']) {
+                                <{if ($isUser)}> <{* 有登入*}>
+					$('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> \n <a href=teacher_list.php?teacher_id='+ teacher_tab[d][s]['teacher']+ '>'+  teacher_tab[d][s]['teacher_name']+'</a> <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s]['room_id'] + '>' +teacher_tab[d][s]['room'] +'</a>'  ) ;				
+                                <{else}>
+                                    $('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> \n'+ teacher_tab[d][s]['teacher_name']+' <br/> '+teacher_tab[d][s]['room'] ) ;       
+                                <{/if}>
+				}else{ 
+                                  <{if ($isUser)}> <{* 有登入*}>
 					   $('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s]['teacher']+ '>'+ teacher_tab[d][s]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s]['room_id'] + '>'+teacher_tab[d][s]['room'] +'</a>' ) ;
                                   <{else}>
                                         $('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> \n '+ teacher_tab[d][s]['teacher_name']+' <br/> \n'+teacher_tab[d][s]['room']  ) ;                                  

@@ -13,7 +13,8 @@ include_once "../../tadtools/PHPExcel.php";
 require_once '../../tadtools/PHPExcel/IOFactory.php';    
 /*-----------function區--------------*/
 
-
+//取得中文班名
+$class_list_c = es_class_name_list_c('long')  ;
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
@@ -89,7 +90,7 @@ $s = $data['info']['semester']  ;
 
 			$col ='A' ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $class_id ) ;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $class_list_c[$class_id] ) ;
 			foreach ($max as $id => $count ) {
 					for ($i =0 ; $i<$count ; $i++) {
 						$col++ ;

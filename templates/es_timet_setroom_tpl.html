@@ -58,7 +58,8 @@
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;">
-          <{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}><br />
+          <{assign var="cid" value=$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>
+          <{$data.class_list_c[$cid]}><br />
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
            <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].class_id) }>
            <input id="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" value="<{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>" class="span8 text_edit" title="移開後自動存入" type="text">
