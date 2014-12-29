@@ -129,7 +129,7 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_scope ) ;		
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_scope.'領域' ) ;		
 
 			$col ++ ;
 			$col_str =$col .$row ;
