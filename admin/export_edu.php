@@ -77,7 +77,7 @@ $s = $data['info']['semester']  ;
 		$class_id=  '第' .  substr($row_data['class_id'],1)   .'班'   ;
 		$teacher = $teacher_list[$row_data['teacher']];
 		$ss_name = $subject[$row_data['ss_id']];
-		$sub_name_sp = preg_split("/[_]+/", $ss_name );
+		$sub_name_sp = preg_split("/[_-]+/", $ss_name );
 		$sub_scope = $sub_name_sp[0] ;
 		if  ($sub_name_sp[1]) 
 			$sub_name = $sub_name_sp[1] ;
