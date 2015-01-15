@@ -64,7 +64,7 @@ $s = $data['info']['semester']  ;
  	//人員
  	$teacher_list = get_table_teacher_list('all') ;
 
- 	$ch_num = array('','一','二','三','四','五','六','七','八','九') ;
+ 	$ch_num = array('導師時間/早自習','一','二','三','四','五','六','七','八','九') ;
  
  	$sql = " select *   FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   order by  teacher , day ,  sector  " ; 
  
@@ -72,7 +72,7 @@ $s = $data['info']['semester']  ;
  	//$mi=0 ;
 	while($row_data=$xoopsDB->fetchArray($result)){
 		$day ='週' . $ch_num[$row_data['day'] ];
-		$sector = '第' .   $row_data['sector']   .'節'   ;
+		$sector = '第' .   $ch_num[$row_data['sector']]   .'節'   ;
 		$class_year= $ch_num[substr($row_data['class_id'],0,1)]  . '年級';
 		$class_id=  '第' .  substr($row_data['class_id'],1)   .'班'   ;
 		$teacher = $teacher_list[$row_data['teacher']];
@@ -88,8 +88,10 @@ $s = $data['info']['semester']  ;
 		$pos = strpos($ss_name, '彈');
 		if ($pos === false) 
 			$sub_kind='領域學習'  ;
-		else 
+		else {
 			$sub_kind='彈性學習'  ;
+			$sub_scope='彈性課程' ;
+		}	
 		
 
  
@@ -143,7 +145,7 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '每周上課') ;		
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '每週上課') ;		
 
  
 	}	
