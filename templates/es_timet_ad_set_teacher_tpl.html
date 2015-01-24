@@ -9,17 +9,18 @@
     <button type="submit" name="do_key" class="btn btn-primary">新增</button> 
     </fieldset>
     </form>  
-<table class="table table-hover span5">
-<tr><td>代號</td><td>姓名</td><td>顯示/隱藏</td></tr>
+<table class="table table-hover span7">
+<tr><td>代號</td><td>姓名</td><td>類別(2 代表 2688)</td><td>顯示/隱藏</td></tr>
 
 <{foreach  key=s_key item=teacher   from=$data.teacher  }>
 <tr><td><{$s_key}></td>
-<td><input type="text" id="<{$s_key}>" value="<{$teacher.name}>" class="name_edit" title="自動存入"></td>
+<td><input type="text" id="name_<{$s_key}>"  data_ref="<{$s_key}>"   value="<{$teacher.name}>" class="name_edit" title="自動存入"></td>
+<td><input type="text" id="kind_<{$s_key}>"   data_ref="<{$s_key}>"  value="<{$teacher.kind}>" class="kind_edit span4" title="2 代表為 2688"></td>
 <td>
 	<{if ($teacher.hide==0) }>
-	<button class="btn btn-primary" type="button" data_ref="<{$teacher.teacher_id}>" >顯示</button>
+	<button class="btn btn-primary" type="button" data_ref="<{$teacher.teacher_id}>" title="選擇教師時不出現，不影響課表內容" >顯示</button>
 	<{else}>
-	<button class="btn btn-inverse" type="button" data_ref="<{$teacher.teacher_id}>" >隱藏</button>
+	<button class="btn btn-inverse" type="button" data_ref="<{$teacher.teacher_id}>" title="選擇教師時不出現，不影響課表內容">隱藏</button>
 	<{/if}>
 </td>
 </tr>
@@ -32,7 +33,8 @@
       	<p>
             <span class="label label-info">說明</span><br />
             課表人員名單是獨立的，但會試著加入系統人員。<br />
-            隱藏時，代表在編排時，不出現該人名。<br />
+            隱藏時，代表在編排時，不出現該人名，但不影響已排課表內容。<br />
+            類別 2 ，代表為 2688 ，方便列印簽到記錄，無其它功能。<br />
             不建議直接更改姓名為其他人名，以免造成不一致的情形。
         </p>  
       </div>
@@ -57,15 +59,24 @@ $(function() {
 });	
 
  
-//修改科目
+//修改
 $(function() {
 	$(".name_edit").change(function(){
-		var v_id = $( this ).attr('id') ;
+		var v_id = $( this ).attr('data_ref') ;
 		var edit_text = $( this ).val();
 		//alert(v_id) ;
  		save_teacher( 'edit' ,v_id ,  edit_text ) ;
 	});
 });	 
+
+$(function() {
+	$(".kind_edit").change(function(){
+		var v_id = $( this ).attr('data_ref') ;
+		var edit_text = $( this ).val();
+		//alert(v_id) ;
+ 		save_teacher( 'edit_kind' ,v_id ,  edit_text ) ;
+	});
+});
 	
  //寫入 
  function save_teacher(do_mode ,tid , sdata )  {

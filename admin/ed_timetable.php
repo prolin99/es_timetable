@@ -18,8 +18,9 @@ include_once "header.php";
 
  
 /*-----------執行動作判斷區----------*/
-//取得中文班名
-$data['class_list_c'] = es_class_name_list_c()  ;
+//取得中文班名(有特殊班)
+//$data['class_list_c'] = es_class_name_list_c()  ;
+$data['class_list_c'] = get_timetable_class_list_c() ;
  
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //檢查目前的課表
@@ -48,7 +49,7 @@ $data['n_y']=$n_year ;
 $data['n_s']=$n_semester ;
 
 //目前班級數
-$data['class_list'] = get_class_list() ;
+//$data['class_list'] = get_class_list() ;
  
 //取得目前科目名
 $data['subject_name'] = get_subject_list() ;

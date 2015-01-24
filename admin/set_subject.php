@@ -18,6 +18,10 @@ if ($_GET['do']='del') {
 	$id= $_GET['id'] ;
 	$sql =   " DELETE FROM "  . $xoopsDB->prefix("es_timetable_subject") .  "    where   subject_id= '$id' " ;
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
+
+	//年級科目
+	$sql =   " DELETE FROM "  . $xoopsDB->prefix("es_timetable_subject_year") .  "    where   subject_id= '$id' " ;
+	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
 }	
 
 //加入新科目，以逗號做分隔
@@ -28,8 +32,8 @@ if ($_POST['new_kmo']) {
 	foreach ($kmo as $k =>$v) {
 		$kmo_o = trim($v) ;
 		$sql = " INSERT INTO   "  . $xoopsDB->prefix("es_timetable_subject") .  
-				" (`subject_name`, `subject_school`, `subject_kind`, `enable`)  " .
-				"  VALUES  ( '$kmo_o' , '','subject' ,'1' )   " ; 
+				" (subject_id ,`subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope)  " .
+				"  VALUES  ( 0 , '$kmo_o' , '','subject' ,'1'  ,'' )   " ; 
 		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 		
 	}	
 	
@@ -39,7 +43,8 @@ if ($_POST['new_kmo']) {
 /*-----------執行動作判斷區----------*/
  
 //取得目前科目名
-$data['subject_name'] = get_subject_list() ;
+//$data['subject_name'] = get_subject_list() ;
+$data['subject_name'] = get_subject_data_list() ;
  
 //各科目使用的年級
 $data['grade_subject'] = get_subject_grade_list() ;

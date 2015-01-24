@@ -13,8 +13,12 @@ include_once "header.php";
 if ( $_GET['id'] and $_GET['setdata']) {
 	list( $name,$id) =preg_split('/[_]/' ,$_GET['id'])  ;
 	$nsubj = $_GET['setdata'] ;
-	
-	$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_subject") .  " SET subject_name ='$nsubj'  where   subject_id= '$id' " ;
+	$id = intval($id) ;
+
+	if ($name=='scope') 
+		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_subject") .  " SET subject_scope ='$nsubj'  where   subject_id= '$id' " ;
+	else 
+		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable_subject") .  " SET subject_name ='$nsubj'  where   subject_id= '$id' " ;
 		
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
 	echo $_GET['do'] . $sql ;

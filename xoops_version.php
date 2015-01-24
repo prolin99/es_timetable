@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] ='課表';				//模組名稱
-$modversion['version']	= '0.9';				//模組版次
+$modversion['version']	= '1.0';				//模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';		//模組作者
 $modversion['description'] ='展示功課表';			//模組說明
 $modversion['credits']	= 'prolin';				//模組授權者
@@ -48,6 +48,7 @@ $modversion['hasMain'] = 1;
 
 //---安裝設定---//
 $modversion['onInstall'] = "include/onInstall.php";
+$modversion['onUpdate'] = "include/onUpdate.php";
  
 
 //---樣板設定---要有指定，才會編譯動作，//
@@ -94,6 +95,8 @@ $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default'] ="5" ;
 
+
+
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_sects';
 $modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_T2';
@@ -111,6 +114,15 @@ $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default'] ="4" ;
 
 $i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_m_sects_cht';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_T7';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D7';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] ="第一節,第二節,第三節,第四節,第五節,第六節,第七節";
+
+
+$i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_class_input';
 $modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_T4';
 $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D4';
@@ -125,6 +137,15 @@ $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D5';
 $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default'] ="1,2,3,4,5,6" ;
+
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_spe_class';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_T8';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D8';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] ="" ;
+
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_teacher_group';

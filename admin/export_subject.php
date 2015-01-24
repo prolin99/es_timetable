@@ -14,7 +14,8 @@ require_once '../../tadtools/PHPExcel/IOFactory.php';
 /*-----------function區--------------*/
 
 //取得中文班名
-$class_list_c = es_class_name_list_c('long')  ;
+//$class_list_c = es_class_name_list_c('long')  ;
+$class_list_c = get_timetable_class_list_c('long')  ;
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
@@ -25,7 +26,8 @@ $s = $data['info']['semester']  ;
 	//科目
  	$subject = get_subject_list() ;	
  	//班級
- 	$class_list = get_class_list() ;
+ 	//$class_list = get_class_list() ;
+ 	$class_list = get_timetable_class_list_c('long')  ;
  	//人員
  	$teacher_list = get_table_teacher_list('all') ;
  
@@ -90,7 +92,7 @@ $s = $data['info']['semester']  ;
 
 			$col ='A' ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $class_list_c[$class_id] ) ;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $class_list_c[$cid] ) ;
 			foreach ($max as $id => $count ) {
 					for ($i =0 ; $i<$count ; $i++) {
 						$col++ ;

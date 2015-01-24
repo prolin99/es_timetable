@@ -14,7 +14,7 @@ if ( $_GET['id']  ) {
 	//讀取科目
 	$subject= get_subject_list() ;	
 	
-	$y = substr($_GET['id'],0,1) ;
+	$y = substr($_GET['id'],0,-2) ;
 	$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable_subject_year") .  " where grade='$y'  order by subject_id " ;
 		
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	

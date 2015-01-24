@@ -49,12 +49,12 @@
       <tr>
       <td class="span1">節</td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td ><{$smarty.section.di.index}></td>
+      <td ><{$DEF_SET.week[$smarty.section.di.index]}></td>
       <{ /section }>
       </tr>      
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="span1"><{$smarty.section.si.index}></td>
+      <td class="span1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}></td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;">

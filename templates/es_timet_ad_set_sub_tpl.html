@@ -9,16 +9,19 @@
     <button type="submit" name="do_key" class="btn btn-primary">新增科目</button> 
     </fieldset>
     </form>  
-<table class="table table-hover span8">
-<tr><td>代號</td><td>科目</td>
+<table class="table table-hover ">
+<tr><td>代號</td><td>科目 - 領域</td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 <td><{$grade}>年級</td>
 <{/foreach}>
+<td>特殊班</td>
 </tr>
 
 <{foreach  key=s_key item=subject   from=$data.subject_name  }>
 <tr><td><{$s_key}></td>
-<td><input type="text" id="name_<{$s_key}>" value="<{$subject}>" class="sub_edit" title="自動存入"><i class="icon-remove" data_ref="<{$s_key}>" title="刪除"></i></td>
+<td><input type="text" id="name_<{$s_key}>" value="<{$subject.subject}>" class="sub_edit span4" title="自動存入">
+  <input type="text" id="scope_<{$s_key}>" value="<{$subject.scope}>" class="scope_edit span4" title="領域名稱,自動存入">  
+  <i class="icon-remove" data_ref="<{$s_key}>" title="刪除"></i></td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 	<td> 
 		<{if $data.grade_subject[$grade][$s_key]}>
@@ -29,13 +32,33 @@
     	 
   	</td>
 <{/foreach}>
+  <td> 
+    <{* 特殊班,代號 99   *}>
+    <{if $data.grade_subject[99][$s_key]}>
+        <label class="checkbox"><input type="checkbox"  value="1" id="chk_99_<{$s_key}>" checked class="chk" >使用</label>
+      <{else}>
+        <label class="checkbox"><input type="checkbox"  value="1" id="chk_99_<{$s_key}>" class="chk" >使用</label>
+      <{/if}>   
+       
+    </td>
 </tr>
 <{/foreach}>
 
 </table>
  
 </div>
+      <div class="alert alert-info">
+        <p>
+            <span class="label label-info">說明</span><br />
+            語文領域,數學領域,社會領域, 自然與生活科技領域, 藝術與人文領域, 綜合活動領域, 健康與體育領域,  生活領域,<br />
+            特殊教育領域, 藝才班專門課程 , 體育班專門課程, 彈性課程 <br /><br />
+            國語 ,英語 ,本土語言 ,數學,社會,自然,電腦,視覺藝術(美術),音樂,表演藝術,綜合活動,健康,體育,生活 ... <br /><br />
 
+            特殊班指資源班之類班級。
+
+        </p>  
+      </div> 
+ 
       
 <script>
 
@@ -61,6 +84,15 @@ $(function() {
 	});
 });	
 
+//修改領域名
+$(function() {
+  $(".scope_edit").change(function(){
+    var v_id = $( this ).attr('id') ;
+    var edit_text = $( this ).val();
+    //alert(v_id) ;
+    save_subject( 'edit' ,v_id ,  edit_text ) ;
+  });
+}); 
 	
  //寫入科目
  function save_subject(do_mode ,tid , sdata )  {

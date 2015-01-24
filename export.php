@@ -14,7 +14,9 @@ include_once "../tadtools/PHPWord.php";
 /*-----------function區--------------*/
 
 //取得中文班名
-$class_list_c = es_class_name_list_c('long')  ;
+//$class_list_c = es_class_name_list_c('long')  ;
+$class_list_c = get_timetable_class_list_c('long')  ;
+
 
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
@@ -94,13 +96,13 @@ foreach ($timetable as $key =>	$table_data) {
 	$table->addCell(2000,$cellStyle )->addText('節次',$styleFont_cell_top ,$style_cell_top); //新增一格
 	
 	for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  
-		$table->addCell(1000,$cellStyle )->addText('星期'.$i ,$styleFont_cell_top ,$style_cell_top ); //新增一格
+		$table->addCell(1000,$cellStyle )->addText($DEF_SET['week'][$i]  ,$styleFont_cell_top ,$style_cell_top ); //新增一格
  
 	//課表內容	
  	for ($s=1 ; $s <= $DEF_SET['sects'] ; $s++ )  {
 		$table->addRow(); //新增一列
 		
-		$table->addCell(1000,$cellStyle )->addText("第 $s 節",$styleFont_cell_top,$style_cell_top); //新增一格
+		$table->addCell(1000,$cellStyle )->addText( $DEF_SET['sects_cht_list'][$s]  ,$styleFont_cell_top,$style_cell_top); //新增一格
 		for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  {
 			if ($mid =='teacher') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$table_data[$i][$s]['room'] ;
 			if ($mid =='class_id') $cell_doc =  $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ."\n" .$table_data[$i][$s]['room'] ;

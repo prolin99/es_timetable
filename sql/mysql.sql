@@ -8,27 +8,26 @@ CREATE TABLE  `es_timetable_subject` (
   PRIMARY KEY (`subject_id`)
 ) ENGINE=MyISAM  COMMENT='科目名稱';
 
-INSERT INTO  es_timetable_subject  (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`) VALUES 
-		(1, '本國語文', '', 'subject', '1'),
-		(2, '本土語文', '', 'subject', '1'),
-		(3, '數學', '', 'scope', '1'),
-		(4, '生活', '', 'scope', '1'),
-		(5, '健康與體育', '', 'scope', '1'),
-		(6, '綜合活動', '', 'scope', '1'),
-		(7, '彈性課程', '', 'scope', '1'),
-		(8, '英語', '', 'subject', '1'),
-		(9, '自然與生活科技', '', 'scope', '1'),
-		(10, '健康與體育_健', '', 'subject', '1'),
-		(11, '健康與體育_體', '', 'subject', '1'),
-		(12, '社會', '', 'scope', '1'),
-		(13, '視覺藝術', '', 'subject', '1'),
-		(14, '音樂', '', 'subject', '1'),
-		(15, '彈性-書法', '', 'subject', '1'),
-		(16, '彈性-國語', '', 'subject', '1'),
-		(17, '彈性-英語', '', 'subject', '1'),
-		(18, '彈性-數學', '', 'subject', '1'),
-		(19, '彈性-資訊', '', 'subject', '1'),
-		(20, '彈性-音樂', '', 'subject', '1');
+INSERT INTO  es_timetable_subject  (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope) VALUES 
+		(1, '國語', '', 'subject', '1' ,'語文領域'),
+		(2, '本土語言', '', 'subject', '1','語文領域'),
+		(3, '數學', '', 'scope', '1','數學領域'),
+		(4, '生活', '', 'scope', '1','生活領域'),
+		(5, '健康與體育', '', 'scope', '1','健康與體育領域'),
+		(6, '綜合活動', '', 'scope', '1','綜合活動領域'),
+		(7, '彈性課程', '', 'scope', '1','彈性課程'),
+		(8, '英語', '', 'subject', '1','語文領域'),
+		(9, '自然', '', 'scope', '1','自然與生活科技領域'),
+		(10, '健康', '', 'subject', '1','健康與體育領域'),
+		(11, '體育', '', 'subject', '1','健康與體育領域'),
+		(12, '社會', '', 'scope', '1','社會領域'),
+		(13, '視覺藝術', '', 'subject', '1','藝術與人文領域'),
+		(14, '音樂', '', 'subject', '1','藝術與人文領域'),
+		(15, '書法', '', 'subject', '1','彈性課程'),
+		(16, '國語-彈', '', 'subject', '1','彈性課程'),
+		(17, '英語-彈', '', 'subject', '1','彈性課程'),
+		(18, '數學-彈', '', 'subject', '1','彈性課程'),
+		(19, '電腦', '', 'subject', '1','彈性課程') ;
 
 
 

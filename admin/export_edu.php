@@ -14,7 +14,9 @@ require_once '../../tadtools/PHPExcel/IOFactory.php';
 /*-----------function區--------------*/
 
 //取得中文班名
-$class_list_c = es_class_name_list_c('long')  ;
+//$class_list_c = es_class_name_list_c('long')  ;
+$class_list_c = get_timetable_class_list_c('long')  ;
+
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
@@ -58,41 +60,39 @@ $s = $data['info']['semester']  ;
 
  	//資料開始
 	//科目
- 	$subject = get_subject_list() ;	
+ 	$subject = get_subject_data_list() ;	
  	//班級
- 	$class_list = get_class_list() ;
+ 	//$class_list = get_class_list() ;
  	//人員
  	$teacher_list = get_table_teacher_list('all') ;
 
- 	$ch_num = array('導師時間/早自習','一','二','三','四','五','六','七','八','九') ;
+ 	$ch_num = array('','一','二','三','四','五','六','七','八','九') ;
  
- 	$sql = " select *   FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   order by  teacher , day ,  sector  " ; 
+ 	$sql = " select  *   FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   order by  teacher , day ,  sector  " ; 
  
  	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
  	//$mi=0 ;
 	while($row_data=$xoopsDB->fetchArray($result)){
-		$day ='週' . $ch_num[$row_data['day'] ];
-		$sector = '第' .   $ch_num[$row_data['sector']]   .'節'   ;
-		$class_year= $ch_num[substr($row_data['class_id'],0,1)]  . '年級';
-		$class_id=  '第' .  substr($row_data['class_id'],1)   .'班'   ;
+		//$day ='週' . $ch_num[$row_data['day'] ];
+		//$sector = '第' .   $ch_num[$row_data['sector']]   .'節'   ;
+		$day =$DEF_SET['week'][$row_data['day']] ; 
+		$sector = $DEF_SET['sects_cht'][$row_data['sector']] ; 
+		$class_year= $ch_num[substr($row_data['class_id'],0,-2)]  . '年級';
+		$class_id=  '第' .  substr($row_data['class_id'],-2)   .'班'   ;
 		$teacher = $teacher_list[$row_data['teacher']];
-		$ss_name = $subject[$row_data['ss_id']];
-		$sub_name_sp = preg_split("/[_-]+/", $ss_name );
-		$sub_scope = $sub_name_sp[0] ;
-		if  ($sub_name_sp[1]) 
-			$sub_name = $sub_name_sp[1] ;
-		else 
-			$sub_name = $sub_name_sp[0] ;
 
-	 
-		$pos = strpos($ss_name, '彈');
-		if ($pos === false) 
-			$sub_kind='領域學習'  ;
-		else {
-			$sub_kind='彈性學習'  ;
-			$sub_scope='彈性課程' ;
-		}	
-		
+		$sub_name = $subject[$row_data['ss_id']]['subject'];
+		$sub_scope = $subject[$row_data['ss_id']]['scope'];
+
+		$sub_local ='' ;
+		if ($sub_name == '本土語言' ) 
+			$sub_local ='閩南語' ;
+
+	 	if ($sub_scope=='彈性課程' ) 
+	 		$sub_kind='彈性學習'  ;
+	 	else 
+	 		$sub_kind='領域學習'  ;
+
 
  
 			$row++ ;
@@ -131,7 +131,7 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_scope.'領域' ) ;		
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_scope ) ;		
 
 			$col ++ ;
 			$col_str =$col .$row ;
@@ -140,7 +140,7 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '') ;		
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_local ) ;		
 
 
 			$col ++ ;

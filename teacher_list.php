@@ -28,8 +28,8 @@ if (! in_array(   $DEF_SET['teacher_group'] , $xoopsUser->groups() )  )
 /*-----------執行動作判斷區----------*/
 
 //取得中文班名
-$data['class_list_c'] = es_class_name_list_c('long')  ;
- 
+//$data['class_list_c'] = es_class_name_list_c('long')  ;
+$data['class_list_c'] = get_timetable_class_list_c('long')  ; 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;

@@ -24,8 +24,38 @@ $DEF_SET['m_sects']=   $xoopsModuleConfig['es_tt_m_sects'] ;
 $DEF_SET['input']=   $xoopsModuleConfig['es_tt_class_input']  ;
 $DEF_SET['grade'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_grade']) ;
 $DEF_SET['teacher_group'] = $xoopsModuleConfig['es_tt_teacher_group'] ;
+
+//$DEF_SET['es_tt_begin']=   $xoopsModuleConfig['es_tt_begin']  ;
+
+//中文節次
+$DEF_SET['sects_cht'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_m_sects_cht']) ;
+$i = 1 ;
+foreach ( $DEF_SET['sects_cht']  as $oi => $sect_name ) {
+	$DEF_SET['sects_cht_list'][$i]  = $sect_name ;
+	$i ++ ;
+}
+
+//特殊班 9901 
+$DEF_SET['spe_class'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_spe_class']) ;
+$i=9901 ;
+foreach ( $DEF_SET['spe_class']  as $oi => $spe_class_name ) {
+	$DEF_SET['spe_class_list'][$i]  =$spe_class_name  ;
+	$i++ ;
+}
+
+$DEF_SET['week'] = array('' ,'週一' ,'週二','週三','週四','週五','週六','週日' );
+
+//課表中要用到特殊班
+function get_timetable_class_list_c($mode='short') {
+	global $DEF_SET ;
+	$class_list = es_class_name_list_c($mode) ;
+
+
+	foreach ($DEF_SET['spe_class_list'] as $class_id => $class_name) 
+		$class_list[$class_id] = $class_name ;
  
-//
+	return $class_list ;
+}
 
 
 function get_timetable_info() {
@@ -103,12 +133,25 @@ function get_class_room_list( $y ,$s ) {
 
 
 function get_subject_list() {
-	//取得目前的科目名稱
+	//取得科目名稱
 	global  $xoopsDB ;
 	$sql =  "  SELECT  subject_id , subject_name   FROM " . $xoopsDB->prefix("es_timetable_subject") . " order by subject_id  " ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
 		$data[$row['subject_id']] = $row['subject_name'] ;
+	}	
+	return $data ;	
+	
+}	
+
+function get_subject_data_list() {
+	//取得科目資料庫中多欄位
+	global  $xoopsDB ;
+	$sql =  "  SELECT  subject_id , subject_name ,subject_scope   FROM " . $xoopsDB->prefix("es_timetable_subject") . " order by subject_id  " ;
+	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+		$data[$row['subject_id']]['subject'] = $row['subject_name'] ;
+		$data[$row['subject_id']]['scope'] = $row['subject_scope'] ;
 	}	
 	return $data ;	
 	

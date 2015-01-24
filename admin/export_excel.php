@@ -14,7 +14,10 @@ require_once '../../tadtools/PHPExcel/IOFactory.php';
 /*-----------function區--------------*/
 
 //取得中文班名
-$class_list_c = es_class_name_list_c()  ;
+//$class_list_c = es_class_name_list_c()  ;
+$class_list_c = get_timetable_class_list_c()  ;
+
+
 /*-----------執行動作判斷區----------*/
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
@@ -61,7 +64,7 @@ if  ($_GET['mode']) {
 			$col++ ;
 			$col_str =$col .$row ;
 			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('6');
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "$i-$s") ;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "$i-" . mb_substr($DEF_SET['sects_cht_list'][$s] ,1,1 ,"utf-8") ) ;
 		}	
 			
 
