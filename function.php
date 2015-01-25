@@ -81,7 +81,9 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all' ) {
  
 	if ($mode == 'teacher' )  
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'     order by teacher,day,sector " ;
- 
+ 	
+
+
  	if ($mode =='class_id' )  {
 		if  ($class_sel =='all') 
 			$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'     order by class_id,day,sector   " ; 
