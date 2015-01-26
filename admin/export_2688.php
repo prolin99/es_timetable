@@ -23,9 +23,8 @@ $data['info'] = get_timetable_info() ;
 
 
 
-$_GET['mode'] = 'teacher' ;
-if  ($_GET['mode']) {
-	$mid =$_GET['mode'] ;
+ 
+if  ($_POST['do_2688']) {
  
 	//取得 
 	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ) ;
@@ -35,13 +34,16 @@ if  ($_GET['mode']) {
  	$subject= get_subject_list() ;	
 	//讀取人名
 	$teacher_list = get_table_teacher_data() ;
-	
-	//取得級任姓名
+	//var_dump($teacher_list ) ;
+
+	//取得級任姓名 
 	$class_teacher_list = get_class_teacher_list() ;
  
  
  //
-	$date = '2015-01-01' ;
+ 
+	$date = date('Y-m' , strtotime($_POST['beg_date']) ) . '-01' ;
+ 
 	$w = date( 'N' ,strtotime($date)) -1 ;
 	$this_m =  date('m' , strtotime($date))  ;
 	$beg_week_date =    strtotime("- $w day",strtotime($date)) ;
@@ -51,7 +53,7 @@ if  ($_GET['mode']) {
  
 	//$this_month_last  = date( 'd' , strtotime(date('Ymd' ,$next_m)."-1 day") ) ;
 	$this_month_last  = date( 'd' ,  $next_m-60*60*24 ) ;
- 
+  
 
  	$objPHPExcel = new PHPExcel();
 	$objPHPExcel->setActiveSheetIndex(0);  //設定預設顯示的工作表
@@ -62,16 +64,24 @@ if  ($_GET['mode']) {
 	$objBorder->getBottom()
           	->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)
           	->getColor()->setRGB('000000'); 
+
+	//$objBorder=$objActSheet->getDefaultStyle()->getBorders();
+	$objBorder->getLeft()
+          	->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)
+          	->getColor()->setRGB('000000');           	
 	$objActSheet->getDefaultRowDimension()->setRowHeight(45);
 
 	
 	$row= 1 ;
 foreach ($timetable as $key =>	$table_data) {
-	if ($teacher_list[$key]['kind'] <> 2 )
-		return ;	
+   if ($teacher_list[$key]['kind'] ==2 ) {
+ 
+ 
        //標題行
       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期教育部增置教師授課 ' .  $teacher_list[$key]['name'] . '104年1月份簽到簿' );
+      	$objPHPExcel->getActiveSheet()->mergeCells('A'.$row.':K'.$row);
        	$col ='A' ;
+
        	//列寬
        	//$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth('10');
 
@@ -87,8 +97,8 @@ foreach ($timetable as $key =>	$table_data) {
        			}
        		}		
 
-
        	}
+       	//var_dump($wd_have_class) ;
  	
 	for ($i=1 ; $i <=$this_month_last ; $i++)  {
 		$s  = date( 'N' , $do_day    ) ;
@@ -119,7 +129,7 @@ foreach ($timetable as $key =>	$table_data) {
 
 	$row= $row+10 ;
  
-
+  }
 }
  
 	header('Content-Type: application/vnd.ms-excel');

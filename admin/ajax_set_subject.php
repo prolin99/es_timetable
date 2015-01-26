@@ -12,7 +12,7 @@ include_once "header.php";
 
 if ( $_GET['id'] and $_GET['setdata']) {
 	list( $name,$id) =preg_split('/[_]/' ,$_GET['id'])  ;
-	$nsubj = $_GET['setdata'] ;
+	$nsubj = trim($_GET['setdata']) ;
 	$id = intval($id) ;
 
 	if ($name=='scope') 

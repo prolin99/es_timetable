@@ -81,8 +81,8 @@ $s = $data['info']['semester']  ;
 		$class_id=  '第' .  substr($row_data['class_id'],-2)   .'班'   ;
 		$teacher = $teacher_list[$row_data['teacher']];
 
-		$sub_name = $subject[$row_data['ss_id']]['subject'];
-		$sub_scope = $subject[$row_data['ss_id']]['scope'];
+		$sub_name = trim($subject[$row_data['ss_id']]['subject']);
+		$sub_scope = trim($subject[$row_data['ss_id']]['scope']);
 
 		$sub_local ='' ;
 		if ($sub_name == '本土語言' ) 
