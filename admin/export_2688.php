@@ -56,19 +56,33 @@ if  ($_POST['do_2688']) {
   
 
  	$objPHPExcel = new PHPExcel();
+
+
 	$objPHPExcel->setActiveSheetIndex(0);  //設定預設顯示的工作表
+ 	//橫向
+	$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);	
+
+	//大小
+	$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+
+
 	$objActSheet = $objPHPExcel->getActiveSheet(); //指定預設工作表為 $objActSheet
 	$objActSheet->setTitle("教師總表");  //設定標題	
+
+ /*
   	//設定框線
 	$objBorder=$objActSheet->getDefaultStyle()->getBorders();
 	$objBorder->getBottom()
           	->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)
           	->getColor()->setRGB('000000'); 
+ 
 
 	//$objBorder=$objActSheet->getDefaultStyle()->getBorders();
 	$objBorder->getLeft()
           	->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)
           	->getColor()->setRGB('000000');           	
+*/
+
 	$objActSheet->getDefaultRowDimension()->setRowHeight(45);
 
 	
@@ -99,6 +113,25 @@ foreach ($timetable as $key =>	$table_data) {
 
        	}
        	//var_dump($wd_have_class) ;
+
+       	//節次
+       	$col_str = 'A' . ($row) ;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '日期') ;       	
+		$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('20');		
+       	$col_str = 'A' . ($row+1) ;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '星期') ;
+		$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('20');		
+       	for ($i =1 ; $i <= $DEF_SET['sects'] ; $i++ ) {
+       		$col_str = 'A' . ($row+$i+1) ;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['sects_cht_list'][$i] ) ;
+       	}
+       	$col_str = 'A' . ($row+$i) ;
+       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '簽到' ) ;
+       	$col_str = 'B' . ($row+$i +1 ) ;
+       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '共                  節' ) ;
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$i+1)->setRowHeight('20');	
+	//加入換頁
+	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$i +2 )  , PHPExcel_Worksheet::BREAK_ROW);
  	
 	for ($i=1 ; $i <=$this_month_last ; $i++)  {
 		$s  = date( 'N' , $do_day    ) ;
@@ -127,7 +160,7 @@ foreach ($timetable as $key =>	$table_data) {
 		$do_day =  $do_day+ 60*60*24  ;
 	}	
 
-	$row= $row+10 ;
+	$row= $row+11 ;
  
   }
 }
