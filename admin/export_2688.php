@@ -105,7 +105,8 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 	$row= 1 ;
 foreach ($timetable as $key =>	$table_data) {
    if ($teacher_list[$key]['kind'] ==2 ) {
- 
+ 	unset($wd_have_class) ;
+ 	$sect_list= 0 ;
  
        //標題行
    	$objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(14);
@@ -119,7 +120,7 @@ foreach ($timetable as $key =>	$table_data) {
 	$row++ ;
        	$do_day = strtotime($date) ;
 
-       	unset($wd_have_class) ;
+       	
        	//有排課的那些天
        	for ($d=1 ; $d <= $DEF_SET['days'] ; $d++ )  {
        		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
@@ -165,11 +166,6 @@ foreach ($timetable as $key =>	$table_data) {
 	cell_border($objPHPExcel , $col_str )  ;	
 
 
-       	$col_str = 'B' . ($row+$DEF_SET['sects'] +4) ;
-       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '共                  節' ) ;
-       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+4)->setRowHeight('20');	
-       	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
-       	$objPHPExcel->getActiveSheet()->getStyle('C' . ($row+$DEF_SET['sects'] +4) )->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 
 	//加入換頁
 	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$DEF_SET['sects']+4 )  , PHPExcel_Worksheet::BREAK_ROW);
@@ -216,6 +212,8 @@ foreach ($timetable as $key =>	$table_data) {
 				$row2 = $row+$ss+2 ;
 				$col_str =$col . $row2 ;
  				$cell_doc = $class_list_c[$table_data[$s][$ss]['class_id']] ."\n" . $subject[$table_data[$s][$ss]['ss_id']]   ;
+ 				if  ($table_data[$s][$ss]['class_id'])
+ 					$sect_list++ ;		//有課數
  				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $cell_doc  ) ;
  				//框線
 				cell_border($objPHPExcel , $col_str , $thick_left)  ;	
@@ -235,6 +233,12 @@ foreach ($timetable as $key =>	$table_data) {
 	//周次右線
 	$col_str =$col . $row ;
 	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+
+       	$col_str = 'B' . ($row+$DEF_SET['sects'] +4) ;
+       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "共  $sect_list   節" ) ;
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+4)->setRowHeight('20');	
+       	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+       	$objPHPExcel->getActiveSheet()->getStyle('C' . ($row+$DEF_SET['sects'] +4) )->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 
 	$row= $row+$DEF_SET['sects']+5  ;
  
