@@ -22,6 +22,7 @@ $DEF_SET['sects']=   $xoopsModuleConfig['es_tt_sects']  ;
 $DEF_SET['sects_sm']=   $xoopsModuleConfig['es_tt_sects'] +1 ;
 $DEF_SET['m_sects']=   $xoopsModuleConfig['es_tt_m_sects'] ;
 $DEF_SET['input']=   $xoopsModuleConfig['es_tt_class_input']  ;
+$DEF_SET['es_tt_local']=   $xoopsModuleConfig['es_tt_local']  ;
 $DEF_SET['grade'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_grade']) ;
 $DEF_SET['teacher_group'] = $xoopsModuleConfig['es_tt_teacher_group'] ;
 
@@ -29,9 +30,18 @@ $DEF_SET['teacher_group'] = $xoopsModuleConfig['es_tt_teacher_group'] ;
 
 //中文節次
 $DEF_SET['sects_cht'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_m_sects_cht']) ;
+
 $i = 1 ;
 foreach ( $DEF_SET['sects_cht']  as $oi => $sect_name ) {
 	$DEF_SET['sects_cht_list'][$i]  = $sect_name ;
+	$i ++ ;
+}
+
+//time
+$time_list= preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_m_sects_time']) ;
+$i = 1 ;
+foreach ( $time_list  as $oi => $sect_name ) {
+	$DEF_SET['time_list'][$i]  = $sect_name ;
 	$i ++ ;
 }
 

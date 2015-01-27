@@ -121,6 +121,13 @@ $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default'] ="第一節,第二節,第三節,第四節,第五節,第六節,第七節";
 
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_m_sects_time';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_Time';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DTime';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] ="8:40~9:20,9:30~10:10,10:30~11:10,11:10~12:00,13:30~14:10,14:20~15:00,15:10~15:50";
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_class_input';
@@ -146,6 +153,13 @@ $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default'] ="" ;
 
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_local';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_Tlocal';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_Dlocal';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] ="閩南語" ;
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_teacher_group';

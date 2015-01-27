@@ -46,6 +46,7 @@ if  ($_POST['do_2688']) {
  
 	$w = date( 'N' ,strtotime($date)) -1 ;
 	$this_m =  date('m' , strtotime($date))  ;
+	$this_y = date('Y', strtotime($date)) -1911  ;
 	$beg_week_date =    strtotime("- $w day",strtotime($date)) ;
 
  
@@ -54,11 +55,14 @@ if  ($_POST['do_2688']) {
 	//$this_month_last  = date( 'd' , strtotime(date('Ymd' ,$next_m)."-1 day") ) ;
 	$this_month_last  = date( 'd' ,  $next_m-60*60*24 ) ;
 
-function cell_border($objPHPExcel , $cell ) {
+function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 		//設定框線
 		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
-		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+		if ($thick_left )
+			$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK );  
+		else 	
+			$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  	
 }
 
@@ -77,7 +81,7 @@ function cell_border($objPHPExcel , $cell ) {
 
 
 	$objActSheet = $objPHPExcel->getActiveSheet(); //指定預設工作表為 $objActSheet
-	$objActSheet->setTitle("教師總表");  //設定標題	
+	$objActSheet->setTitle("2688簽名");  //設定標題	
 
  /*
   	//設定框線
@@ -105,7 +109,7 @@ foreach ($timetable as $key =>	$table_data) {
  
        //標題行
    	$objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(14);
-      	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期教育部增置教師授課 ' .  $teacher_list[$key]['name'] . '104年1月份簽到簿' );
+      	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期教育部增置教師授課 ' .  $teacher_list[$key]['name'] . "$this_y 年 $this_m 月份簽到簿" );
       	//$objPHPExcel->getActiveSheet()->mergeCells('A'.$row.':K'.$row);
        	$col ='A' ;
 
@@ -155,7 +159,7 @@ foreach ($timetable as $key =>	$table_data) {
        	}
 
        	$col_str = 'A' . ($row+$DEF_SET['sects']+3) ;
-       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '簽到' ) ;
+       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "簽 \n\n到" ) ;
        	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+3)->setRowHeight('60');	
        	//框線
 	cell_border($objPHPExcel , $col_str )  ;	
@@ -164,6 +168,9 @@ foreach ($timetable as $key =>	$table_data) {
        	$col_str = 'B' . ($row+$DEF_SET['sects'] +4) ;
        	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '共                  節' ) ;
        	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+4)->setRowHeight('20');	
+       	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+       	$objPHPExcel->getActiveSheet()->getStyle('C' . ($row+$DEF_SET['sects'] +4) )->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+
 	//加入換頁
 	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$DEF_SET['sects']+4 )  , PHPExcel_Worksheet::BREAK_ROW);
  	
@@ -175,13 +182,6 @@ foreach ($timetable as $key =>	$table_data) {
  		
 			$col++ ;
 
-			//日期
-			$col_str =$col . ($row+1) ;
-			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('7');
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , date( 'm-d' , $do_day    ) ) ;
-			//框線
-			cell_border($objPHPExcel , $col_str )  ;	
-
 			//周別
  			$col_str =$col . $row ;
 			//框線
@@ -189,9 +189,20 @@ foreach ($timetable as $key =>	$table_data) {
 			$week  = date('W', $do_day);
 			if ($old_week <> $week ) {
 				//left 
-				$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+				$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK );  
 				$old_week = $week ;
-			} 
+				$thick_left= true ;
+			} else 
+				$thick_left= False ;
+
+			//日期
+			$col_str =$col . ($row+1) ;
+			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('7');
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , date( 'm-d' , $do_day    ) ) ;
+			//框線
+			cell_border($objPHPExcel , $col_str  , $thick_left)  ;	
+
+
 				
 			
 			$row2 = $row+2 ;
@@ -199,7 +210,7 @@ foreach ($timetable as $key =>	$table_data) {
 			$col_str =$col . $row2 ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['week'][$s] ) ;
 			//框線
-			cell_border($objPHPExcel , $col_str )  ;	
+			cell_border($objPHPExcel , $col_str , $thick_left)  ;	
 
 			for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
 				$row2 = $row+$ss+2 ;
@@ -207,14 +218,14 @@ foreach ($timetable as $key =>	$table_data) {
  				$cell_doc = $class_list_c[$table_data[$s][$ss]['class_id']] ."\n" . $subject[$table_data[$s][$ss]['ss_id']]   ;
  				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $cell_doc  ) ;
  				//框線
-				cell_border($objPHPExcel , $col_str )  ;	
+				cell_border($objPHPExcel , $col_str , $thick_left)  ;	
 
  			}	
 
  	 		//簽到格框線
 			$col_str =$col . ($row+ $DEF_SET['sects']+3) ;
  			//框線
-			cell_border($objPHPExcel , $col_str )  ;
+			cell_border($objPHPExcel , $col_str ,$thick_left )  ;
 
  
  		}
@@ -231,7 +242,7 @@ foreach ($timetable as $key =>	$table_data) {
 }
  
 	header('Content-Type: application/vnd.ms-excel');
-	header('Content-Disposition: attachment;filename=teacher_all'.date("mdHi").'.xls' );
+	header('Content-Disposition: attachment;filename=2688'.date("mdHi").'.xls' );
 	header('Cache-Control: max-age=0');
 
 	//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
