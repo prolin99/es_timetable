@@ -29,7 +29,7 @@ $adminmenu[$i]['desc'] = '課表編排';
 $adminmenu[$i]['icon'] = 'images/admin/logadm.png';
 
 $i++ ;
-$adminmenu[$i]['title'] = "指定教室";
+$adminmenu[$i]['title'] = "指定教室，超鐘點";
 $adminmenu[$i]['link'] = "admin/set_room.php";
 $adminmenu[$i]['desc'] = '指定教室';
 $adminmenu[$i]['icon'] = 'images/admin/logadm.png';
