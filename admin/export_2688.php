@@ -53,7 +53,17 @@ if  ($_POST['do_2688']) {
  
 	//$this_month_last  = date( 'd' , strtotime(date('Ymd' ,$next_m)."-1 day") ) ;
 	$this_month_last  = date( 'd' ,  $next_m-60*60*24 ) ;
-  
+
+function cell_border($objPHPExcel , $cell ) {
+		//設定框線
+		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  	
+}
+
+
+//--------------------------------------------------------------------  
 
  	$objPHPExcel = new PHPExcel();
 
@@ -83,17 +93,20 @@ if  ($_POST['do_2688']) {
           	->getColor()->setRGB('000000');           	
 */
 
-	$objActSheet->getDefaultRowDimension()->setRowHeight(45);
+	$objActSheet->getDefaultRowDimension()->setRowHeight(30);
+	$objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->setSize(10);
+	  	
 
-	
+
 	$row= 1 ;
 foreach ($timetable as $key =>	$table_data) {
    if ($teacher_list[$key]['kind'] ==2 ) {
  
  
        //標題行
+   	$objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(14);
       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期教育部增置教師授課 ' .  $teacher_list[$key]['name'] . '104年1月份簽到簿' );
-      	$objPHPExcel->getActiveSheet()->mergeCells('A'.$row.':K'.$row);
+      	//$objPHPExcel->getActiveSheet()->mergeCells('A'.$row.':K'.$row);
        	$col ='A' ;
 
        	//列寬
@@ -102,7 +115,8 @@ foreach ($timetable as $key =>	$table_data) {
 	$row++ ;
        	$do_day = strtotime($date) ;
 
-       	//check day of week have class 
+       	unset($wd_have_class) ;
+       	//有排課的那些天
        	for ($d=1 ; $d <= $DEF_SET['days'] ; $d++ )  {
        		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
        			if ($table_data[$d][$ss]['ss_id'])  {
@@ -116,51 +130,102 @@ foreach ($timetable as $key =>	$table_data) {
 
        	//節次
        	$col_str = 'A' . ($row) ;
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '日期') ;       	
-		$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('20');		
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '周別') ;       	
+		$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('15');		
+		//框線
+		cell_border($objPHPExcel , $col_str )  ;	       	
+
        	$col_str = 'A' . ($row+1) ;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '日期') ;       	
+		$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('15');		
+		//框線
+		cell_border($objPHPExcel , $col_str )  ;	
+
+       	$col_str = 'A' . ($row+2) ;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '星期') ;
-		$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('20');		
+		$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');		
+		//框線
+		cell_border($objPHPExcel , $col_str )  ;	
+
        	for ($i =1 ; $i <= $DEF_SET['sects'] ; $i++ ) {
-       		$col_str = 'A' . ($row+$i+1) ;
+       		$col_str = 'A' . ($row+$i+2) ;
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['sects_cht_list'][$i] ) ;
+		//框線
+		cell_border($objPHPExcel , $col_str )  ;			
        	}
-       	$col_str = 'A' . ($row+$i) ;
+
+       	$col_str = 'A' . ($row+$DEF_SET['sects']+3) ;
        	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '簽到' ) ;
-       	$col_str = 'B' . ($row+$i +1 ) ;
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+3)->setRowHeight('60');	
+       	//框線
+	cell_border($objPHPExcel , $col_str )  ;	
+
+
+       	$col_str = 'B' . ($row+$DEF_SET['sects'] +4) ;
        	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '共                  節' ) ;
-       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$i+1)->setRowHeight('20');	
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+4)->setRowHeight('20');	
 	//加入換頁
-	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$i +2 )  , PHPExcel_Worksheet::BREAK_ROW);
+	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$DEF_SET['sects']+4 )  , PHPExcel_Worksheet::BREAK_ROW);
  	
+ 	//課表，只呈現有課的當天
 	for ($i=1 ; $i <=$this_month_last ; $i++)  {
 		$s  = date( 'N' , $do_day    ) ;
 		if ( ($s <= $DEF_SET['days'])  and in_array($s, $wd_have_class) ) {
 
- 
-
+ 		
 			$col++ ;
-			$row2 = $row+1 ;
-			$col_str =$col . $row ;
-			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('6');
+
+			//日期
+			$col_str =$col . ($row+1) ;
+			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('7');
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , date( 'm-d' , $do_day    ) ) ;
+			//框線
+			cell_border($objPHPExcel , $col_str )  ;	
+
+			//周別
+ 			$col_str =$col . $row ;
+			//框線
+			$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+			$week  = date('W', $do_day);
+			if ($old_week <> $week ) {
+				//left 
+				$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+				$old_week = $week ;
+			} 
+				
+			
+			$row2 = $row+2 ;
+			//星期...
 			$col_str =$col . $row2 ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['week'][$s] ) ;
+			//框線
+			cell_border($objPHPExcel , $col_str )  ;	
 
 			for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-				$row2 = $row+$ss+1 ;
+				$row2 = $row+$ss+2 ;
 				$col_str =$col . $row2 ;
  				$cell_doc = $class_list_c[$table_data[$s][$ss]['class_id']] ."\n" . $subject[$table_data[$s][$ss]['ss_id']]   ;
  				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $cell_doc  ) ;
+ 				//框線
+				cell_border($objPHPExcel , $col_str )  ;	
 
  			}	
+
+ 	 		//簽到格框線
+			$col_str =$col . ($row+ $DEF_SET['sects']+3) ;
+ 			//框線
+			cell_border($objPHPExcel , $col_str )  ;
+
  
  		}
  
 		$do_day =  $do_day+ 60*60*24  ;
 	}	
+	//周次右線
+	$col_str =$col . $row ;
+	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 
-	$row= $row+11 ;
+	$row= $row+$DEF_SET['sects']+5  ;
  
   }
 }
