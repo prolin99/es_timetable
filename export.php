@@ -41,18 +41,19 @@ $data['info'] = get_timetable_info() ;
 	$PHPWord = new PHPWord();
 	//$section = $PHPWord->createSection();
 	
- 
+ /*
  	$PHPWord->setDefaultFontName('標楷體'); //設定預設字型
 	$PHPWord->setDefaultFontSize(14);     //設定預設字型大小
+	*/
  	
 /*
 	$sectionStyle = array('orientation' => null,  'marginLeft' => 900); //頁面設定（orientation 的值可以是橫向landscape或直向portrait。設定項目有：orientation、marginTop、marginLeft、marginRight、marginBottom、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
 	$section = $PHPWord->createSection($sectionStyle); //建立一個頁面
 */	
 	$section = $PHPWord->createSection(); //建立一個頁面
-	$styleFont_h1 = array('name'=>'Tahoma',  'size'=>32, 'bold'=>true);
+	$styleFont_h1 = array('name'=>'Tahoma',  'size'=>24, 'bold'=>true);
 	$styleParagraph_h1 = array('align'=>'center', 'spaceAfter'=>100);
-	$styleFont_h2 = array('name'=>'Tahoma',  'size'=>24, 'bold'=>true);
+	$styleFont_h2 = array('name'=>'Tahoma',  'size'=>18, 'bold'=>true);
 	$styleParagraph_h2 = array('align'=>'center', 'spaceAfter'=>100);	
 	//
 	$style_cell = array('align'=>'center');	
@@ -65,6 +66,9 @@ $data['info'] = get_timetable_info() ;
 	
 	$styleFont_cell_top =  array('name'=>'Tahoma',  'size'=>14 , 'bold'=>true);
 	$style_cell_top = array('align'=>'center');	
+
+	$styleFont_cell_left =  array('name'=>'Tahoma',  'size'=>12 , 'bold'=>true );
+	$style_cell_left  = array('align'=>'center');		
 	
 	/*
 	$styleTable = array('borderColor'=>'006699', 'borderSize'=>6, 'cellMargin'=>50); //表格樣式（可用設定：cellMarginTop、cellMarginLeft、cellMarginRight、cellMarginBottom、cellMargin、bgColor、 borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor、borderInsideHSize、borderInsideHColor、borderInsideVSize、borderInsideVColor、borderSize、borderColor）
@@ -101,8 +105,8 @@ foreach ($timetable as $key =>	$table_data) {
 	//課表內容	
  	for ($s=1 ; $s <= $DEF_SET['sects'] ; $s++ )  {
 		$table->addRow(); //新增一列
-		
-		$table->addCell(1000,$cellStyle )->addText( $DEF_SET['sects_cht_list'][$s]  ,$styleFont_cell_top,$style_cell_top); //新增一格
+		$time_str = preg_replace('/[~-]/', "~\n", $DEF_SET['time_list'][$s] );
+		$table->addCell(1000,$cellStyle )->addText( $DEF_SET['sects_cht_list'][$s]  ."\n $time_str"  ,$styleFont_cell_left ,$style_cell_left ); //新增一格
 		for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  {
 			if ($mid =='teacher') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$table_data[$i][$s]['room'] ;
 			if ($mid =='class_id') $cell_doc =  $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ."\n" .$table_data[$i][$s]['room'] ;

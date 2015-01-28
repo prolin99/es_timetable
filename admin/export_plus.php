@@ -24,12 +24,13 @@ $data['info'] = get_timetable_info() ;
 
 
  
-if  ($_POST['do_2688']) {
+if  ($_POST['do_plus']) {
  
-	//取得 
-	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ) ;
+	//取得超鐘點部份
+	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] , 'all' , 'plus') ;
  
 	//var_dump( $timetable ) ;
+ 
 	//科目
  	$subject= get_subject_list() ;	
 	//讀取人名
@@ -74,14 +75,14 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 
 	$objPHPExcel->setActiveSheetIndex(0);  //設定預設顯示的工作表
  	//橫向
-	$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);	
+	//$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);	
 
 	//大小
 	$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
 
 
 	$objActSheet = $objPHPExcel->getActiveSheet(); //指定預設工作表為 $objActSheet
-	$objActSheet->setTitle("2688簽名");  //設定標題	
+	$objActSheet->setTitle("簽名表");  //設定標題	
 
  /*
   	//設定框線
@@ -104,13 +105,13 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 
 	$row= 1 ;
 foreach ($timetable as $key =>	$table_data) {
-   if ($teacher_list[$key]['kind'] ==2 ) {
- 	unset($wd_have_class) ;
- 	$sect_list= 0 ;
+	unset($wd_have_class) ;
+	unset($sect_have_class) ;
+ 
  
        //標題行
    	$objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(14);
-      	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期教育部增置教師授課 ' .  $teacher_list[$key]['name'] . "$this_y 年 $this_m 月份簽到簿" );
+      	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$data['info']['year'].'學年度第' .$data['info']['semester'] .'學期' .  $teacher_list[$key]['name'] . "$this_y 年 $this_m 月份超鐘點簽到簿" );
       	//$objPHPExcel->getActiveSheet()->mergeCells('A'.$row.':K'.$row);
        	$col ='A' ;
 
@@ -121,17 +122,19 @@ foreach ($timetable as $key =>	$table_data) {
        	$do_day = strtotime($date) ;
 
        	
+
        	//有排課的那些天
        	for ($d=1 ; $d <= $DEF_SET['days'] ; $d++ )  {
        		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
        			if ($table_data[$d][$ss]['ss_id'])  {
-       				$wd_have_class[]= $d ;	
-       				continue ;
+       				$wd_have_class[$d]= $d ;	
+				$sect_have_class[$ss]= $ss ;	
        			}
        		}		
-
        	}
-       	//var_dump($wd_have_class) ;
+       	$show_sects= count($sect_have_class) ;
+       	//var_dump($sect_have_class) ;
+
 
        	//節次
        	$col_str = 'A' . ($row) ;
@@ -152,23 +155,33 @@ foreach ($timetable as $key =>	$table_data) {
 		//框線
 		cell_border($objPHPExcel , $col_str )  ;	
 
+	$ci=0 ;	
        	for ($i =1 ; $i <= $DEF_SET['sects'] ; $i++ ) {
-       		$col_str = 'A' . ($row+$i+2) ;
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['sects_cht_list'][$i] ) ;
-		//框線
-		cell_border($objPHPExcel , $col_str )  ;			
+       		
+       		if  ( in_array($i, $sect_have_class)  ) {
+       			$ci++ ;
+       			$col_str = 'A' . ($row+$ci+2) ;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $DEF_SET['sects_cht_list'][$i] ) ;
+			//框線
+			cell_border($objPHPExcel , $col_str )  ;			
+		}	
        	}
 
-       	$col_str = 'A' . ($row+$DEF_SET['sects']+3) ;
+       	$col_str = 'A' . ($row+$show_sects+3) ;
        	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "簽 \n\n到" ) ;
-       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+3)->setRowHeight('60');	
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$show_sects+3)->setRowHeight('60');	
        	//框線
 	cell_border($objPHPExcel , $col_str )  ;	
 
 
+       	$col_str = 'B' . ($row+$show_sects+4) ;
+       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '共                  節' ) ;
+       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$show_sects+4)->setRowHeight('20');	
+       	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
+       	$objPHPExcel->getActiveSheet()->getStyle('C' . ($row+$show_sects +4) )->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 
 	//加入換頁
-	$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$DEF_SET['sects']+4 )  , PHPExcel_Worksheet::BREAK_ROW);
+	//$objPHPExcel->setActiveSheetIndex(0)->setBreak('A' . ($row+$DEF_SET['sects']+4 )  , PHPExcel_Worksheet::BREAK_ROW);
  	
  	//課表，只呈現有課的當天
 	for ($i=1 ; $i <=$this_month_last ; $i++)  {
@@ -193,7 +206,7 @@ foreach ($timetable as $key =>	$table_data) {
 
 			//日期
 			$col_str =$col . ($row+1) ;
-			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('7');
+			$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('9');
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , date( 'm-d' , $do_day    ) ) ;
 			//框線
 			cell_border($objPHPExcel , $col_str  , $thick_left)  ;	
@@ -208,20 +221,23 @@ foreach ($timetable as $key =>	$table_data) {
 			//框線
 			cell_border($objPHPExcel , $col_str , $thick_left)  ;	
 
+			$ci=0 ;
 			for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-				$row2 = $row+$ss+2 ;
-				$col_str =$col . $row2 ;
- 				$cell_doc = $class_list_c[$table_data[$s][$ss]['class_id']] ."\n" . $subject[$table_data[$s][$ss]['ss_id']]   ;
- 				if  ($table_data[$s][$ss]['class_id'])
- 					$sect_list++ ;		//有課數
- 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $cell_doc  ) ;
- 				//框線
-				cell_border($objPHPExcel , $col_str , $thick_left)  ;	
+				
+				if  ( in_array($ss, $sect_have_class)  ) {
+					$ci++ ;
+					$row2 = $row+$ci+2 ;
+					$col_str =$col . $row2 ;
+ 					$cell_doc = $class_list_c[$table_data[$s][$ss]['class_id']] ."\n" . $subject[$table_data[$s][$ss]['ss_id']]   ;
+ 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $cell_doc  ) ;
+ 					//框線
+					cell_border($objPHPExcel , $col_str , $thick_left)  ;	
+				}
 
  			}	
 
  	 		//簽到格框線
-			$col_str =$col . ($row+ $DEF_SET['sects']+3) ;
+			$col_str =$col . ($row+ $show_sects+3) ;
  			//框線
 			cell_border($objPHPExcel , $col_str ,$thick_left )  ;
 
@@ -234,15 +250,9 @@ foreach ($timetable as $key =>	$table_data) {
 	$col_str =$col . $row ;
 	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
 
-       	$col_str = 'B' . ($row+$DEF_SET['sects'] +4) ;
-       	$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , "共  $sect_list   節" ) ;
-       	$objPHPExcel->getActiveSheet()->getRowDimension($row+$DEF_SET['sects']+4)->setRowHeight('20');	
-       	$objPHPExcel->getActiveSheet()->getStyle($col_str)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
-       	$objPHPExcel->getActiveSheet()->getStyle('C' . ($row+$DEF_SET['sects'] +4) )->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
-
-	$row= $row+$DEF_SET['sects']+5  ;
+	$row= $row+$show_sects+5  ;
  
-  }
+
 }
  
 	header('Content-Type: application/vnd.ms-excel');

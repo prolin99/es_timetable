@@ -18,7 +18,12 @@
 .teacher_set {
  
     border: 1px dotted gray;
- 
+
+.text-grey {
+  color: red;
+opacity:0.5;
+  filter:alpha(opacity=50); /* For IE8 and earlier */  
+} 
 }
 </style>
  
@@ -63,6 +68,12 @@
           <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
            <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].class_id) }>
            <input id="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" value="<{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>" class="span8 text_edit" title="移開後自動存入" type="text">
+           <{if  ($tab[$smarty.section.di.index][$smarty.section.si.index].c_kind) }>
+              <span class="plus" id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" data='1'><i   class='icon-plus-sign' title='超鐘點'> </i></span>
+           <{else}>
+            
+              <span class="plus"  id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
+           <{/if}>
            <{/if}>
           <br /></div>
 		 
@@ -78,7 +89,14 @@
       
       </div><!-- box1 end-->
       
+      <div class="alert alert-info">
+        <p>
+            <span class="label label-info">說明</span><br />
+            科任教室才需設定教室位置，可做出該科任教室的課表。<br />
+            點選圖示：<i   class="icon-minus" title='非超鐘點'> </i>，可以指定為超鐘點<i   class='icon-plus-sign' title='超鐘點'> </i>。方便列印簽到表。<br />
  
+        </p>  
+      </div> 
       
 <SCRIPT type="text/javascript">
  
@@ -92,6 +110,23 @@ $(function() {
   });
 });  
   
+//超時鐘點
+  $(document).on("click", ".plus", function(){
+      var div_id = $(this).attr("id")  ;
+      var id_num = $(this).attr("id_num")  ;
+      var in_plus = $(this).attr("data")  ;
+      
+      if (in_plus=='1') {
+        
+        $('#' + div_id).html( "<i   class='icon-minus' title='非超鐘點'>") ;
+        $('#' + div_id).attr("data","0") ;
+      }else {
+        $('#' + div_id).html( "<i   class='icon-plus-sign' title='超鐘點'>") ;
+        $('#' + div_id).attr("data", "1") ;
+      }
+      save_teacher_room( 'plus' , id_num ,  'plus' ) ;
+   });  
+
  //寫入 
  function save_teacher_room(do_mode ,tid , sdata )  {
     $.ajax({

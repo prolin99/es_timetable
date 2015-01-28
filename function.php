@@ -86,12 +86,16 @@ function get_timetable_info() {
 }	
 
 //取出課表內容
-function get_timetable_data($mode, $y ,$s , $class_sel='all' ) {
+function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $plus='') {
 	global  $xoopsDB ;
  
+ 	if ($plus=='plus')
+ 		//超鐘點部份，只在 teacher 模式
+ 		$where_plus = "  and c_kind ='1'  " ;
+
+
 	if ($mode == 'teacher' )  
-		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'     order by teacher,day,sector " ;
- 	
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'   $where_plus     order by teacher,day,sector " ;
 
 
  	if ($mode =='class_id' )  {
