@@ -19,21 +19,17 @@
 	<a class="btn btn-inverse" href="export_subject.php">班級配課表匯出</a>
         <a class="btn btn-inverse" href="export_edu.php" title='身份證、科目領域資料要自行修正'>教育部課表匯出</a>
   <br />
-    <form action="export_2688.php" enctype="multipart/form-data" method="post">
+    <form action="export_sign.php" enctype="multipart/form-data" method="post">
     <fieldset>	
-    月份：<input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定列印月份"> 
+    <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定開始日期"> 
+    <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='end_date'  class='span2'   value="<{$data.end_date}>" placeholder="指定結束日期"> 
     <button type="submit" name="do_2688"  value='2688' class="btn btn-success">2688簽到表</button>
+    <button type="submit" name="do_plus"  value='超鐘點' class="btn btn-primary">超鐘點簽到表</button>
 
     </fieldset>
     </form>    
 
-    
-    <form action="export_plus.php" enctype="multipart/form-data" method="post">
-    <fieldset>  
-    月份：<input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定列印月份"> 
-    <button type="submit" name="do_plus"  value='超鐘點' class="btn btn-primary">超鐘點簽到表</button>
-    </fieldset>
-    </form>     
+  
 
     <form action="index.php" enctype="multipart/form-data" method="post">
     <fieldset>

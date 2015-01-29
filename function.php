@@ -131,6 +131,26 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $plus='') {
 	return $data ;			
 }	
 
+//取出課表 教師條列式
+function get_timetable_data_list(  $y ,$s ,  $plus='') {
+	global  $xoopsDB ;
+ 
+ 	if ($plus=='plus')
+ 		//超鐘點部份，只在 teacher 模式
+ 		$where_plus = "  and c_kind ='1'  " ;
+ 
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'   $where_plus     order by teacher,day,sector " ;
+
+ 
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+		$key =$row['teacher'] ;
+		$data[$key][] = $row ;
+	}	
+	return $data ;			
+	
+}
+
 //取出課表  room 
 function get_class_room_list( $y ,$s ) {
 	global  $xoopsDB ;

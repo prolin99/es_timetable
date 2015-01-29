@@ -51,8 +51,10 @@ if ( ($_POST['year'] > $data['info']['year'] ) or  (($_POST['year'] == $data['in
 	$data['info'] = get_timetable_info() ;	
 }
 
-$data['beg_date']= date('Y-m-d') ;
 
+$data['beg_date']= date('Y-m') . '-01' ;
+$next_m = strtotime($data['beg_date'] ."+ 1 months -1 day");
+$data['end_date']= date('Y-m-d' , $next_m)  ;
 //check double
 
 $data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
