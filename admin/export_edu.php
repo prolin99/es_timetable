@@ -74,11 +74,18 @@ $s = $data['info']['semester']  ;
  	//$mi=0 ;
 	while($row_data=$xoopsDB->fetchArray($result)){
 		//$day ='週' . $ch_num[$row_data['day'] ];
-		//$sector = '第' .   $ch_num[$row_data['sector']]   .'節'   ;
+
 		$day =$DEF_SET['week'][$row_data['day']] ; 
-		$sector = $DEF_SET['sects_cht'][$row_data['sector']] ; 
-		$class_year= $ch_num[substr($row_data['class_id'],0,-2)]  . '年級';
-		$class_id=  '第' .  substr($row_data['class_id'],-2)   .'班'   ;
+		$sector = $DEF_SET['sects_cht_list'][$row_data['sector']] ; 
+
+		if (substr($row_data['class_id'],0,-2)==99) {
+			//特殊班
+			$class_year= '??';
+			$class_id=$DEF_SET['spe_class_list'][$row_data['class_id']] ;
+		}else {
+			$class_year= $ch_num[substr($row_data['class_id'],0,-2)]  . '年級';
+			$class_id=  '第' .  substr($row_data['class_id'],-2)   .'班'   ;
+		}	
 		$teacher = $teacher_list[$row_data['teacher']];
 
 		$sub_name = trim($subject[$row_data['ss_id']]['subject']);
@@ -86,7 +93,7 @@ $s = $data['info']['semester']  ;
 
 		$sub_local ='' ;
 		if ($sub_name == '本土語言' ) 
-			$sub_local ='閩南語' ;
+			$sub_local =$DEF_SET['es_tt_local'] ;
 
 	 	if ($sub_scope=='彈性課程' ) 
 	 		$sub_kind='彈性學習'  ;
