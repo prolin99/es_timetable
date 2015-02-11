@@ -36,4 +36,10 @@ define("_MI_ES_TT_CONFIG_DTime","每節上課時間，如 8:40~9:10,以逗號分
 
 define("_MI_ES_TT_CONFIG_Tlocal","本土語言預設值");
 define("_MI_ES_TT_CONFIG_Dlocal","匯出教育部課表預設值，閩南語  客語  原住民語");
+
+define("_MI_ES_TT_CONFIG_OVER","減授課經費");
+define("_MI_ES_TT_CONFIG_DESC_OVER","經費類別以逗號分隔，如：超鐘點,圖書教師鐘點費,輔導教師減課鐘點費,縣領域輔導團減課鐘點費");
+
+define("_MI_ES_TT_CONFIG_TweekD","單雙週排課");
+define("_MI_ES_TT_CONFIG_DweekD","是否單雙週排課");
 ?>

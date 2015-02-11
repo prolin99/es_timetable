@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] ='課表';				//模組名稱
-$modversion['version']	= '1.01';				//模組版次
+$modversion['version']	= '1.1';				//模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';		//模組作者
 $modversion['description'] ='展示功課表';			//模組說明
 $modversion['credits']	= 'prolin';				//模組授權者
@@ -168,6 +168,22 @@ $modversion['config'][$i]['description'] = '_MI_ESTUDENTS_CONFIG_DESC1';
 $modversion['config'][$i]['formtype']    = 'group';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default'] = 4 ;					//配合校園網站輕鬆架，預設值
+
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_over_list';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_OVER';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DESC_OVER';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] ="超鐘點";
+
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_week_D';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_TweekD';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DweekD';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default'] = false  ;
 
 $i++ ;
 ?>

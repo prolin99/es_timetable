@@ -40,7 +40,12 @@ opacity:0.5;
       	教師：<{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="span8" }> 
         </form>
       	</div>
-      <div class='span8'>
+
+      <div class='span3'>
+        經費：<{html_options name=over_id id=over_id  options=$DEF_SET.es_tt_over_list    class="span8" }> 
+      </div> 
+
+      <div class='span6'>
         <{if ($data.error)}>
           <div class="alert alert-error">
           重複:<br />
@@ -69,7 +74,7 @@ opacity:0.5;
            <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].class_id) }>
            <input id="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" value="<{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>" class="span8 text_edit" title="移開後自動存入" type="text">
            <{if  ($tab[$smarty.section.di.index][$smarty.section.si.index].c_kind) }>
-              <span class="plus" id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" data='1'><i   class='icon-plus-sign' title='超鐘點'> </i></span>
+              <span class="plus" id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" data='<{ $tab[$smarty.section.di.index][$smarty.section.si.index].c_kind}>'><i   class='icon-plus-sign' title='超鐘點'> </i><{ $tab[$smarty.section.di.index][$smarty.section.si.index].c_kind}></span>
            <{else}>
             
               <span class="plus"  id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
@@ -115,16 +120,20 @@ $(function() {
       var div_id = $(this).attr("id")  ;
       var id_num = $(this).attr("id_num")  ;
       var in_plus = $(this).attr("data")  ;
+      var  kind = $('#over_id').val() ;
+      //alert(kind) ;
+
       
-      if (in_plus=='1') {
-        
-        $('#' + div_id).html( "<i   class='icon-minus' title='非超鐘點'>") ;
-        $('#' + div_id).attr("data","0") ;
+      if (in_plus=='0') {
+         $('#' + div_id).html( "<i   class='icon-plus-sign' title='超鐘點'></i>" + kind) ;
+         $('#' + div_id).attr("data", kind) ;       
       }else {
-        $('#' + div_id).html( "<i   class='icon-plus-sign' title='超鐘點'>") ;
-        $('#' + div_id).attr("data", "1") ;
+        $('#' + div_id).html( "<i   class='icon-minus' title='非超鐘點'></i>") ;
+        $('#' + div_id).attr("data","0") ;   
+        kind=0 ;     
+
       }
-      save_teacher_room( 'plus' , id_num ,  'plus' ) ;
+      save_teacher_room( 'plus' , id_num ,  kind ) ;
    });  
 
  //寫入 

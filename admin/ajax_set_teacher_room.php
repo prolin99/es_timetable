@@ -15,14 +15,15 @@ if ( $_GET['id'] ) {
 	$myts =& MyTextSanitizer::getInstance();
 	$new  =$myts->htmlspecialchars($myts->addSlashes ($_GET['setdata']  )  )  ;
 		//$new = $_GET['setdata'] ;
-	if ($_GET['do'] =='plus' ) 
-		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable") .  " SET c_kind = not c_kind  where   course_id= '$id' " ;
-	else 	
+	if ($_GET['do'] =='plus' ) {
+		$kind = intval($new) ;
+		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable") .  " SET c_kind = '$kind'  where   course_id= '$id' " ;
+	}else 	
 
 		$sql = " UPDATE  "  . $xoopsDB->prefix("es_timetable") .  " SET room = '$new'  where   course_id= '$id' " ;
 		
 	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error()); 	
-	echo $_GET['do'] . $sql ;
+	//echo $_GET['do'] . $sql ;
 }
 
 ?>

@@ -25,6 +25,8 @@ $DEF_SET['input']=   $xoopsModuleConfig['es_tt_class_input']  ;
 $DEF_SET['es_tt_local']=   $xoopsModuleConfig['es_tt_local']  ;
 $DEF_SET['grade'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_grade']) ;
 $DEF_SET['teacher_group'] = $xoopsModuleConfig['es_tt_teacher_group'] ;
+ 
+$DEF_SET['es_tt_week_D'] = $xoopsModuleConfig['es_tt_week_D'] ;
 
 //$DEF_SET['es_tt_begin']=   $xoopsModuleConfig['es_tt_begin']  ;
 
@@ -53,7 +55,19 @@ foreach ( $DEF_SET['spe_class']  as $oi => $spe_class_name ) {
 	$i++ ;
 }
 
+//中文節次
+$DEF_SET['es_tt_over'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_over_list']) ;
+
+$i = 1 ;
+foreach ( $DEF_SET['es_tt_over']  as $oi => $over_name ) {
+	$DEF_SET['es_tt_over_list'][$i]  = $i . '-'.$over_name ;
+	$i ++ ;
+}
+
 $DEF_SET['week'] = array('' ,'週一' ,'週二','週三','週四','週五','週六','週日' );
+
+
+
 
 //課表中要用到特殊班
 function get_timetable_class_list_c($mode='short') {

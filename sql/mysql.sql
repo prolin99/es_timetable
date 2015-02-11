@@ -5,29 +5,30 @@ CREATE TABLE  `es_timetable_subject` (
   `subject_school` set('0','1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
   `subject_kind` enum('scope','subject') DEFAULT NULL,
   `enable` enum('1','0') NOT NULL DEFAULT '1',
-  PRIMARY KEY (`subject_id`)
+  `subject_scope` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`subject_id`)  
 ) ENGINE=MyISAM  COMMENT='科目名稱';
 
-INSERT INTO  es_timetable_subject  (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope) VALUES 
-		(1, '國語', '', 'subject', '1' ,'語文領域'),
-		(2, '本土語言', '', 'subject', '1','語文領域'),
-		(3, '數學', '', 'scope', '1','數學領域'),
-		(4, '生活', '', 'scope', '1','生活領域'),
-		(5, '健康與體育', '', 'scope', '1','健康與體育領域'),
-		(6, '綜合活動', '', 'scope', '1','綜合活動領域'),
-		(7, '彈性課程', '', 'scope', '1','彈性課程'),
-		(8, '英語', '', 'subject', '1','語文領域'),
-		(9, '自然', '', 'scope', '1','自然與生活科技領域'),
-		(10, '健康', '', 'subject', '1','健康與體育領域'),
-		(11, '體育', '', 'subject', '1','健康與體育領域'),
-		(12, '社會', '', 'scope', '1','社會領域'),
-		(13, '視覺藝術', '', 'subject', '1','藝術與人文領域'),
-		(14, '音樂', '', 'subject', '1','藝術與人文領域'),
-		(15, '書法', '', 'subject', '1','彈性課程'),
-		(16, '國語-彈', '', 'subject', '1','彈性課程'),
-		(17, '英語-彈', '', 'subject', '1','彈性課程'),
-		(18, '數學-彈', '', 'subject', '1','彈性課程'),
-		(19, '電腦', '', 'subject', '1','彈性課程') ;
+INSERT INTO es_timetable_subject (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`, `subject_scope`) VALUES
+(1, '國語', '', 'subject', '1', '語文領域'),
+(2, '本土語言', '', 'subject', '1', '語文領域'),
+(3, '數學', '', 'scope', '1', '數學領域'),
+(4, '生活', '', 'scope', '1', '生活領域'),
+(5, '健康與體育', '', 'scope', '1', '健康與體育領域 '),
+(6, '綜合活動', '', 'scope', '1', '綜合活動領域'),
+(7, '彈性課程', '', 'scope', '1', '彈性課程'),
+(8, '英語', '', 'subject', '1', '語文領域'),
+(9, '自然', '', 'scope', '1', '自然與生活科技領域 '),
+(10, '健康', '', 'subject', '1', '健康與體育領域'),
+(11, '體育', '', 'subject', '1', '健康與體育領域'),
+(12, '社會', '', 'scope', '1', '社會領域'),
+(13, '視覺藝術', '', 'subject', '1', '藝術與人文領域'),
+(14, '音樂', '', 'subject', '1', '藝術與人文領域'),
+(15, '書法', '', 'subject', '1', '彈性課程'),
+(16, '國語-彈', '', 'subject', '1', '彈性課程'),
+(17, '英語-彈', '', 'subject', '1', '彈性課程'),
+(18, '數學-彈', '', 'subject', '1', '彈性課程'),
+(19, '電腦', '', 'subject', '1', '彈性課程');
 
 
 
@@ -114,6 +115,7 @@ CREATE TABLE   `es_timetable` (
   `room` varchar(10) DEFAULT NULL,
   `allow` enum('0','1') NOT NULL DEFAULT '0',
   `c_kind` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `week_d` tinyint(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`course_id`),
   KEY `class_year` (`class_year`),
   KEY `school_year` (`school_year`,`semester`)
