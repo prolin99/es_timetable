@@ -2,7 +2,8 @@
 if  (@$_POST['do_plus']) {
 	$beg_date =  ($_POST['beg_date'] )  ;
 	$end_date =  ($_POST['end_date']  ) ;
-	header( "Location: export_sign_plus.php?beg_date=$beg_date&end_date=$end_date" ) ;
+	$over_id =  ($_POST['over_id']  ) ;
+	header( "Location: export_sign_plus.php?beg_date=$beg_date&end_date=$end_date&over_id=$over_id" ) ;
 	exit ;
 }
 //  ------------------------------------------------------------------------ //

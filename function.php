@@ -55,12 +55,13 @@ foreach ( $DEF_SET['spe_class']  as $oi => $spe_class_name ) {
 	$i++ ;
 }
 
-//中文節次
+//
 $DEF_SET['es_tt_over'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_over_list']) ;
 
 $i = 1 ;
 foreach ( $DEF_SET['es_tt_over']  as $oi => $over_name ) {
-	$DEF_SET['es_tt_over_list'][$i]  = $i . '-'.$over_name ;
+	$DEF_SET['es_tt_over_list'][$i]  = $over_name ;
+	$DEF_SET['es_tt_over_list2'][$i]  = $i . '-'.$over_name ;
 	$i ++ ;
 }
 
@@ -100,12 +101,12 @@ function get_timetable_info() {
 }	
 
 //取出課表內容
-function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $plus='') {
+function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
 	global  $xoopsDB ;
  
- 	if ($plus=='plus')
+ 	if (intval($over_id)>0)
  		//超鐘點部份，只在 teacher 模式
- 		$where_plus = "  and c_kind ='1'  " ;
+ 		$where_plus = "  and c_kind ='$over_id'  " ;
 
 
 	if ($mode == 'teacher' )  

@@ -10,7 +10,7 @@ include_once "header_admin.php";
 //樣版
 $xoopsOption['template_main'] = "es_timet_setroom_tpl.html";
 include_once "header.php";
- 
+
 
 /*-----------function區--------------*/
 //取得參數
@@ -64,6 +64,12 @@ $data['teacher_list'] =get_table_teacher_list() ;
     $data['teacher_sel'] = intval($_POST['teacher_id']) ;
 else 
     $data['teacher_sel'] = key($data['teacher_list']) ;
+
+if (intval($_POST['over_id']) )
+    $data['over_id'] = intval($_POST['over_id']) ;
+else
+    $data['over_id'] = 1 ;
+
 
 //echo  $data['teacher_sel']   ;
 $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;

@@ -35,8 +35,7 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 
  
  
-	//取得 
-	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ,'all','plus') ;
+
  
 	//科目
  	//$subject= get_subject_list() ;	
@@ -48,8 +47,10 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 
 	$beg_date =  strtotime($_GET['beg_date'] )  ;
 	$end_date =  strtotime($_GET['end_date']  ) ;
+	$over_id =  intval($_GET['over_id']  ) ;
  
-
+	//取得 
+	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ,'all', $over_id ) ;
 
 
 
@@ -153,7 +154,7 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
 			 	}	
 		 	}
 		}
-		$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . ($row -1),$teacher_list[$key]['name'] .date('Y 年 n 月',$m) ."超鐘點 (共 $add_sects 節)")  ;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . ($row -1),$teacher_list[$key]['name'] .date('Y 年 n 月',$m) . $DEF_SET['es_tt_over_list'][$over_id] . " (共 $add_sects 節)")  ;
 		$row =$row+4 ;
 
 	}

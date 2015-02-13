@@ -62,7 +62,7 @@ $data['error'] = check_timetable_double($data['info']['year'],$data['info']['sem
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign( "data" , $data ) ; 
- 
+$xoopsTpl->assign( "DEF_SET" , $DEF_SET ) ;  
 
  
 include_once 'footer.php';
