@@ -6,7 +6,11 @@
  
     border: 1px dotted gray;
     background-color: #EEE;
-    height:5.5em;
+    <{if  ($DEF_SET.es_tt_week_D)}>
+      height:7em;
+    <{else}>
+      height:5em;
+    <{/if}> 
 
 }
  </style>
@@ -45,28 +49,44 @@
       </td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
+
+
       	<div class="groupbox  span12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >
+          <{assign var="cell_tab" value=$tab[$smarty.section.di.index][$smarty.section.si.index]}>
+          <{foreach  from=$cell_tab  key=w item=cell_data  }>
+   
+            <{if ($cell_data.class_id) }>  
+                <{if  ($w==0) }>
+                  <span  >
+                <{/if}>            
+                <{if  ($w==1) }>
+                  <span class="label label-warning" >單週</span>
+                <{/if}>
+                <{if  ($w==2) }>
+                  <span class="label label-important" >雙週</span>
+                <{/if}>    
 
-          <a href="index.php?class_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>">
-            <{assign var="cid" value=$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>
-          <{$data.class_list_c[$cid]}><br />
-          </a>
+                <a href="index.php?class_id=<{$cell_data.class_id}>">
+                <{$data.class_list_c[$cell_data.class_id]}>
+                </a><br />
 
-          <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
+                <{$cell_data.subject_name}><br />
 
-          <{if ($data.room_sel ) }>
-            <a href="teacher_list.php?teacher_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher}>">
-            <{$tab[$smarty.section.di.index][$smarty.section.si.index].teacher_name}><br />
-            </a>
-           <{/if}>
+                <{if ($data.room_sel ) }>
+                    <a href="teacher_list.php?teacher_id=<{$cell_data.teacher}>">
+                    <{$cell_data.teacher_name}>
+                    </a><br />
+                <{/if}>
 
-           <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].room) }>
-             <a href="teacher_list.php?room_id=<{$tab[$smarty.section.di.index][$smarty.section.si.index].room_id}>">
-              <{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>
-            </a>
-           <{/if}>
+                <{if ($cell_data.room) }>
+                    <a href="teacher_list.php?room_id=<{$cell_data.room_id}>">
+                    <{$cell_data.room}>
+                    </a><br />
+                <{/if}>
+             <{/if}>  
+         <{/foreach }>    
 
-          <br /></div>
+          </div>
 		 
       </td>
       <{ /section }>

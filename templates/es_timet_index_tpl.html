@@ -6,7 +6,11 @@
  
     border: 1px dotted gray;
     background-color: #EEE;
-    height:4.5em;
+    <{if  ($DEF_SET.es_tt_week_D)}>
+      height:7em;
+    <{else}>
+      height:5em;
+    <{/if}>  
 
 }
 
@@ -110,27 +114,43 @@ function teacher_sect_show(do_mode , teacher_tab) {
 		for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
 			var sectt = 'sect_'+ d +'_'+ s ;
 			$('#' + sectt).html('<br/><br/>') ;
-			if (teacher_tab[d][s]['ss_id']> 0){
-				//$('#' + sectt).html('<span class="label label-success" >'+teacher_tab[d][s]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s]['room']+'</span> ') ;
+                    var cell_str = '' ;
+                    var cell_str_open='' ;
+                    var cell_str2 = '' ;
+                    var cell_str_open2='' ;                    
+                    var week_str ='' ;
+                    for (w=0 ; w<=2 ; w++ ) {
 
-				<{*  級任 *}>
-				if (now_class_teacher == teacher_tab[d][s]['teacher_name']) {
+                        if (teacher_tab[d][s][w]['ss_id']> 0){
+                            if (w==1)  week_str ='<span class="label label-warning">單週</span>' ;
+                            if (w==2)  week_str ='<span class="label label-important">雙週</span>' ;
+                            <{*  級任 *}>
+                            if (now_class_teacher == teacher_tab[d][s][w]['teacher_name']) {
                                 <{if ($isUser)}> <{* 有登入*}>
-					$('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> \n <a href=teacher_list.php?teacher_id='+ teacher_tab[d][s]['teacher']+ '>'+  teacher_tab[d][s]['teacher_name']+'</a> <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s]['room_id'] + '>' +teacher_tab[d][s]['room'] +'</a>'  ) ;				
+                                  cell_str +=week_str + teacher_tab[d][s][w]['subject_name']+' <br/> \n <a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+  teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/>'  ;
+
+                                  $('#' + sectt).html(cell_str  ) ;       
                                 <{else}>
-                                    $('#' + sectt).html( teacher_tab[d][s]['subject_name']+' <br/> \n'+ teacher_tab[d][s]['teacher_name']+' <br/> '+teacher_tab[d][s]['room'] ) ;       
+                                      cell_str_open+= week_str+teacher_tab[d][s][w]['subject_name']+' <br/> \n'+ teacher_tab[d][s][w]['teacher_name']+' <br/> '+teacher_tab[d][s][w]['room']  + ' <br/> \n'  ;
+                                      $('#' + sectt).html( cell_str_open ) ;       
                                 <{/if}>
-				}else{ 
-                                  <{if ($isUser)}> <{* 有登入*}>
-					   $('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s]['teacher']+ '>'+ teacher_tab[d][s]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s]['room_id'] + '>'+teacher_tab[d][s]['room'] +'</a>' ) ;
-                                  <{else}>
-                                        $('#' + sectt).html('<span style="color:red">'+ teacher_tab[d][s]['subject_name']+'</span> <br/> \n '+ teacher_tab[d][s]['teacher_name']+' <br/> \n'+teacher_tab[d][s]['room']  ) ;                                  
-                                   <{/if}>     
+                             }else{ 
+                                <{if ($isUser)}> <{* 有登入*}>
+                                  cell_str2 += week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+ teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>'+teacher_tab[d][s][w]['room'] +'</a><br/>'  ;
+
+                                  $('#' + sectt).html( cell_str2 ) ;
+                                <{else}>
+                                      cell_str_open +=week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/> \n'+teacher_tab[d][s][w]['room'] + ' <br/> \n'  ;
+                                      $('#' + sectt).html( cell_str_open ) ;                                  
+                                <{/if}>     
 
                             }
- 				//subject_count[teacher_tab[d][s]['ss_id']]  = subject_count[teacher_tab[d][s]['ss_id']]  +1 ;
- 				
-			}				
+
+                        }  
+
+
+                    }
+ 			
 		}
 	}
 

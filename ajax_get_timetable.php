@@ -23,12 +23,13 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 	$teacher_list = get_table_teacher_data() ;
 	for ($d=1 ; $d<=$DEF_SET['days'] ;$d++) 
 		for ($s=1 ; $s<=$DEF_SET['sects'] ;$s++) 
-			$data[$d][$s]['ss_id']= 0 ;
+			for($w=0 ; $w<=2; $w++)
+				$data[$d][$s][$w]['ss_id']= 0 ;
 
 	if ($_GET['do'] =='teacher' ) 
-		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  teacher= '{$_GET['id']}'   order by day,sector   " ;
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  teacher= '{$_GET['id']}'   order by day,sector ,week_d  " ;
 	else 
-		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  class_id= '{$_GET['id']}'  order by day,sector   " ;
+		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  class_id= '{$_GET['id']}'  order by day,sector ,week_d  " ;
  
  	$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
 	while($row=$xoopsDB->fetchArray($result)){
@@ -36,7 +37,7 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
 		if ($row['room'] ) 
 			$row['room_id']= array_search( $row['room']  ,$room_list ) ;
-		$data[$row['day']][$row['sector']]= $row ;
+		$data[$row['day']][$row['sector']][$row['week_d']]= $row ;
 	} 	
 
 	

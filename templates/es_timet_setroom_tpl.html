@@ -67,20 +67,39 @@ opacity:0.5;
       <td class="span1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}></td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
       <td class="span2">
+
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;">
-          <{assign var="cid" value=$tab[$smarty.section.di.index][$smarty.section.si.index].class_id}>
-          <{$data.class_list_c[$cid]}><br />
-          <{$tab[$smarty.section.di.index][$smarty.section.si.index].subject_name}><br />
-           <{if ($tab[$smarty.section.di.index][$smarty.section.si.index].class_id) }>
-           <input id="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" value="<{$tab[$smarty.section.di.index][$smarty.section.si.index].room}>" class="span8 text_edit" title="移開後自動存入" type="text">
-           <{if  ($tab[$smarty.section.di.index][$smarty.section.si.index].c_kind) }>
-              <span class="plus" id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>" data='<{ $tab[$smarty.section.di.index][$smarty.section.si.index].c_kind}>'><i   class='icon-plus-sign' title='鐘點費'> </i><{ $tab[$smarty.section.di.index][$smarty.section.si.index].c_kind}></span>
-           <{else}>
-            
-              <span class="plus"  id="plus_<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  id_num="<{$tab[$smarty.section.di.index][$smarty.section.si.index].course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
-           <{/if}>
-           <{/if}>
-          <br /></div>
+          <{assign var="cell_tab" value=$tab[$smarty.section.di.index][$smarty.section.si.index]}>
+          <{foreach  from=$cell_tab  key=w item=cell_data  }>
+   
+            <{if ($cell_data.class_id) }>  
+                <{if  ($w==0) }>
+                  <span  >
+                <{/if}>            
+                <{if  ($w==1) }>
+                  <span class="label label-warning" >單週-
+                <{/if}>
+                <{if  ($w==2) }>
+                  <span class="label label-important" >雙週-
+                <{/if}>    
+
+                <{$data.class_list_c[$cell_data.class_id]}><br />
+                <{$cell_data.subject_name}><br /></span>
+                <input id="<{$cell_data.course_id}>" value="<{$cell_data.room}>" class="span8 text_edit" title="設定教室，移開後自動存入" type="text">
+                 <{if  ($cell_data.c_kind) }>
+                    <span class="plus" id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>" data='<{ $cell_data.c_kind}>'><i   class='icon-plus-sign' title='鐘點費'> </i><{ $cell_data.c_kind}></span>
+                 <{else}>
+                    <span class="plus"  id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
+                 <{/if}>
+                 <br />
+
+             <{/if}>
+
+          <{/foreach}>
+          <{ if  (! $cell_tab) }>
+          <br /><br /><br />
+          <{/if}>
+        </div>
 		 
       </td>
       <{ /section }>
