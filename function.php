@@ -134,11 +134,12 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
 		}		
 		$d= $row['day'] ;
 		$s= $row['sector'] ;
+		$w= $row['week_d'] ;
 		$cell['class_id']= $row['class_id'] ;
 		$cell['teacher']= $row['teacher'] ;
 		$cell['ss_id']= $row['ss_id'] ;
 		$cell['room']= $row['room'] ;
-		$tab[$d][$s] = $cell ;
+		$tab[$d][$s][$w] = $cell ;
 	
 	}	
 	$data[$old_key] = $tab  ;

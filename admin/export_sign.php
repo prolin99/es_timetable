@@ -186,9 +186,11 @@ if  ($_POST['do_2688']) {
 		      	  //有排課的那些天
 		       	for ($d=1 ; $d <= $DEF_SET['days'] ; $d++ )  {
 		       		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-		       			if ($table_data[$d][$ss]['ss_id'])  {
-		       				$wd_have_class[]= $d ;	
-		       				continue ;
+		       			for ($w=0 ; $w<=2 ;$w++) {
+			       			if ($table_data[$d][$ss][$w]['ss_id'])  {
+			       				$wd_have_class[]= $d ;	
+			       				continue ;
+			       			}
 		       			}
 		       		}		
 
@@ -228,8 +230,19 @@ if  ($_POST['do_2688']) {
 				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {
 
 			 		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-			 			if ($table_data[$d][$ss]['class_id']) {	
+			 			$this_sect_data ='' ;
+			 		      	for ($w=0 ; $w<=2 ; $w++ )	{
+				 			if ($table_data[$d][$ss][$w]['class_id']) {	
+				 				$week_mark='' ;
 
+								if ($w==1) $week_mark='(單)' ;
+								if ($w==2) $week_mark='(雙)' ;
+								if  ($this_sect_data) $this_sect_data .= ',' ;
+								$this_sect_data .= $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark ;
+		 
+							}
+						}
+						if ($this_sect_data){	//有上課
 			 				
 			 				if ($ord_i % 2 ==0) {
 			 				  	$col = 'F' ;
@@ -265,7 +278,7 @@ if  ($_POST['do_2688']) {
 
 							//班級
 							$col_str = $col . $prow;
-							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $class_list_c[$table_data[$d][$ss]['class_id']] ) ;
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str ,  $this_sect_data) ;
 							//框線
 							cell_border($objPHPExcel , $col_str )  ;	
 							$col++ ;		
@@ -278,6 +291,7 @@ if  ($_POST['do_2688']) {
 	 
 							$ord_i ++ ;						
 			 			}//有課
+ 
 			 		}//每節	
 			 	}//該天有課
 	  		}//每天

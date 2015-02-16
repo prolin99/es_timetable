@@ -100,6 +100,9 @@ $s = $data['info']['semester']  ;
 	 	else 
 	 		$sub_kind='領域學習'  ;
 
+	 	$week_d ='每週上課' ;
+	 	if ($row_data['week_d']==1 )  $week_d ='單週上課' ;
+	 	if ($row_data['week_d']==2 )  $week_d ='雙週上課' ;
 
  
 			$row++ ;
@@ -152,7 +155,8 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '每週上課') ;		
+
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $week_d) ;		
 
  
 	}	

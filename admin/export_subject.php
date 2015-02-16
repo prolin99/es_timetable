@@ -30,22 +30,28 @@ $s = $data['info']['semester']  ;
  	$class_list = get_timetable_class_list_c('long')  ;
  	//人員
  	$teacher_list = get_table_teacher_list('all') ;
- 
- 	$sql = " select class_id, ss_id, teacher ,count(*) as cc  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'   group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  " ; 
- 
- 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
- 	//$mi=0 ;
-	while($row=$xoopsDB->fetchArray($result)){
-		//$mi++ ;
-		$sect['name'] = $row['teacher'] ;
-		$sect['cc'] = $row['cc'] ;
-		$data[$row['class_id']][$row['ss_id']][]= $sect ;
-		//取各科最多
+ 	
+ 	//單雙週為半節
+ 	$sql = " select class_id, ss_id, teacher ,count(*) as cc  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'  and  week_d>0  group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  " ; 
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error());  	
+ 	while($row=$xoopsDB->fetchArray($result)){
+ 		$data_part[$row['class']][$row['ss_id']][$row['teacher']]= $row['cc'] /2 ;
+ 	}	
+
+ 	//整節
+ 	$sql = " select class_id, ss_id, teacher ,count(*) as cc  FROM  "  . $xoopsDB->prefix("es_timetable") .  " where school_year= '$y'  and  semester= '$s'  and week_d = 0  group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  " ; 
+  	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+  	while($row=$xoopsDB->fetchArray($result)){
+  		$sect['name'] = $row['teacher'] ;
+		$sect['cc'] = $row['cc'] + $data_part[$row['class']][$row['ss_id']][$row['teacher']] ;
+ 		$data[$row['class_id']][$row['ss_id']][]= $sect ;
+
+ 		//在每個班級中同一科有多人上課，會用到的最大格
 		if ($max[$row['ss_id']] < count($data[$row['class_id']][$row['ss_id']] ) ) 
-			$max[$row['ss_id']] = count($data[$row['class_id']][$row['ss_id']] )  ;
- 	}
-		
-	//var_dump($max) ;	
+			$max[$row['ss_id']] = count($data[$row['class_id']][$row['ss_id']] )  ; 		
+  	}
+
+ 
 		
 
  	$objPHPExcel = new PHPExcel();

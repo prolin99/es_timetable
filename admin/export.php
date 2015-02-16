@@ -42,7 +42,7 @@ if  ($_GET['mode']) {
 	
  
  	$PHPWord->setDefaultFontName('標楷體'); //設定預設字型
-	$PHPWord->setDefaultFontSize(14);     //設定預設字型大小
+	//$PHPWord->setDefaultFontSize(14);     //設定預設字型大小
  	
 /*
 	$sectionStyle = array('orientation' => null,  'marginLeft' => 900); //頁面設定（orientation 的值可以是橫向landscape或直向portrait。設定項目有：orientation、marginTop、marginLeft、marginRight、marginBottom、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
@@ -57,7 +57,11 @@ if  ($_GET['mode']) {
 	$style_cell = array('align'=>'center');	
 	$styleFont_cell =  array('name'=>'Tahoma',  'size'=>14);
 	$styleFont_cell_red =  array('name'=>'Tahoma',  'size'=>14 ,  'color'=>'red');
-	
+
+	//有單雙週小字
+	$styleFont_d_cell =  array('name'=>'Tahoma',  'size'=>10);
+	$styleFont_d_cell_red =  array('name'=>'Tahoma',  'size'=>10 ,  'color'=>'red');	
+
 	//
 	$cellStyle = array(	 'bgColor'=>'EEEEEE','valign'=>'center');
 	//cell 字型
@@ -107,18 +111,36 @@ foreach ($timetable as $key =>	$table_data) {
 		
 		//$table->addCell(1000,$cellStyle )->addText("第 $s 節",$styleFont_cell_top,$style_cell_top); //新增一格
 		$time_str = preg_replace('/[~-]/', "~\n", $DEF_SET['time_list'][$s] );
-		$table->addCell(1000,$cellStyle )->addText($DEF_SET['sects_cht_list'][$s]  ."\n $time_str"   ,$styleFont_cell_top,$style_cell_top); //新增一格
+		$table->addCell(1000,$cellStyle )->addText($DEF_SET['sects_cht_list'][$s]  ."\n $time_str"   ,$styleFont_cell_left,$style_cell_left); //新增一格
 		for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  {
-			if ($mid =='teacher') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$table_data[$i][$s]['room'] ;
-			if ($mid =='class_id') $cell_doc =  $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ."\n" .$table_data[$i][$s]['room'] ;
-			if ($mid =='room') $cell_doc = $class_list_c[$table_data[$i][$s]['class_id']] ."\n" . $subject[$table_data[$i][$s]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s]['teacher']]['name'] ;
-			
-			//班級課表，科任
-			if( ($mid =='class_id') and ($teacher_list[$table_data[$i][$s]['teacher']]['name']<> $class_teacher_list[$key]) )
-				
-				$table->addCell(2000   )->addText($cell_doc ,$styleFont_cell_red,$style_cell); //新增一格	
-			else 
-				$table->addCell(2000   )->addText($cell_doc ,$styleFont_cell,$style_cell); //新增一格	
+			$cell_doc ='' ;
+
+			for ($w=0; $w<=2;$w++) {
+				if ($table_data[$i][$s][$w]['class_id'] ) {
+					if ($w==1) $cell_doc .='(單)' ;
+					if ($w==2) $cell_doc .='(雙)' ;
+					if ($mid =='teacher') $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']] ."\n" . $subject[$table_data[$i][$s][$w]['ss_id']] ."\n" .$table_data[$i][$s][$w]['room'] ."\n" ;
+					if ($mid =='class_id') $cell_doc .=  $subject[$table_data[$i][$s][$w]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s][$w]['teacher']]['name'] ."\n" .$table_data[$i][$s][$w]['room'] ."\n" ;
+					if ($mid =='room') $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']] ."\n" . $subject[$table_data[$i][$s][$w]['ss_id']] ."\n" .$teacher_list[$table_data[$i][$s][$w]['teacher']]['name'] ."\n" ;
+
+
+					//班級課表，科任
+	 				if( ($mid =='class_id') and ($teacher_list[$table_data[$i][$s][$w]['teacher']]['name']<> $class_teacher_list[$key]) ) {
+						if ( $w  >0 ) {
+							$font= $styleFont_d_cell_red ;
+						}else {
+							$font= $styleFont_cell_red ;					
+						}					
+					}else {
+						if ( $w  >0 ) {
+							$font= $styleFont_d_cell ;
+						}else {
+							$font= $styleFont_cell ;					
+						}	
+					}			
+				}
+			}	
+			$table->addCell(2000   )->addText($cell_doc ,$font,$style_cell); //新增一格	
 		}	
 		if ($s == $DEF_SET['m_sects']) {//上午節數
 			$table->addRow(500); //新增一列

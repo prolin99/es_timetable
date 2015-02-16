@@ -73,7 +73,10 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
  
 
 	$objActSheet->getDefaultRowDimension()->setRowHeight(14);
-	$objActSheet->getDefaultColumnDimension()->setWidth(6);
+	if ($DEF_SET['es_tt_week_D'])
+		$objActSheet->getDefaultColumnDimension()->setWidth(7);
+	else	
+		$objActSheet->getDefaultColumnDimension()->setWidth(6);
 	$objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->setSize(10);
  
 	  	
@@ -95,10 +98,12 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
 		//有排課的那些天
 		for ($d=1 ; $d <= $DEF_SET['days'] ; $d++ )  {
 			for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-				if ($table_data[$d][$ss]['ss_id'])  {
-					$wd_have_class[]= $d ;	
-					continue ;
-				}
+		       			for ($w=0 ; $w<=2 ;$w++) {
+			       			if ($table_data[$d][$ss][$w]['ss_id'])  {
+			       				$wd_have_class[]= $d ;	
+			       				continue ;
+			       			}
+		       			}
 			}		
 		}
 		$row++ ;
@@ -135,20 +140,25 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
 				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {
 
 			 		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
-			 			if ($table_data[$d][$ss]['class_id']) {	
-			 				$col ++ ;
-			 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
-			 				cell_border($objPHPExcel , $col . $row )  ;	
-			 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
-			 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
-			 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
-			 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
-			 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss]['class_id']]  );		
-			 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
-			 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
-			 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
-			 				$add_sects ++ ;
+			 			for ($w=0 ;$w<=2;$w++ ) {
+				 			if ($table_data[$d][$ss][$w]['class_id']) {	
+				 				$week_mark='' ;
+								if ($w==1) $week_mark='(單)' ;
+								if ($w==2) $week_mark='(雙)' ;
+				 				$col ++ ;
+				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
+				 				cell_border($objPHPExcel , $col . $row )  ;	
+				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
+				 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
+				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
+				 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
+				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark );		
+				 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
+				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
+				 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
+				 				$add_sects ++ ;
 
+				 			}
 			 			}
 			 		}		
 			 	}	

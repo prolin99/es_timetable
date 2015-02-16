@@ -48,10 +48,14 @@ if  ($_GET['mode']) {
 	$objBorder->getBottom()
           	->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)
           	->getColor()->setRGB('000000'); 
-	$objActSheet->getDefaultRowDimension()->setRowHeight(15);
+          	if ($DEF_SET['es_tt_week_D'])
+		$objActSheet->getDefaultRowDimension()->setRowHeight(67);
+	else 
+		$objActSheet->getDefaultRowDimension()->setRowHeight(34);
 
-	
+ 
 	$row= 1 ;
+	$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight(15);
        //標題行
       	$objPHPExcel->setActiveSheetIndex(0) 
             ->setCellValue('A' . $row, '姓名');
@@ -73,7 +77,7 @@ if  ($_GET['mode']) {
      foreach ( $timetable  as $teacher_id => $mytable )  {
 			$row++ ;
 			//行高
-			$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight(34);
+			//$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight(34);
  
 
 			$col ='A' ;
@@ -82,16 +86,21 @@ if  ($_GET['mode']) {
 			for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  
 				for ($s=1 ; $s <= $DEF_SET['sects'] ; $s++ )  {
 					$col++ ;
-					if ($mytable[$i][$s]['ss_id']) {
-					$col_str =$col .$row ;
-					
-					//echo $mytable[$i][$s]['class_id'].$subject[$mytable[$i][$s]['ss_id']] ;
-					$short_ss = mb_substr($subject[$mytable[$i][$s]['ss_id']],0,2,"utf-8") ;
-					$tstr = $class_list_c[$mytable[$i][$s]['class_id']] ."\n" .$short_ss;
- 					$objPHPExcel->getActiveSheet()->getStyle($col_str)->getAlignment()->setWrapText(true); //自動換行
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $tstr) ;
+					$tstr='' ;
+					for ($w= 0 ;$w<=2 ; $w++) {
+						if ($mytable[$i][$s][$w]['ss_id']) {
+ 							$short_ss = mb_substr($subject[$mytable[$i][$s][$w]['ss_id']],0,2,"utf-8") ;
+ 							if ($tstr<>'') $tstr .= ',' ;
+							$tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']] ."\n" .$short_ss;
+ 							if ($w==1) $tstr .= '*' ;
+ 							if ($w==2) $tstr .= '#' ;							
+						}
 					}
-			}			
+					$col_str =$col .$row ;
+		 			$objPHPExcel->getActiveSheet()->getStyle($col_str)->getAlignment()->setWrapText(true); //自動換行
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $tstr) ;					
+
+				}			
  
 	}	
   
