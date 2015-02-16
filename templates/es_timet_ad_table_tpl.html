@@ -496,7 +496,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 			//移動的模式
 			if ( (drop_move_mode ==1) &&   (splits[0]=='box') ) {
 				//要刪除舊位置
-				del_old_sect ( old_sect ,old_ss_id ) ;
+				del_old_sect ( old_sect ,old_ss_id ,week_d ) ;
 			
 			}
 		}
@@ -562,7 +562,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
   });
   
   //消除 
-  function del_old_sect ( mark_id ,ss_id ,week_d=0) {
+  function del_old_sect ( mark_id ,ss_id ,week_d) {
     /*
     //清空格子
     $('#' + mark_id).html('<br/><br/>') ;
@@ -577,7 +577,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 
   
  //增刪課表 動作
- var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place , week_d=0 ){
+ var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place , week_d ){
  
       	  //記錄
             var URLs="ajax_set_timetable.php" ;

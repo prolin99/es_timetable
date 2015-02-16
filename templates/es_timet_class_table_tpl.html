@@ -69,12 +69,13 @@
           
           <{if ( ($cell_data.class_id) and ( $cell_data.class_id <> $data.my_class_id)) }>  <{*有課且不同班*}>
             <{assign var="cell_showed"  value=1 }>
-            <div class="span12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>_<{$w}>" style="background:#AAA;" title='在他班有課，不可排入'><br /><{$data.class_list_c[$cell_data.class_id]}>_<{$cell_data.subject_name}><br /></div>
- 
+            <div class="span12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>_<{$w}>" style="background:#AAA;" title='在他班有課，不可排入'>
+              <{if $w==1}>單週-<{/if}>
+              <{if $w==2}>雙週-<{/if}>
+              <{$data.class_list_c[$cell_data.class_id]}>_<{$cell_data.subject_name}></div>
           <{/if}>  
-
        <{/foreach}>   
-       <{if ($cell_showed==0) }>
+       <{if ($cell_showed==0) }>  <{* 自已的課 *}>
             <div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><br /><br /></div>       
        <{/if}> 
       </td>
