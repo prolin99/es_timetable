@@ -3,7 +3,8 @@ if  (@$_POST['do_plus']) {
 	$beg_date =  ($_POST['beg_date'] )  ;
 	$end_date =  ($_POST['end_date']  ) ;
 	$over_id =  ($_POST['over_id']  ) ;
-	header( "Location: export_sign_plus.php?beg_date=$beg_date&end_date=$end_date&over_id=$over_id" ) ;
+	$week_m = intval($_POST['week_m']); 
+	header( "Location: export_sign_plus.php?beg_date=$beg_date&end_date=$end_date&over_id=$over_id&week_m=$week_m" ) ;
 	exit ;
 }
 //  ------------------------------------------------------------------------ //
@@ -149,9 +150,20 @@ if  ($_POST['do_2688']) {
 	$end_date =  strtotime($_POST['end_date']  ) ;
  
 
-
-
-
+	$week_m = intval($_POST['week_m']); 
+ 
+	$beg_week_num = (int)date('W',  $beg_date  )  ; 
+ 
+	// 找到雙週基準點
+	if ( ($beg_week_num %2) == 0 ) {
+		if  ($week_m==1 ) $beg_week_num-=1 ;	
+ 
+	}else {   //單
+ 
+		if  ($week_m==1 ) $beg_week_num= $beg_week_num-1 ;
+ 
+	}	
+  
 	//--------------------------------------------------------------------  
 
  	$objPHPExcel = new PHPExcel();
@@ -199,6 +211,8 @@ if  ($_POST['do_2688']) {
 		    	for  ($do_day  =  $beg_date ; $do_day<= $end_date ; $do_day = $do_day + 60*60*24 ) {
   
 				$m = date('n' , $do_day ) ;
+				
+
 				if  ($om <> $m ) {
 					//加入換頁
 					if  ($row>0) {
@@ -227,7 +241,11 @@ if  ($_POST['do_2688']) {
 			 	//課表，只呈現有課的當天
 				$d  = date( 'N' , $do_day    ) ;
 				$d_cht = $week_cht[$d]  ;
+
+				
+
 				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {
+					$sign_week = ((int)date('W',  $do_day  ) - $beg_week_num) % 2  ; 	//是否為單週
 
 			 		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
 			 			$this_sect_data ='' ;
@@ -237,10 +255,15 @@ if  ($_POST['do_2688']) {
 
 								if ($w==1) $week_mark='(單)' ;
 								if ($w==2) $week_mark='(雙)' ;
+
 								if  ($this_sect_data) $this_sect_data .= ',' ;
-								$this_sect_data .= $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark ;
-		 
-							}
+								if ($w==0)
+									$this_sect_data .= $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark ;
+								if (($sign_week)  and ($w==1) )
+									$this_sect_data .= $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark  ;
+								if ((!$sign_week)  and ($w==2) )
+									$this_sect_data .= $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark  ;
+		 					}
 						}
 						if ($this_sect_data){	//有上課
 			 				

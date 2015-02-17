@@ -48,6 +48,15 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 	$beg_date =  strtotime($_GET['beg_date'] )  ;
 	$end_date =  strtotime($_GET['end_date']  ) ;
 	$over_id =  intval($_GET['over_id']  ) ;
+
+	$week_m = intval($_GET['week_m']); 
+ 	$beg_week_num = (int)date('W',  $beg_date  )  ; 
+ 	// 找到雙週基準點
+	if ( ($beg_week_num %2) == 0 ) {
+		if  ($week_m==1 ) $beg_week_num-=1 ;	
+ 	}else {   //單
+ 		if  ($week_m==1 ) $beg_week_num= $beg_week_num-1 ;
+ 	}	
  
 	//取得 
 	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ,'all', $over_id ) ;
@@ -138,6 +147,7 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
 
 				$d  = date( 'N' , $do_day    ) ;
 				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {
+					$sign_week = ((int)date('W',  $do_day  ) - $beg_week_num) % 2  ; 	//是否為單週
 
 			 		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
 			 			for ($w=0 ;$w<=2;$w++ ) {
@@ -145,18 +155,49 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
 				 				$week_mark='' ;
 								if ($w==1) $week_mark='(單)' ;
 								if ($w==2) $week_mark='(雙)' ;
-				 				$col ++ ;
-				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
-				 				cell_border($objPHPExcel , $col . $row )  ;	
-				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
-				 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
-				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
-				 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
-				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark );		
-				 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
-				 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
-				 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
-				 				$add_sects ++ ;
+								if ($w==0){
+					 				$col ++ ;
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
+					 				cell_border($objPHPExcel , $col . $row )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
+					 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
+					 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark );		
+					 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
+					 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
+					 				$add_sects ++ ;
+				 				}
+				 				if (($sign_week)  and ($w==1) ) {
+					 				$col ++ ;
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
+					 				cell_border($objPHPExcel , $col . $row )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
+					 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
+					 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark );		
+					 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
+					 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
+					 				$add_sects ++ ;				 					
+				 				}
+				 				if ((!$sign_week)  and ($w==2) ) {
+					 				$col ++ ;
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . $row, date('m-d' , $do_day)  );	
+					 				cell_border($objPHPExcel , $col . $row )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+1),  $DEF_SET['week'][$d]  );	
+					 				cell_border($objPHPExcel , $col . ($row+1) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+2), $DEF_SET['sects_cht_list'][$ss]  );	
+					 				cell_border($objPHPExcel , $col . ($row+2) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+3), $class_list_c[$table_data[$d][$ss][$w]['class_id']] .$week_mark );		
+					 				cell_border($objPHPExcel , $col . ($row+3) )  ;	
+					 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col . ($row+4), ''  );				
+					 				cell_border($objPHPExcel , $col . ($row+4) )  ;	
+					 				$add_sects ++ ;				 					
+				 				}				 				
+
 
 				 			}
 			 			}
