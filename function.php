@@ -391,6 +391,17 @@ function check_timetable_double($y , $s) {
 		$data .= "<br />" ;		
 
  	} 
+
+ 	//單雙週有無配對
+	$sql =  "   SELECT * , sum(week_d) as wsum FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'    '' group by  class_id , day ,  sector    HAVING  (wsum>0  and  wsum<3)  " ;
+	//echo $sql ;
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while($row= $xoopsDB->fetchArray($result)){ 	
+		$data .= $class_list_c[$row['class_id']] .'  單雙週配對不完整--' .$DEF_SET['week'][$row['day']] .'-' .$DEF_SET['sects_cht_list'][$row['sector']]   ;
+		if ($row['wsum']==1) $data .=  ' 缺雙週排課' ;
+		if ($row['wsum']==2) $data .=  ' 缺單週排課' ;
+		$data .= "<br />" ;		
+	}	
  
  	return $data ;
 }

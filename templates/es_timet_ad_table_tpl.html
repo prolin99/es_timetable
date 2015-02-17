@@ -327,7 +327,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
                             sect_val= 0.5 ;
                           }  
  
-				cell_str +='<div id="box_'+sectt+'" class="subj" old_sect="'+sectt+'" data_ref="box_'+ teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name']+'_'+ teacher_tab[d][s][w]['teacher']+'_'+teacher_tab[d][s][w]['teacher_name']+'_'+ teacher_tab[d][s][w]['room'] +'">'+
+				cell_str +='<div id="box_'+sectt+'" class="subj" old_sect="'+sectt+'" data_ref="box_'+ teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name']+'_'+ teacher_tab[d][s][w]['teacher']+'_'+teacher_tab[d][s][w]['teacher_name']+'_'+ teacher_tab[d][s][w]['room']+'"  week_d="' + w + '" >'+
 				'<span class="label  ' + lab_color +' " >'+ lab_w +teacher_tab[d][s][w]['subject_name']+
 				'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '"  week_d=' + teacher_tab[d][s][w]['week_d']  + ' title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s][w]['room']+'</span><br />'+
 				'</div> ' ;
@@ -439,9 +439,10 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
       <{else}>
         var week_d = 0 ;
       <{/if}>
-
+ 
       var sect_val = 1 ;
       if  (week_d >0 )   sect_val = 0.5 ;
+      //alert(sect_val) ;
 
 	if ( (now_teacher=='')  && (splits[0]=='subj')  ) 
 	 	alert('未指定教師')  ;
@@ -469,13 +470,11 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 		if (can_drop_in == 1 ) {
 			//alert(sect +','+ subject_data+','+  t_now_teacher_ref+','+ room) ;
 		    //科目節數 +1
-    		subject_count[splits[1]] = subject_count[splits[1]] + sect_val  ;
-    		//舊節有課，要減少
-    		if (cell_old_ss_id>0) {
-     			subject_count[cell_old_ss_id] = subject_count[cell_old_ss_id] - sect_val ;
-    		}	
-    		show_subject_count() ;
+    		    subject_count[splits[1]] = subject_count[splits[1]] + sect_val  ;
+    		    //舊節有課，要減少
+ 
     		
+ 
     		/*
     		//顯示
     		$('#' + sect).attr('old_ss_id',splits[1]) ;
@@ -497,8 +496,8 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 			if ( (drop_move_mode ==1) &&   (splits[0]=='box') ) {
 				//要刪除舊位置
 				del_old_sect ( old_sect ,old_ss_id ,week_d ) ;
-			
 			}
+                    show_subject_count() ;
 		}
 	}	
 	
@@ -569,10 +568,19 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
     $('#' + mark_id).attr('old_ss_id',0) ;
     */
     //科目節數 -1 
-    subject_count[ss_id] = subject_count[ss_id] -1 ;
-    show_subject_count() ;
+    
+    week_d = $('#box_' + mark_id).attr('week_d') ;
+
+    var sect_val = 1 ;
+    if (week_d>0) sect_val = 0.5 ;
+ 
+    //alert('del' + sect_val + '--' +ss_id + '==' + subject_count[ss_id]  )  ;
+    subject_count[ss_id] = subject_count[ss_id] - sect_val ;
+    //alert( subject_count[ss_id] );
+    
  	ajax_time_table('del' , mark_id , '' , now_teacher_ref , '', week_d) ;  
     ajax_get_table_cell('cell' ,mark_id) ;
+    show_subject_count() ;
   }
 
   
@@ -649,7 +657,7 @@ function now_sect_show(sectt ,teacher_tab ) {
   var s =splits[2] ;
   var cell_str='' ;
   var lab_w ='' ;
-  var sect_val = 1 ;  //算節數用
+  //var sect_val = 1 ;  //算節數用
   for (w=0 ; w<=2 ;w++) {
       //有課
       if (teacher_tab[d][s][w]['ss_id']> 0){
@@ -659,7 +667,7 @@ function now_sect_show(sectt ,teacher_tab ) {
         $('#' + sectt).attr('old_ss_id',teacher_tab[d][s][w]['ss_id'] ) ;
                           
                           var lab_color = 'label-success' ;
-                          if (w>0 )  sect_val = 0.5 ; 
+                          //if (w>0 )  sect_val = 0.5 ; 
                           if (w==1 ){
                             lab_color='label-warning' ;
                             lab_w ='單週-' ;
@@ -669,12 +677,12 @@ function now_sect_show(sectt ,teacher_tab ) {
                             lab_w ='雙週-' ;
                           }  
  
-        cell_str +='<div id="box_'+sectt+'" class="subj" old_sect="'+sectt+'" data_ref="box_'+ teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name']+'_'+ teacher_tab[d][s][w]['teacher']+'_'+teacher_tab[d][s][w]['teacher_name']+'_'+ teacher_tab[d][s][w]['room'] +'">'+
+        cell_str +='<div id="box_'+sectt+'" class="subj" old_sect="'+sectt+'" data_ref="box_'+ teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name']+'_'+ teacher_tab[d][s][w]['teacher']+'_'+teacher_tab[d][s][w]['teacher_name']+'_'+ teacher_tab[d][s][w]['room'] +'"  week_d="' + w + '"  >'+
         '<span class="label  ' + lab_color +' " >'+lab_w+ teacher_tab[d][s][w]['subject_name']+
         '<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '"  week_d=' + teacher_tab[d][s][w]['week_d']  + ' title="刪除"></i></span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s][w]['room']+'</span><br />'+
         '</div> ' ;
         //計算科目節數
-        subject_count[teacher_tab[d][s][w]['ss_id']]  = subject_count[teacher_tab[d][s][w]['ss_id']]  + sect_val ;
+        //subject_count[teacher_tab[d][s][w]['ss_id']]  = subject_count[teacher_tab[d][s][w]['ss_id']]  + sect_val ;
 
         
       }       
