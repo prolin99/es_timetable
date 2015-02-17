@@ -60,7 +60,9 @@ $data['teacher_list'] =get_table_teacher_list($DEF_SET['teacher_group']) ;
 //取得級任名冊
 $data['class_teacher'] = get_class_teacher_list() ;
 
+$data['select_class_id'] = $_GET['class_id'] ;
 
+$data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
 
 /*-----------秀出結果區--------------*/
 

@@ -99,6 +99,14 @@
       </div><!-- box1 end-->
       
       <div class="row-fluid">
+        <{if ($data.error)}>
+          <div class="alert alert-error">
+          重複或錯誤:(網頁重新載入才會更新)<br />
+          <{$data.error}>
+          </div>
+        <{/if}>        
+      </div>      
+      <div class="row-fluid">
       	<p>
             <span class="label label-info">說明</span><br/>
            要先設定要科目及任課教師。<br/>

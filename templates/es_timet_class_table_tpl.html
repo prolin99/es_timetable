@@ -282,18 +282,18 @@ function sect_show(sect , subject_data , now_teacher ,old_sect) {
  
 			//外加的科目，非移動的
 			if (old_sect == undefined ) {
-		    	//科目節數 +1
-    			subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
-    			show_subject_count() ;
-    		}
+		    	 //科目節數 +1
+    			 subject_count[splits[1]] = subject_count[splits[1]] + 1  ;
+    			 show_subject_count() ;
+    		       }
 			$('#' + sect).html('<span id="' + subject_data +'" data_ref="' + subject_data + '" class="label label-success subj" old_sect="'+sect+'" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span> <br/><br/>') ;
         	
-			$(".subj").draggable({
+		$(".subj").draggable({
                 revert: "valid",
                 start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
                 drag: function (event, ui) {
                         
-                }
+              }
         	});			
         	ajax_time_table('del' , old_sect , '' , now_teacher_ref , '') ;
 

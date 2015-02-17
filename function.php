@@ -375,7 +375,7 @@ function check_timetable_double($y , $s) {
 		$data .= "<br />" ;
  	} 	
 
-	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector  ,week_d   HAVING cc>1    " ;
+	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    " ;
 	//echo $sql ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
@@ -385,7 +385,7 @@ function check_timetable_double($y , $s) {
 
 		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
 		while($row2= $xoopsDB->fetchArray($result2)){
-			$data .= $class_list_c[$row2['class_id']]  . ' (' . $teacher_list[$row2['teacher']]['name'] .  ') , ' ;
+			$data .= $class_list_c[$row2['class_id']]  . ' (<a href="set_room.php?teacher_id=' .$row2['teacher'] .'">' . $teacher_list[$row2['teacher']]['name'] .  '</a>) , ' ;
 		}
  
 		$data .= "<br />" ;		
@@ -397,7 +397,7 @@ function check_timetable_double($y , $s) {
 	//echo $sql ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){ 	
-		$data .= $class_list_c[$row['class_id']] .'  單雙週配對不完整--' .$DEF_SET['week'][$row['day']] .'-' .$DEF_SET['sects_cht_list'][$row['sector']]   ;
+		$data .= '<a href="ed_timetable.php?class_id='.$row['class_id'] .'">' . $class_list_c[$row['class_id']] .'</a>  單雙週配對不完整--' .$DEF_SET['week'][$row['day']] .'-' .$DEF_SET['sects_cht_list'][$row['sector']]   ;
 		if ($row['wsum']==1) $data .=  ' 缺雙週排課' ;
 		if ($row['wsum']==2) $data .=  ' 缺單週排課' ;
 		$data .= "<br />" ;		
