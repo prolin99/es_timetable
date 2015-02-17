@@ -62,6 +62,8 @@ $data['teacher_list'] =get_table_teacher_list() ;
 
  if  (intval($_POST['teacher_id']) ) 
     $data['teacher_sel'] = intval($_POST['teacher_id']) ;
+elseif (intval($_GET['teacher_id']) )
+     $data['teacher_sel'] = intval($_GET['teacher_id']) ;
 else 
     $data['teacher_sel'] = key($data['teacher_list']) ;
 
@@ -76,7 +78,7 @@ $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_s
 //var_dump($tab) ;
 
 $data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
-$data['teacher_sel'] = $_GET['teacher_id'] ;
+
 
 /*-----------秀出結果區--------------*/
 
