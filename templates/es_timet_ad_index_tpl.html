@@ -29,11 +29,12 @@
   <br />
     <form action="export_sign.php" enctype="multipart/form-data" method="post">
     <fieldset>	
-    <span class="span2"><input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定開始日期"> </span>
+    <span class="span2"><input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定開始日期" title="指定開始日期"> </span>
      ~
-    <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='end_date'  class='span2'   value="<{$data.end_date}>" placeholder="指定結束日期">
+    <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='end_date'  class='span2'   value="<{$data.end_date}>" placeholder="指定結束日期"
+    title="指定結束日期" >
     <button type="submit" name="do_2688"  value='2688' class="btn btn-success">2688師簽到表</button>
-    依經費：<{html_options name=over_id id=over_id  options=$DEF_SET.es_tt_over_list    class="span2" }> 
+    依經費：<{html_options name=over_id id=over_id  options=$DEF_SET.es_tt_over_list    class="span2" title="列印經費總類" }> 
     <button type="submit" name="do_plus"  value='超鐘點' class="btn btn-primary">鐘點簽到表</button><br/>    
 
     <{if $DEF_SET.es_tt_week_D}>
