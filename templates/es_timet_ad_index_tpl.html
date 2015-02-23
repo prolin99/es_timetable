@@ -21,14 +21,15 @@
 
 	<a class="btn btn-info" href="export.php?mode=class_id">班級總表匯出</a> 
 	<a class="btn btn-info" href="export.php?mode=teacher">教師個別課表匯出</a> 
-	<a class="btn btn-info" href="export.php?mode=room">專科教室課表匯出</a><br />
+	<a class="btn btn-info" href="export.php?mode=room">專科教室課表匯出</a><br /><br />
 	
 	<a class="btn btn-inverse" href="export_excel.php?mode=teacher">教師總表匯出</a> 
 	<a class="btn btn-inverse" href="export_subject.php">班級配課表匯出</a>
         <a class="btn btn-inverse" href="export_edu.php" title='身份證、特殊班年級等要自行修正'>教育部課表匯出</a>
-  <br />
+  <br /><br />
     <form action="export_sign.php" enctype="multipart/form-data" method="post">
     <fieldset>	
+    <legend  >簽到名冊</legend>
     <span class="span2"><input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='beg_date'  class='span2'   value="<{$data.beg_date}>" placeholder="指定開始日期" title="指定開始日期"> </span>
      ~
     <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='end_date'  class='span2'   value="<{$data.end_date}>" placeholder="指定結束日期"
