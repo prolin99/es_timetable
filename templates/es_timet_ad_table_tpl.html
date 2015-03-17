@@ -24,8 +24,21 @@
  
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
   
-      <div class="row-fluid" > <!-- box1 -->
+        
+       <div class="row-fluid" > <!-- box1 -->    
+        <div class="span2" > <!-- left  -->
+        </div>
+          
+        <div >
+        <!--  教師 -->
+        <{foreach  key=t_key item=teacher    from= $data.teacher_list }>
+             <span class="tea" data_ref="tea_<{$t_key}>_<{$teacher}>"  ><label  id="tea_<{$t_key}>" title='<{$teacher}>' name_title='<{$teacher}>' class="label label-info">
+             <{$teacher}></label><i id="i_<{$t_key}>" ></i></span>
+        <{/foreach }>      
+        </div>
+      </div>
 
+      <div class="row-fluid" > <!-- box1 -->        
       <div class="span2" > <!-- left  -->
         
         <div id="kmo_div">
@@ -36,13 +49,7 @@
       	<{/foreach }>
       	</div>
       	
-      	<div>
-      	<!--  教師 -->
-      	<{foreach  key=t_key item=teacher    from= $data.teacher_list }>
-      		   <span class="span4 tea" data_ref="tea_<{$t_key}>_<{$teacher}>"  ><label  id="tea_<{$t_key}>" title='<{$teacher}>' name_title='<{$teacher}>' class="label label-info">
-      		   <{$teacher}></label><i id="i_<{$t_key}>" ></i></span>
-      	<{/foreach }>      
-      	</div>
+
       	
       </div> <!--left end-->
 

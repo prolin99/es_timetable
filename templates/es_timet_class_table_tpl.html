@@ -176,9 +176,9 @@ function teacher_sect_show(do_mode , teacher_tab) {
                                   if (w==0)
                                       sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="label label-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+'<i class="icon-remove" data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '" title="刪除"></i></span><br /><br />' ;                                    
                                   if (w==1)
-                                            sect_str += '<span  class="label label-warning"  title="單雙週級任不可自行修改" >單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
+                                            sect_str += '<span  class="label label"  title="單雙週級任不可自行修改" >單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
                                   if (w==2)  
-                                            sect_str += '<span  class="label label-important"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
+                                            sect_str += '<span  class="label label-warning"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
         				  $('#' + sectt).html( sect_str ) ;
                                     if (w>0)  
                                       $('#' + sectt).attr("data_ref" ,'') ;     //單雙週情形下時去除此值

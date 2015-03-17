@@ -13,6 +13,9 @@
     <{/if}> 
 
 }
+.weekd{
+  font-size: 8px;
+}
  </style>
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
   
@@ -57,18 +60,18 @@
    
             <{if ($cell_data.class_id) }>  
                 <{if  ($w==0) }>
-                  <span  >
+                  <div ><span  >
                 <{/if}>            
                 <{if  ($w==1) }>
-                  <span class="label label-warning" >單週</span>
+                  <div class="weekd span6"><span class="label "  title="單週">
                 <{/if}>
                 <{if  ($w==2) }>
-                  <span class="label label-important" >雙週</span>
+                  <div class="weekd span6"><span class="label  label-warning" title="雙週"> 
                 <{/if}>    
 
                 <a href="index.php?class_id=<{$cell_data.class_id}>">
                 <{$data.class_list_c[$cell_data.class_id]}>
-                </a><br />
+                </a></span><br />
 
                 <{$cell_data.subject_name}><br />
 
@@ -83,6 +86,7 @@
                     <{$cell_data.room}>
                     </a><br />
                 <{/if}>
+              </div>
              <{/if}>  
          <{/foreach }>    
 
