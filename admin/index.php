@@ -52,6 +52,9 @@ if ( ($_POST['year'] > $data['info']['year'] ) or  (($_POST['year'] == $data['in
 }
 
 
+//讀取 tad_cal 行事曆
+$data['holiday']  = get_tad_cal_holiday( $DEF_SET['es_tt_Holiday_KW'] ) ;
+
 $data['beg_date']= date('Y-m') . '-01' ;
 $next_m = strtotime($data['beg_date'] ."+ 1 months -1 day");
 $data['end_date']= date('Y-m-d' , $next_m)  ;

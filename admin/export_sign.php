@@ -29,6 +29,8 @@ $week_cht = array('' ,'一' ,'二','三','四','五','六','日' );
 //檢查目前的課表
 $data['info'] = get_timetable_info() ;
 
+
+
 function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 		//設定框線
 		$objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN );  
@@ -149,6 +151,8 @@ if  ($_POST['do_2688']) {
 	$beg_date =  strtotime($_POST['beg_date'] )  ;
 	$end_date =  strtotime($_POST['end_date']  ) ;
  
+	//讀取 tad_cal 行事曆
+	$data['holiday']  = get_tad_cal_holiday( $DEF_SET['es_tt_Holiday_KW'] ,$_POST['beg_date']  , $_POST['end_date'] ) ;
 
 	$week_m = intval($_POST['week_m']); 
  

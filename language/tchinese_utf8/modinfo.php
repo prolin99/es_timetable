@@ -42,4 +42,7 @@ define("_MI_ES_TT_CONFIG_DESC_OVER","經費類別以逗號分隔，如：超鐘�
 
 define("_MI_ES_TT_CONFIG_TweekD","單雙週排課");
 define("_MI_ES_TT_CONFIG_DweekD","是否單雙週排課");
+
+define("_MI_ES_TT_CONFIG_holiday_k","Tad_cal 行事曆中假日使用關鍵字");
+define("_MI_ES_TT_CONFIG_D_holiday_k","如放假,補假 等，使用逗號做分隔");
 ?>

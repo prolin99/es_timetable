@@ -68,7 +68,36 @@ foreach ( $DEF_SET['es_tt_over']  as $oi => $over_name ) {
 $DEF_SET['week'] = array('' ,'週一' ,'週二','週三','週四','週五','週六','週日' );
 
 
+$DEF_SET['es_tt_Holiday_KW'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_holiday_kw']) ;
 
+
+//由 tad_cal 中取得放假日
+function get_tad_cal_holiday($kword  ,$beg_date='' , $end_data ='' ){
+	global  $xoopsDB ;
+ 
+	$first= true ;
+	foreach ($kword as  $k =>$w ) {
+		if ($first){
+			$query_sql .=  "   `title` like '%$w%'   " ;
+			$first=0 ;
+		}else 
+			$query_sql .=  "   or  `title` like '%$w%'   " ;
+
+	}	
+ 
+
+	if  ($beg_date=='')  $beg_date = date('Y') ."-01-01" ;
+	if  ($end_data=='')  $end_data = date('Y') ."-12-31" ;
+	$sql = " select  start , title  FROM  "  . $xoopsDB->prefix("tad_cal_event")  .  " where start >= '$beg_date'  and  start<= '$end_data'  and    ( $query_sql )    order by  start  " ;
+ 
+ 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
+	while($row=$xoopsDB->fetchArray($result)){
+		$h_d= substr($row['start'],0,10 )   ;
+		$data[$h_d] =  $row['title'] ;	
+	}	
+	return $data ;
+
+}
 
 //課表中要用到特殊班
 function get_timetable_class_list_c($mode='short') {
