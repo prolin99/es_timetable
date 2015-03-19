@@ -74,9 +74,15 @@ $DEF_SET['es_tt_Holiday_KW'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_hol
 //由 tad_cal 中取得放假日
 function get_tad_cal_holiday($kword  ,$beg_date='' , $end_date ='' ){
 	global  $xoopsDB ;
- 
+ 	
+ 	//無行事曆則略去
+  	$sql="select count(`start`)  from ".$xoopsDB->prefix("tad_cal_event");
+  	$result=$xoopsDB->query($sql);
+  	if(empty($result)) return  ;
+
  	$myts =& MyTextSanitizer::getInstance();
  
+ 	//假日關鍵字
 	$first= true ;
 	foreach ($kword as  $k =>$w ) {
 		$w= $myts->addSlashes($w) ;
