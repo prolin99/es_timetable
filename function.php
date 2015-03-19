@@ -72,23 +72,42 @@ $DEF_SET['es_tt_Holiday_KW'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_hol
 
 
 //由 tad_cal 中取得放假日
-function get_tad_cal_holiday($kword  ,$beg_date='' , $end_data ='' ){
+function get_tad_cal_holiday($kword  ,$beg_date='' , $end_date ='' ){
 	global  $xoopsDB ;
+ 
+ 	$myts =& MyTextSanitizer::getInstance();
  
 	$first= true ;
 	foreach ($kword as  $k =>$w ) {
+		$w= $myts->addSlashes($w) ;
+		$w= $myts->htmlspecialchars($w) ;
 		if ($first){
+
 			$query_sql .=  "   `title` like '%$w%'   " ;
 			$first=0 ;
 		}else 
 			$query_sql .=  "   or  `title` like '%$w%'   " ;
 
 	}	
+ 	
+ 	//學期
+ 	$n_month = date('n')  ;
  
-
-	if  ($beg_date=='')  $beg_date = date('Y') ."-01-01" ;
-	if  ($end_data=='')  $end_data = date('Y') ."-12-31" ;
-	$sql = " select  start , title  FROM  "  . $xoopsDB->prefix("tad_cal_event")  .  " where start >= '$beg_date'  and  start<= '$end_data'  and    ( $query_sql )    order by  start  " ;
+ 	if  ($n_month <2 ) {
+ 		$b_date = (date('Y')-1) . "-08-01" ;
+ 		$e_date = date('Y'). "-01-31" ;
+ 	}elseif  ($n_month>7 ) {
+ 	 	$b_date = date('Y') . "-08-01" ;
+ 		$e_date = (date('Y')+1) . "-01-31" ;
+ 	}else {
+ 		$b_date = date('Y') . "-02-01" ;
+ 		$e_date = date('Y'). "-07-31" ; 		
+ 	}	
+ 
+	if  ($beg_date=='')  $beg_date = $b_date ;
+	if  ($end_date=='')  $end_date =$e_date ;
+ 
+	$sql = " select  start , title  FROM  "  . $xoopsDB->prefix("tad_cal_event")  .  " where start >= '$beg_date'  and  start<= '$end_date'  and    ( $query_sql )    order by  start  " ;
  
  	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){

@@ -151,8 +151,9 @@ if  ($_POST['do_2688']) {
 	$beg_date =  strtotime($_POST['beg_date'] )  ;
 	$end_date =  strtotime($_POST['end_date']  ) ;
  
+ 
 	//讀取 tad_cal 行事曆
-	$data['holiday']  = get_tad_cal_holiday( $DEF_SET['es_tt_Holiday_KW'] ,$_POST['beg_date']  , $_POST['end_date'] ) ;
+	$holiday  = get_tad_cal_holiday( $DEF_SET['es_tt_Holiday_KW'] ,date('Y-m-d' , $beg_date )  ,date('Y-m-d' , $end_date )) ;
 
 	$week_m = intval($_POST['week_m']); 
  
@@ -214,11 +215,13 @@ if  ($_POST['do_2688']) {
 	   		
 		    	for  ($do_day  =  $beg_date ; $do_day<= $end_date ; $do_day = $do_day + 60*60*24 ) {
   
-				$m = date('n' , $do_day ) ;
 				
+				if ($holiday[date('Y-m-d',$do_day)])	continue;	//當天放假，略過
+
+				$m = date('n' , $do_day ) ;		 
 
 				if  ($om <> $m ) {
-					//加入換頁
+					//換月加入換頁
 					if  ($row>0) {
 						if ($o_key == $key) {
 							//還是同一人時
@@ -243,13 +246,13 @@ if  ($_POST['do_2688']) {
 				}	   		
 
 			 	//課表，只呈現有課的當天
-				$d  = date( 'N' , $do_day    ) ;
+				$d  = date( 'N' , $do_day    ) ;		//星期?
 				$d_cht = $week_cht[$d]  ;
 
 				
 
-				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {
-					$sign_week = ((int)date('W',  $do_day  ) - $beg_week_num) % 2  ; 	//是否為單週
+				if ( ($d <= $DEF_SET['days'])  and in_array($d, $wd_have_class) ) {		//在課表週內，且有課
+					$sign_week = ((int)date('W',  $do_day  ) - $beg_week_num) % 2  ; 	//單週/雙週
 
 			 		for ($ss=1 ; $ss <= $DEF_SET['sects'] ; $ss++ )  {
 			 			$this_sect_data ='' ;

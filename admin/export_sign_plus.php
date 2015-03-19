@@ -61,7 +61,8 @@ function cell_border($objPHPExcel , $cell  ,$thick_left = false ) {
 	//取得 
 	$timetable=get_timetable_data('teacher' ,$data['info']['year']  ,$data['info']['semester'] ,'all', $over_id ) ;
 
-
+	//讀取 tad_cal 行事曆
+	$holiday  = get_tad_cal_holiday( $DEF_SET['es_tt_Holiday_KW'] ,date('Y-m-d' , $beg_date )  ,date('Y-m-d' , $end_date )) ;
 
 	//--------------------------------------------------------------------  
 
@@ -140,6 +141,7 @@ for ( $m = $beg_date ; $m<= $end_date ;  $m=strtotime( date('Y-m-01',$m ) .'+1 m
  
 		//此月各週 
 		for  ($do_day  =  $beg_date ; $do_day<= $end_date ; $do_day = $do_day + 60*60*24 ) {
+			if ($holiday[date('Y-m-d',$do_day)])	continue;	//當天放假，略過
 
 			if  ( ($do_day >= $m) and  ($do_day < $show_end_date)   ) {
  

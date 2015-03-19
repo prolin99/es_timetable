@@ -48,7 +48,7 @@
     <{/if}>
 
      <div class="row-fluid" >
-        行事曆本年假日：
+        行事曆學期假日：
     
         <{foreach  key=t_key item=title    from= $data.holiday }>
              <span   ><label  title='<{$title}>'  class="label label-info">
@@ -101,7 +101,7 @@
     支援單雙週排課，需要在偏好中設定。列印簽到名冊單雙週開始日以週一為一週的啟始日。
     </li>
     <li>
-    匯出簽到表時，會先抓取 tad_cal 行事曆，使用關鍵字(在偏好中設定，如 "放假,補假"  )找到不上課日並略去當天課表。如無設定行事曆則請自行修改匯出的內容。
+    抓取 tad_cal 行事曆，使用關鍵字(在偏好中設定，如 "放假,補假"  )並略去當天課表。
     </li>
     </ul>
 
