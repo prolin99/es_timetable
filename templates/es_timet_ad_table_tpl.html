@@ -66,16 +66,25 @@
             </select> 
           <{/if}>      	
       	</div>
-      	<div class='span4'>
+      	<div class='span3'>
       	<span class="span3">任教者</span><div class="span6 teacher_set" id="teacher_point" data_ref="" >拖入排課教師姓名</div><span id="sect_count"></span>
       	</div>
+              <span class="span2">
+              <label class="checkbox" title="確定才能同時在兩班課表中，否則會自動去除其他班課程。">
+                <input type="checkbox" id='chk_bigroom' >詢問大班模式
+              </label>
+               </span>           
       	<div class='span4'>
       	教室:<input name="room" id='room' placeholder="教室" class="span6" type="text" title="拉進排課並指定上課教室">
       	</div>
       	</div>
       	<div class="row-fluid" >
-      		<button class="btn btn-primary" type="button" data_ref="1" title="拖拉科目時，複製或移動模式" >移動模式</button> <span id="sub_count" class="alert alert-info"></span>
-      
+              <span class="span2">
+      		<button class="btn btn-primary" type="button" data_ref="1" title="拖拉科目時，複製或移動模式" >移動模式</button> 
+              </span>
+
+              <span id="sub_count" class="alert alert-info span10"></span>
+
       	</div>
 
       <table class="table table-bordered">
@@ -118,7 +127,8 @@
             <span class="label label-info">說明</span><br/>
            要先設定要科目及任課教師。<br/>
            先把任課教師拖入，再把科目拖入各節。<br/>
-           左方科目、教師，可以自由拖放在各個角落。
+           左方科目、上方教師名，可以自由拖放在各個角落。<br/>
+           如果要排大班(同一位教師教兩班)，請勾選上方詢問大班模式。
         </p>  
       </div>
       
@@ -208,9 +218,12 @@ $(function () {
                 	var cell_sect = $(this).attr("data_ref")  ;		//節次
                 	var cell_old_ss_id = $(this).attr("old_ss_id")  ;	//已排科目
                 	
-                	//拖拉進來的
+                	//拖拉進來的(舊格子位置)
                     	var dropin_data = ui.draggable.attr('data_ref') ;
                     	var dropin_data_old = ui.draggable.attr('old_sect') ;	
+
+                     //
+
                     	if (cell_sect != dropin_data_old) 
                     		sect_show(cell_sect , cell_old_ss_id , dropin_data , now_teacher_array , dropin_data_old) ;
  
@@ -267,6 +280,8 @@ function teacher_sect_show(do_mode , teacher_tab) {
 			//還原灰色
 			$('#sect_' + d+ '_'+s).attr('style','background:#EEE;' ) ;
 			$('#show_' + d+ '_'+s).text('') ;
+                     $('#sect_' + d+ '_'+s).attr('in_class',0 ) ;
+                     $('#sect_' + d+ '_'+s).attr('title','' ) ;
                     var cell_teacher_str='' ;
                     var sect_val = 1 ;  //算節數用
 			for (w =0 ; w<=2 ;w++) {
@@ -283,8 +298,8 @@ function teacher_sect_show(do_mode , teacher_tab) {
         				if (teacher_tab[d][s][w]['class_id'] != $("#class_id").val() ) {
         					//其它班的課
         					$('#sect_' + d+ '_'+s).attr('style','background:#F5DEB3;' ) ;
-        					$('#sect_' + d+ '_'+s).attr('in_class',0 ) ;
-                                       cell_teacher_str+= lab_w + class_name( teacher_tab[d][s][w]['class_id'] )+ '_'+ teacher_tab[d][s][w]['subject_name'] +','  ;
+        					$('#sect_' + d+ '_'+s).attr('in_class',2 ) ;
+                                          cell_teacher_str+= lab_w + class_name( teacher_tab[d][s][w]['class_id'] )+ '_'+ teacher_tab[d][s][w]['subject_name'] +','  ;
         					$('#sect_' + d+ '_'+s).attr('title','已有課:'+ cell_teacher_str ) ;
         					
         					$('#show_' + d+ '_'+s).text('排'+cell_teacher_str) ;
@@ -295,14 +310,14 @@ function teacher_sect_show(do_mode , teacher_tab) {
         					//目前班級的課
         					$('#sect_' + d+ '_'+s).attr('style','background:#ACFA58;' ) ;
         					$('#sect_' + d+ '_'+s).attr('in_class',1 ) ;
-                                      $('#sect_' + d+ '_'+s).attr('title','已有課' ) ;
+                                          $('#sect_' + d+ '_'+s).attr('title','已有課' ) ;
         					//$('#sect_' + d+ '_'+s).attr('title','已有課:'+ teacher_tab[d][s][w]['class_id'] + '_'+ teacher_tab[d][s][w]['subject_name'] ) ;
 
         					//$('#show_' + d+ '_'+s).text('已排'+ teacher_tab[d][s]['class_id'] + '_'+ teacher_tab[d][s]['subject_name'] ) ;				
         				}
         				var teacher_has_sect =teacher_has_sect + sect_val ;
 
-        			}				
+        			} 		
 	             }
 		}
 	}
@@ -496,7 +511,17 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
 			$('#' + sect).html('<div id="box_'+sect+'" class="subj" old_sect="'+sect+'" data_ref="box_'+splits[1] +'_'+ splits[2]+'_'+ t_now_teacher[1]+'_'+t_now_teacher[2]+'_'+ room +'">'+
 			'<span class="label label-success" >'+splits[2]+'<i class="icon-remove" data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></i></span><br/><span class="label label-info">'+ t_now_teacher[2]+'</span><br/><span class="label">'+room+'</span></div> ') ;
             */
-			ajax_time_table('add' , sect , subject_data , t_now_teacher_ref , room ,  week_d ) ;		
+                  //如果在它班已有課，要詢問可否同時上兩班
+                  var big_room = 0 ;
+                  if  ( ($('#'+ sect).attr('in_class')==2) & ( $("#chk_bigroom").prop('checked' ) ) ) {
+                    if (  confirm("此為大班同時多班上課? \n\n確定為同時上課，\n取消則除去其他班課表。")    ) {
+                         big_room = 1 ;
+                     }  
+
+                  } 
+                  ajax_time_table('add' , sect , subject_data , t_now_teacher_ref , room ,  week_d ,big_room ) ;    
+ 
+ 
 		    //本格內容
                   ajax_get_table_cell('cell' , sect ) ;
 
@@ -507,7 +532,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
                             start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
 			});   	
 			
-			//移動的模式
+			//移動的模式 , 要刪除舊位置
 			if ( (drop_move_mode ==1) &&   (splits[0]=='box') ) {
 				//要刪除舊位置
 				del_old_sect ( old_sect ,old_ss_id ,week_d ) ;
@@ -580,8 +605,9 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
     /*
     //清空格子
     $('#' + mark_id).html('<br/><br/>') ;
+        */
     $('#' + mark_id).attr('old_ss_id',0) ;
-    */
+
     //科目節數 -1 
     
     week_d = $('#box_' + mark_id).attr('week_d') ;
@@ -593,14 +619,14 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
     subject_count[ss_id] = subject_count[ss_id] - sect_val ;
     //alert( subject_count[ss_id] );
     
- 	ajax_time_table('del' , mark_id , '' , now_teacher_ref , '', week_d) ;  
+ 	ajax_time_table('del' , mark_id , '' , now_teacher_ref , '', week_d , 0 ) ;  
     ajax_get_table_cell('cell' ,mark_id) ;
     show_subject_count() ;
   }
 
   
  //增刪課表 動作
- var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place , week_d ){
+ var ajax_time_table=function( do_mode ,sect_num , subject_data , user ,room_place , week_d  ,big_room ){
  
       	  //記錄
             var URLs="ajax_set_timetable.php" ;
@@ -611,7 +637,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
                 url: URLs,
                 type:"GET",
                 dataType:'text',
-				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,class_id:class_id , sect:sect_num, subject:subject_data , teacher:user, room:room_place , do:do_mode , week:week_d },
+				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,class_id:class_id , sect:sect_num, subject:subject_data , teacher:user, room:room_place , do:do_mode , week:week_d , muti_class:big_room },
       
                 success: function(data){
  
@@ -665,7 +691,7 @@ function sect_show(sect , cell_old_ss_id , subject_data , now_teacher , old_sect
            })
  } 
 
-//單格內容重現
+//單格內容重現(寫入再讀出)
 function now_sect_show(sectt ,teacher_tab ) {
   var splits = sectt.split('_') ;
   var d= splits[1] ;

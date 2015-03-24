@@ -35,6 +35,7 @@ $DEF_SET['sects_cht'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_m_sects_ch
 
 $i = 1 ;
 foreach ( $DEF_SET['sects_cht']  as $oi => $sect_name ) {
+
 	$DEF_SET['sects_cht_list'][$i]  = $sect_name ;
 	$i ++ ;
 }
@@ -51,8 +52,10 @@ foreach ( $time_list  as $oi => $sect_name ) {
 $DEF_SET['spe_class'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_spe_class']) ;
 $i=9901 ;
 foreach ( $DEF_SET['spe_class']  as $oi => $spe_class_name ) {
-	$DEF_SET['spe_class_list'][$i]  =$spe_class_name  ;
-	$i++ ;
+	if ($spe_class_name) {
+		$DEF_SET['spe_class_list'][$i]  =$spe_class_name  ;
+		$i++ ;
+	}	
 }
 
 //
@@ -130,8 +133,10 @@ function get_timetable_class_list_c($mode='short') {
 	$class_list = es_class_name_list_c($mode) ;
 
 
-	foreach ($DEF_SET['spe_class_list'] as $class_id => $class_name) 
+	foreach ($DEF_SET['spe_class_list'] as $class_id => $class_name)  {
+
 		$class_list[$class_id] = $class_name ;
+	}	
  
 	return $class_list ;
 }
@@ -189,18 +194,23 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
 		$d= $row['day'] ;
 		$s= $row['sector'] ;
 		$w= $row['week_d'] ;
-		$cell['class_id']= $row['class_id'] ;
+ 		$cell['class_id']= $row['class_id'] ;
 		$cell['teacher']= $row['teacher'] ;
 		$cell['ss_id']= $row['ss_id'] ;
 		$cell['room']= $row['room'] ;
-		$tab[$d][$s][$w] = $cell ;
+
+		//如果同教師教兩班???
+		if  ($tab[$d][$s][$w]) 
+			$tab[$d][$s][$w]['other'][] = $cell ;
+		else 
+			$tab[$d][$s][$w] = $cell ;
 	
 	}	
 	$data[$old_key] = $tab  ;
  
 	return $data ;			
 }	
-
+/*
 //取出課表 教師條列式
 function get_timetable_data_list(  $y ,$s ,  $plus='') {
 	global  $xoopsDB ;
@@ -220,6 +230,8 @@ function get_timetable_data_list(  $y ,$s ,  $plus='') {
 	return $data ;			
 	
 }
+*/
+
 
 //取出課表  room 
 function get_class_room_list( $y ,$s ) {

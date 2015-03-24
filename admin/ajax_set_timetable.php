@@ -31,11 +31,13 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id']
 		list( $subj0,$subj_id,$subj ) =preg_split('/[_]/' ,$_GET['subject'])  ;
 
 		//教師這節要去除
-		$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  
-			" where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   
-			and day='$day' and sector='$sect'  and  teacher= '$tea_id'    and  ( week_d='$week_d'  or week_d=0 )" ;
-		$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
-		//echo $_GET['do'] . $sql ;
+		if ($_GET['muti_class']<>1) {
+			$sql = " DELETE FROM  "  . $xoopsDB->prefix("es_timetable") .  
+				" where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   
+				and day='$day' and sector='$sect'  and  teacher= '$tea_id'    and  ( week_d='$week_d'  or week_d=0 )" ;
+			$result = $xoopsDB->queryF($sql) or die($sql."<br>". mysql_error());
+			//echo $_GET['do'] . $sql ;
+ 		}
  		
 		//班級這節要去除
 		if ($week_d ==0 )
