@@ -166,7 +166,7 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
  	if (intval($over_id)>0)
  		//超鐘點部份，只在 teacher 模式
  		$where_plus = "  and c_kind ='$over_id'  " ;
-
+ 
 
 	if ($mode == 'teacher' )  
 		$sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'   $where_plus     order by teacher,day,sector " ;
@@ -184,13 +184,16 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
  
  	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error()); 
 	while($row=$xoopsDB->fetchArray($result)){
-		$key =$row[$mode] ;
+
+		$key =$row[$mode] ;		//取得該師目前代號或該班代號
+ 
 		if ($old_key =='') $old_key =	$key ;
 		if ($old_key <>	$key) {	
 			$data[$old_key] = $tab  ;
 			$old_key =	$key ;
 			unset($tab) ;
 		}		
+ 
 		$d= $row['day'] ;
 		$s= $row['sector'] ;
 		$w= $row['week_d'] ;
@@ -199,15 +202,18 @@ function get_timetable_data($mode, $y ,$s , $class_sel='all'  , $over_id='') {
 		$cell['ss_id']= $row['ss_id'] ;
 		$cell['room']= $row['room'] ;
 
+		$cell['other']='' ;
 		//如果同教師教兩班???
-		if  ($tab[$d][$s][$w]) 
-			$tab[$d][$s][$w]['other'][] = $cell ;
-		else 
-			$tab[$d][$s][$w] = $cell ;
+		if  ($tab[$d][$s][$w]) {
+			$cell['other']= $tab[$d][$s][$w]['class_id'] ;
+		}
+		$tab[$d][$s][$w] = $cell ;
 	
 	}	
 	$data[$old_key] = $tab  ;
  
+ 
+ 	//var_dump($data);
 	return $data ;			
 }	
 /*
@@ -496,8 +502,15 @@ function get_ones_timetable( $mode , $y ,$s  ,$id){
 		$row['subject_name']= $subject[$row['ss_id']] ;
 		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
 		$row['room_id']= array_search( $row['room']  ,$room_list ) ;
-		$data[$row['day']][$row['sector']][$row['week_d']]= $row ;
+
+		$eow['other']='' ;
+
+		//如果同教師教兩班???
+		if  ($data[$row['day']][$row['sector']][$row['week_d']]) 
+			$row['other']='同節:' . $row['class_id'] .$row['subject_name'] .' '. $data[$row['day']][$row['sector']][$row['week_d']]['other'];
+ 		$data[$row['day']][$row['sector']][$row['week_d']]= $row ;
 	}
+	var_dump($data);
 	return $data ;
 }	
 //=================================================================================================

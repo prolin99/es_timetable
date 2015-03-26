@@ -272,7 +272,7 @@ function teacher_box(tea) {
 //顯示出已排課表內容
 function teacher_sect_show(do_mode , teacher_tab) {
   if (do_mode =='teacher') {  
-  	//教師部份，以色塊出現是否已排課
+  	//教師部份，以色塊出現是否已排課  ----------------------------------------------------------------------------------
   	teacher_has_sect=0 ;
   	$(".show_hit").hide() ;
 	for (d = 1;d<=<{$DEF_SET.days}>;d++) {
@@ -315,6 +315,18 @@ function teacher_sect_show(do_mode , teacher_tab) {
 
         					//$('#show_' + d+ '_'+s).text('已排'+ teacher_tab[d][s]['class_id'] + '_'+ teacher_tab[d][s]['subject_name'] ) ;				
         				}
+
+                                    //同教師教兩班???
+                                   if  (teacher_tab[d][s][w]['other']){
+                                      //alert('aaaa') ;
+                                      $('#sect_' + d+ '_'+s).attr('style','background:#F5DE00;' ) ;
+                                      $('#sect_' + d+ '_'+s).attr('in_class',2 ) ;
+                                      cell_teacher_str +=  lab_w + class_name( teacher_tab[d][s][w]['other'] )  ;
+                                      $('#sect_' + d+ '_'+s).attr('title','同時上課：'+ cell_teacher_str ) ;
+                  
+                                      $('#show_' + d+ '_'+s).text('同時上課：'+cell_teacher_str) ;
+                                      $('#show_' + d+ '_'+s).show()  ;
+                                   }
         				var teacher_has_sect =teacher_has_sect + sect_val ;
 
         			} 		
@@ -325,7 +337,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 	$('#sect_count').text( teacher_has_sect ) ;
   }else{
   
-  	//班級
+  	//班級  -------------------------------------------------------------------------
 	for (d = 1;d<=<{$DEF_SET.days}>;d++) {
 		for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
 
@@ -441,9 +453,9 @@ function show_subject_count() {
                 dateType:'json', //接收資料格式
 				data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,id:tid ,  do:do_mode},
                 success: function(data){
-                  //  alert(msg);
+                   //alert(data) ;
                   var json_obj = jQuery.parseJSON(data) ;
- 
+                  
                   teacher_sect_show( do_mode ,json_obj ) ;
                 },
 

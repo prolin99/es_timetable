@@ -85,6 +85,8 @@ opacity:0.5;
 
                 <{$data.class_list_c[$cell_data.class_id]}><br />
                 <{$cell_data.subject_name}><br /></span>
+                <{*       同時多班                *}>
+                <{if  ($cell_data.other)  }><br /><{$cell_data.other }> <{/if}>
                 <input id="<{$cell_data.course_id}>" value="<{$cell_data.room}>" class="span8 text_edit" title="設定教室，移開後自動存入" type="text">
                  <{if  ($cell_data.c_kind) }>
                     <span class="plus" id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>" data='<{ $cell_data.c_kind}>'><i   class='icon-plus-sign' title='鐘點費'> </i><{ $cell_data.c_kind}></span>
@@ -92,6 +94,8 @@ opacity:0.5;
                     <span class="plus"  id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
                  <{/if}>
                  <br />
+
+
 
              <{/if}>
 
