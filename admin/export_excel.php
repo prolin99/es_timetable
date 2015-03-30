@@ -91,7 +91,10 @@ if  ($_GET['mode']) {
 						if ($mytable[$i][$s][$w]['ss_id']) {
  							$short_ss = mb_substr($subject[$mytable[$i][$s][$w]['ss_id']],0,2,"utf-8") ;
  							if ($tstr<>'') $tstr .= ',' ;
-							$tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']] ."\n" .$short_ss;
+ 							if ($mytable[$i][$s][$w]['other'])
+ 								$tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']] ."&\n" .$short_ss;
+ 							else 
+								$tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']] ."\n" .$short_ss;
  							if ($w==1) $tstr .= '*' ;
  							if ($w==2) $tstr .= '#' ;							
 						}
