@@ -108,11 +108,11 @@ if  ($_GET['mode']) {
  
  	
 	header('Content-Type: application/vnd.ms-excel');
-	header('Content-Disposition: attachment;filename=teacher_all'.date("mdHi").'.xls' );
+	header('Content-Disposition: attachment;filename=teacher_all'.date("mdHi").'.xlsx' );
 	header('Cache-Control: max-age=0');
 
-	//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+	//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 	ob_clean();
 	$objWriter->save('php://output');
 	exit;		
