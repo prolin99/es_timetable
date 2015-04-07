@@ -70,8 +70,8 @@
       	<span class="span3">任教者</span><div class="span6 teacher_set" id="teacher_point" data_ref="" >拖入排課教師姓名</div><span id="sect_count"></span>
       	</div>
               <span class="span2">
-              <label class="checkbox" title="確定才能同時在兩班課表中，否則會自動去除其他班課程。">
-                <input type="checkbox" id='chk_bigroom' >詢問大班模式
+              <label class="checkbox" title="會再次確認是否同時在兩班課表中，否則會自動去除其他班課程。">
+                <input type="checkbox" id='chk_bigroom' >詢問同節授課
               </label>
                </span>           
       	<div class='span4'>
@@ -128,7 +128,7 @@
            要先設定要科目及任課教師。<br/>
            先把任課教師拖入，再把科目拖入各節。<br/>
            左方科目、上方教師名，可以自由拖放在各個角落。<br/>
-           如果要排大班(同一位教師教兩班)，請勾選上方詢問大班模式。
+           如果要排大教室上課(同一位教師教兩班)，請勾選上方詢問同節授課。
         </p>  
       </div>
       
@@ -321,10 +321,10 @@ function teacher_sect_show(do_mode , teacher_tab) {
                                       //alert('aaaa') ;
                                       $('#sect_' + d+ '_'+s).attr('style','background:#F5DE00;' ) ;
                                       $('#sect_' + d+ '_'+s).attr('in_class',2 ) ;
-                                      cell_teacher_str +=  lab_w + class_name( teacher_tab[d][s][w]['other'] )  ;
-                                      $('#sect_' + d+ '_'+s).attr('title','同時上課：'+ cell_teacher_str ) ;
+                                      cell_teacher_str +=  lab_w + ( teacher_tab[d][s][w]['other'] )  ;
+                                      $('#sect_' + d+ '_'+s).attr('title','同節:'+ cell_teacher_str ) ;
                   
-                                      $('#show_' + d+ '_'+s).text('同時上課：'+cell_teacher_str) ;
+                                      $('#show_' + d+ '_'+s).text('同節:'+cell_teacher_str) ;
                                       $('#show_' + d+ '_'+s).show()  ;
                                    }
         				var teacher_has_sect =teacher_has_sect + sect_val ;

@@ -422,31 +422,36 @@ function check_timetable_double($y , $s) {
 	
 	//取得中文班名
 	$class_list_c = es_class_name_list_c()  ;
+	//讀取科目
+	$subject= get_subject_list() ;
 
+	//班級同一節有兩科
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector ,week_d HAVING cc>1    " ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
 		$data .= $class_list_c[$row['class_id']]  .$DEF_SET['week'][$row['day']] .'-' .$DEF_SET['sects_cht_list'][$row['sector']]  .'  <br />' ;
  	}
 
+ 	//教師同一節有兩科
  	$teacher_list = get_table_teacher_data() ;
  	
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector ,week_d  HAVING cc>1    " ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while($row= $xoopsDB->fetchArray($result)){
-		$data .= $teacher_list[$row['teacher']]['name']   .'  --  ' .$DEF_SET['week'][$row['day']] .'-' .$DEF_SET['sects_cht_list'][$row['sector']]  . ' --- ' ;
+		$data .= $teacher_list[$row['teacher']]['name']   .'  --  ' .$DEF_SET['week'][$row['day']] . $DEF_SET['sects_cht_list'][$row['sector']]  . ' --- ' ;
 		//取得該教師那一節課
-		$sql2 =  "   SELECT class_id  FROM  " . $xoopsDB->prefix("es_timetable") . 
+		$sql2 =  "   SELECT class_id , ss_id  FROM  " . $xoopsDB->prefix("es_timetable") . 
 			"  where school_year= '$y'  and  semester= '$s'    and  teacher='{$row['teacher']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       " ;
 
 		$result2 = $xoopsDB->query($sql2) or die( mysql_error());
 		while($row2= $xoopsDB->fetchArray($result2)){
-			$data .= $class_list_c[$row2['class_id']]  . '  , ' ;
+			$data .= $class_list_c[$row2['class_id']]  .  $subject[$row2['ss_id']]  .  '  , ' ;
 		}
  
-		$data .= "<br />" ;
+		$data .= "(可能為大班級上課)<br />" ;
  	} 	
 
+ 	//教室
 	$sql =  "   SELECT * , count(*) as cc FROM  " . $xoopsDB->prefix("es_timetable") . "  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    " ;
 	//echo $sql ;
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -481,6 +486,7 @@ function check_timetable_double($y , $s) {
 //取得單人、教室、班級課表
 function get_ones_timetable( $mode , $y ,$s  ,$id){
 	global  $xoopsDB ;
+	$class_list_c = get_timetable_class_list_c('short')  ;
 	$subject= get_subject_list() ;
 
 	$room_list = get_class_room_list( $y , $s ) ;
@@ -503,14 +509,17 @@ function get_ones_timetable( $mode , $y ,$s  ,$id){
 		$row['teacher_name']= $teacher_list[$row['teacher']]['name'] ;
 		$row['room_id']= array_search( $row['room']  ,$room_list ) ;
 
-		$eow['other']='' ;
+		$row['other']='' ;
 
 		//如果同教師教兩班???
-		if  ($data[$row['day']][$row['sector']][$row['week_d']]) 
-			$row['other']='同節:' . $row['class_id'] .$row['subject_name'] .' '. $data[$row['day']][$row['sector']][$row['week_d']]['other'];
- 		$data[$row['day']][$row['sector']][$row['week_d']]= $row ;
+		if  ($data[$row['day']][$row['sector']][$row['week_d']]) {
+			$orow = $data[$row['day']][$row['sector']][$row['week_d']] ;
+			$row['other']=  $class_list_c[$orow['class_id']] .$orow['subject_name'] .' '. $orow['other'];
+		} 
+		$data[$row['day']][$row['sector']][$row['week_d']]= $row ;
+ 
 	}
-	var_dump($data);
+	//var_dump($data);
 	return $data ;
 }	
 //=================================================================================================

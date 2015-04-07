@@ -75,7 +75,7 @@
 
                 <{$cell_data.subject_name}><br />
                 <{*       同時多班                *}>
-                <{if  ($cell_data.other)  }><br /><{$cell_data.other }> <{/if}>
+                <{if  ($cell_data.other)  }>(同節:<{$cell_data.other }>) <{/if}>
                 <{if ($data.room_sel ) }>
                     <a href="teacher_list.php?teacher_id=<{$cell_data.teacher}>">
                     <{$cell_data.teacher_name}>

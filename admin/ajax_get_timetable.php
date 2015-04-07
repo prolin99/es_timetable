@@ -11,6 +11,7 @@ include_once "header_admin.php";
 include_once "header.php";
 
 if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
+	$class_list_c = get_timetable_class_list_c('short')  ;
 	//讀取科目
 	$subject= get_subject_list() ;
 	//讀取人名
@@ -39,11 +40,10 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 		$w= $row['week_d'] ;
 		//如果同教師教兩班???
 		if  ($data[$row['day']][$row['sector']][$w]['class_id']) {
-			$row['other']= $data[$row['day']][$row['sector']][$w]['class_id'] ;
-			//$row['other'] =1 ;
-			$data[$row['day']][$row['sector']][$w] =  $row ;
-		}else		
-			$data[$row['day']][$row['sector']][$w]= $row ;
+			$o_row= $data[$row['day']][$row['sector']][$w] ;
+			$row['other']= $class_list_c[$o_row['class_id']] . $subject[$o_row['ss_id']] .' '.  $o_row['other'] ;
+		}		
+		$data[$row['day']][$row['sector']][$w]= $row ;
 	} 	
 	//echo $sql ;
 	//var_dump( $data );

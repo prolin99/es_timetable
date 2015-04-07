@@ -100,10 +100,10 @@ foreach ($timetable as $key =>	$table_data) {
 	$table->addRow(1000); //新增一列
 
 	//$cellStyle =array('textDirection'=>PHPWord_Style_Cell::TEXT_DIR_BTLR, 'bgColor'=>'C0C0C0'); //儲存格樣式（設定項：valign、textDirection、bgColor、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
-	$table->addCell(2000,$cellStyle )->addText('節次',$styleFont_cell_top ,$style_cell_top); //新增一格
+	$table->addCell(1000,$cellStyle )->addText('節次',$styleFont_cell_top ,$style_cell_top); //新增一格
 	
 	for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  
-		$table->addCell(1000,$cellStyle )->addText($DEF_SET['week'][$i] ,$styleFont_cell_top ,$style_cell_top ); //新增一格
+		$table->addCell(1600,$cellStyle )->addText($DEF_SET['week'][$i] ,$styleFont_cell_top ,$style_cell_top ); //新增一格
  
 	//課表內容	
  	for ($s=1 ; $s <= $DEF_SET['sects'] ; $s++ )  {
@@ -143,13 +143,13 @@ foreach ($timetable as $key =>	$table_data) {
 					}			
 				}
 			}	
-			$table->addCell(2000   )->addText($cell_doc ,$font,$style_cell); //新增一格	
+			$table->addCell(1600   )->addText($cell_doc ,$font,$style_cell); //新增一格	
 		}	
 		if ($s == $DEF_SET['m_sects']) {//上午節數
 			$table->addRow(500); //新增一列
 			$table->addCell(1000,$cellStyle )->addText("午休",$styleFont_cell_top,$style_cell_top); //新增一格
 			for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)  {
-				$table->addCell(1000,$cellStyle )->addText("",$styleFont_cell_top,$style_cell_top); //新增一格
+				$table->addCell(1600,$cellStyle )->addText("",$styleFont_cell_top,$style_cell_top); //新增一格
 			}	
 			
 		}	
@@ -157,7 +157,7 @@ foreach ($timetable as $key =>	$table_data) {
  	
 }
 	header('Content-Type: application/vnd.ms-word');
-	header('Content-Disposition: attachment;filename=功課表.docx');
+	header('Content-Disposition: attachment;filename=功課表'.$mid . '.docx');
 	header('Cache-Control: max-age=0');
 	$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 	ob_clean();
