@@ -42,6 +42,8 @@ if ( $_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']   ) {
 
 	
 	echo json_encode($data,JSON_FORCE_OBJECT);
+	//echo json_encode($data,JSON_FORCE_OBJECT | SON_UNESCAPED_UNICODE);
+
 	
 	
 }
