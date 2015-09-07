@@ -56,7 +56,7 @@ $modversion['templates'] = array();
 $i=1;
 $modversion['templates'][$i]['file'] = 'es_timet_index_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_index_tpl.html';
-$i=1;
+$i++ ;
 $modversion['templates'][$i]['file'] = 'es_timet_index_tpl_b3.html';
 $modversion['templates'][$i]['description'] = 'es_timet_index_tpl.html';
 
