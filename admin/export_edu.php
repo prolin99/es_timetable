@@ -57,6 +57,14 @@ $s = $data['info']['semester']  ;
 
 
 
+        //新分頁  sheet 做教師身份證號
+        $objActExcelPID = $objPHPExcel->createSheet(1);
+        $objActExcelPID->setTitle('personid');
+        $objActExcelPID->setCellValue('A1' ,'教師姓名') ;
+        $objActExcelPID->setCellValue('B1' ,'教師身份證號') ;
+        $objActExcelPID->setCellValue('D1' ,'說明：以此格式輸入或直接貼上(順序不需一致)') ;
+        $objActExcelPID->setCellValue('D2' ,'教師總表頁中的教師身分證號可以自動調整') ;
+        $b_row=1 ;
 
  	//資料開始
 	//科目
@@ -132,9 +140,11 @@ $s = $data['info']['semester']  ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-      //$pid_serch= " VLOOKUP($teacher , personid!.A1:B200,2, ) " ;
-			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $teacher .'id') ;
-      //$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '='. $pid_serch ) ;
+            //要搜尋配合的身份證號
+            $pid_search= " VLOOKUP( \"$teacher\" , personid!A2:B200,2, ) " ;
+
+			//$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $teacher .'id') ;
+                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , '='. $pid_search  );
 
 
 			$col ++ ;
@@ -160,18 +170,29 @@ $s = $data['info']['semester']  ;
 
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $week_d) ;
 
+            //sheet 只列一次教師名
+            if ($teacher<> $old_teacher) {
+                $b_col='A' ;
+                $b_row++ ;
+                $b_col_str =$b_col .$b_row ;
+                $objActExcelPID->setCellValue($b_col_str ,$teacher) ;
+                $old_teacher = $teacher ;
 
+            }
 	}
 
 
- $objActExcelPID = $objPHPExcel->createSheet(1);
- $objActExcelPID->setTitle('personid');
+
+
 
 	header('Content-Type: application/vnd.ms-excel');
 	header('Content-Disposition: attachment;filename=teacher_all'.date("mdHi").'.xlsx' );
 	header('Cache-Control: max-age=0');
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    //if ($this->_hasCharts) $objWriter->setIncludeCharts(TRUE);
+    //因為有分頁 並使用  VLOOKUP ，所以指定以下，否則無法產生檔案。
+    $objWriter->setPreCalculateFormulas(FALSE);
 	//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 	ob_clean();
 	$objWriter->save('php://output');
