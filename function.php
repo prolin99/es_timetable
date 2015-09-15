@@ -12,7 +12,6 @@ include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 
 if(!file_exists(XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php")){
  redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=33",3, '需要單位名稱模組(e_stud_import)1.9以上');
- //exit() ;
 }
 include_once XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php";
 /********************* 自訂函數 *********************/
