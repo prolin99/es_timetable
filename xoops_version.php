@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] ='課表';				//模組名稱
-$modversion['version']	= '1.5';				//模組版次
+$modversion['version']	= '1.6';				//模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';		//模組作者
 $modversion['description'] ='展示功課表';			//模組說明
 $modversion['credits']	= 'prolin';				//模組授權者
@@ -195,19 +195,33 @@ $modversion['config'][$i]['default'] ="超鐘點";
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_week_D';
-$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_TweekD';
-$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DweekD';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_TWEEKD';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DWEEKD';
 $modversion['config'][$i]['formtype']    = 'yesno';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default'] = false  ;
 
 $i++ ;
 $modversion['config'][$i]['name'] = 'es_tt_holiday_kw';
-$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_holiday_k';
-$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_holiday_k';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_HOLIDAY_K';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_HOLIDAY_K';
 $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default'] ="放假,補假";
 
 $i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_single_mode';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_SINGLE_MODE';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_SINGLE_MODE';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default'] = false  ;
+
+$i++ ;
+$modversion['config'][$i]['name'] = 'es_tt_sm_class_num';
+$modversion['config'][$i]['title']   = '_MI_ES_TT_CONFIG_SM_CLASS_NUM';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_SM_CLASS_NUM';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default'] = '2,2,2,2,3,3'  ;
 ?>

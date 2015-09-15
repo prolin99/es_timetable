@@ -12,6 +12,7 @@ include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 
 if(!file_exists(XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php")){
  redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=33",3, '需要單位名稱模組(e_stud_import)1.9以上');
+ //exit() ;
 }
 include_once XOOPS_ROOT_PATH."/modules/e_stud_import/es_comm_function.php";
 /********************* 自訂函數 *********************/
@@ -73,6 +74,20 @@ $DEF_SET['week'] = array('' ,'週一' ,'週二','週三','週四','週五','週�
 
 $DEF_SET['es_tt_Holiday_KW'] = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_holiday_kw']) ;
 
+//是否獨立模式
+$DEF_SET['es_tt_single_mode'] = $xoopsModuleConfig['es_tt_single_mode'] ;
+//獨立模式班級
+$sm_class_num = preg_split('/[,]/' ,$xoopsModuleConfig['es_tt_sm_class_num']) ;
+//獨立模式班級列表
+foreach( $DEF_SET['grade']  as $gi=>$gg) {
+    for ($i=1 ; $i<=$sm_class_num[$gi] ; $i++) {
+      $c_id = sprintf('%03d',$gg* 100 + $i );
+      $DEF_SET['sm_class_id'][$c_id] =$c_id ;
+    }
+}
+
+
+
 
 //由 tad_cal 中取得放假日
 function get_tad_cal_holiday($kword  ,$beg_date='' , $end_date ='' ){
@@ -130,7 +145,11 @@ function get_tad_cal_holiday($kword  ,$beg_date='' , $end_date ='' ){
 //課表中要用到特殊班
 function get_timetable_class_list_c($mode='short') {
 	global $DEF_SET ;
-	$class_list = es_class_name_list_c($mode) ;
+  //獨立模式
+  if ($DEF_SET['es_tt_single_mode'] )
+    $class_list = $DEF_SET['sm_class_id'] ;
+  else
+	 $class_list = es_class_name_list_c($mode) ;
 
 
 	foreach ($DEF_SET['spe_class_list'] as $class_id => $class_name)  {

@@ -40,9 +40,16 @@ define("_MI_ES_TT_CONFIG_Dlocal","匯出教育部課表預設值，閩南語  �
 define("_MI_ES_TT_CONFIG_OVER","減授課經費");
 define("_MI_ES_TT_CONFIG_DESC_OVER","經費類別以逗號分隔，如：超鐘點,圖書教師鐘點費,輔導教師減課鐘點費,縣領域輔導團減課鐘點費");
 
-define("_MI_ES_TT_CONFIG_TweekD","單雙週排課");
-define("_MI_ES_TT_CONFIG_DweekD","是否單雙週排課");
+define("_MI_ES_TT_CONFIG_TWEEKD","單雙週排課");
+define("_MI_ES_TT_CONFIG_DWEEKD","是否單雙週排課");
 
-define("_MI_ES_TT_CONFIG_holiday_k","Tad_cal 行事曆中假日使用關鍵字");
-define("_MI_ES_TT_CONFIG_D_holiday_k","如放假,補假 等，使用逗號做分隔");
+define("_MI_ES_TT_CONFIG_HOLIDAY_K","Tad_cal 行事曆中假日使用關鍵字");
+define("_MI_ES_TT_CONFIG_D_HOLIDAY_K","如放假,補假 等，使用逗號做分隔");
+
+define("_MI_ES_TT_CONFIG_SINGLE_MODE","獨立模式，不使用單位名冊班級");
+define("_MI_ES_TT_CONFIG_D_SINGLE_MODE","如果沒有學生資料，不使用單位名冊模組(仍需安裝)，可以下方做班級數指定");
+ 
+define("_MI_ES_TT_CONFIG_SM_CLASS_NUM","獨立模式，每年級班級數");
+define("_MI_ES_TT_CONFIG_D_SM_CLASS_NUM","如 2,3,2,2,2,2 ，每年級班級數，逗號分隔 ");
+
 ?>
