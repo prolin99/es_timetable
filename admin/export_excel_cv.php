@@ -39,6 +39,10 @@ if  ($_GET['mode']) {
 	//$teacher_list = get_table_teacher_list('all') ;
 	$teacher_list = get_table_teacher_list() ;
 
+	$fontcolor = new PHPExcel_Style_Color();
+	$fontcolor->setRGB('000000');
+	$redfontcolor = new PHPExcel_Style_Color();
+	$redfontcolor->setRGB('d92184');
 
  	$objPHPExcel = new PHPExcel();
 	$objPHPExcel->setActiveSheetIndex(0);  //設定預設顯示的工作表
@@ -98,6 +102,7 @@ if  ($_GET['mode']) {
 					for ($w= 0 ;$w<=2 ; $w++) {
 						if ($mytable[$i][$s][$w]['ss_id']) {
  							$short_ss = mb_substr($subject[$mytable[$i][$s][$w]['ss_id']],0,2,"utf-8") ;
+							$is_class_teacher = ($class_teacher_list[$t_id] == $teacher_list[$mytable[$i][$s][$w]['teacher']] ) ;
  							if ($tstr<>'') $tstr .= ",\n" ;
  							if ($mytable[$i][$s][$w]['other'])
  								//$tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']] ."&\n" .$short_ss;
@@ -111,8 +116,14 @@ if  ($_GET['mode']) {
 					}
 					$col_str =$col .$row ;
 		 			$objPHPExcel->getActiveSheet()->getStyle($col_str)->getAlignment()->setWrapText(true); //自動換行
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $tstr) ;
-
+					//級任
+					if ($is_class_teacher) {
+						$objPHPExcel->setActiveSheetIndex(0)->getStyle($col_str)->getFont()->setColor($fontcolor);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $tstr ) ;
+					}else{
+						$objPHPExcel->setActiveSheetIndex(0)->getStyle($col_str)->getFont()->setColor($redfontcolor);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $tstr  ) ;
+					}
 				}
 
 	}
