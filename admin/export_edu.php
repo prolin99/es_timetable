@@ -62,8 +62,10 @@ $s = $data['info']['semester']  ;
         $objActExcelPID->setTitle('personid');
         $objActExcelPID->setCellValue('A1' ,'教師姓名') ;
         $objActExcelPID->setCellValue('B1' ,'教師身份證號') ;
-        $objActExcelPID->setCellValue('D1' ,'說明：以此格式輸入或直接貼上(順序不需一致)') ;
-        $objActExcelPID->setCellValue('D2' ,'教師總表頁中的教師身分證號可以自動調整') ;
+        $objActExcelPID->setCellValue('E1' ,'說明：') ;
+        $objActExcelPID->setCellValue('E2' ,'以此格式輸入或直接貼上(順序不需一致)') ;
+        $objActExcelPID->setCellValue('E3' ,'教師總表頁中的教師身分證號可以自動調整') ;
+        $objActExcelPID->setCellValue('E4' ,'總表頁中，本土語言語言別記得再檢查') ;
         $b_row=1 ;
 
  	//資料開始
