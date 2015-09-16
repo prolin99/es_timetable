@@ -139,7 +139,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 
                                   $('#' + sectt).html(cell_str  ) ;
                                 <{else}>
-                                      cell_str_open+= week_str+teacher_tab[d][s][w]['subject_name']+' </span><br/> \n'+ teacher_tab[d][s][w]['teacher_name']+' <br/> '+teacher_tab[d][s][w]['room']  + ' <br/></div> \n'  ;
+                                      cell_str_open+= week_str+teacher_tab[d][s][w]['subject_name']+' </span><br/> \n'+ teacher_tab[d][s][w]['teacher_name']+' <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>  \n'  ;
                                       $('#' + sectt).html( cell_str_open ) ;
                                 <{/if}>
                              }else{
@@ -148,7 +148,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
 
                                   $('#' + sectt).html( cell_str2 ) ;
                                 <{else}>
-                                      cell_str_open +=week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/> \n'+teacher_tab[d][s][w]['room'] + ' <br/></div>  \n'  ;
+                                      cell_str_open +=week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/>  \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>   \n'  ;
                                       $('#' + sectt).html( cell_str_open ) ;
                                 <{/if}>
 

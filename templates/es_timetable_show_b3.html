@@ -29,10 +29,12 @@
       	<div class='col-md-4'>
           <form action="teacher_list.php"  method="GET">
             <div class="form-group">
+                <{if ($data.isteacher)}>
               <label for="teacher_id" class="col-md-4 control-label">查詢教師:</label>
               <div class='col-md-8'>
               <{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="form-control" }>
             </div>
+            <{/if}>
             </div>
         </form>
       	</div>
@@ -88,9 +90,14 @@
                 <{*       同時多班                *}>
                 <{if  ($cell_data.other)  }>(同節:<{$cell_data.other }>) <{/if}>
                 <{if ($data.room_sel ) }>
-                    <a href="teacher_list.php?teacher_id=<{$cell_data.teacher}>">
-                    <{$cell_data.teacher_name}>
-                    </a><br />
+                    <{if ($data.isteacher)}>
+                        <a href="teacher_list.php?teacher_id=<{$cell_data.teacher}>">
+                            <{$cell_data.teacher_name}>
+                        </a>
+                    <{else }>
+                        <{$cell_data.teacher_name}>
+                    <{/if}>
+                    <br />
                 <{/if}>
 
                 <{if ($cell_data.room) }>

@@ -13,12 +13,16 @@ $xoopsOption['template_main'] = set_bootstrap("es_timetable_show.html");
 
 include_once XOOPS_ROOT_PATH."/header.php";
 
- if (!$xoopsUser)
-    redirect_header("index.php",3, "需要登入，才能使用！");
 
-//校內教師群組代號
-if (! in_array(   $DEF_SET['teacher_group'] , $xoopsUser->groups() )  )
-  	redirect_header("index.php",3, "教職員，才能使用！");
+ if ($xoopsUser) {
+     //是教職員登入，可尋找教師
+     if ( in_array(   $DEF_SET['teacher_group'] , $xoopsUser->groups() )  )
+        $CanSearchTeacher= true ;
+
+ }
+
+
+
 
 /*-----------function區--------------*/
 //取得參數
@@ -47,28 +51,33 @@ $data['teacher_list'] =get_table_teacher_list() ;
 //教室名稱陣列
 $data['room_list'] = get_class_room_list($n_year , $n_semester ) ;
 
- if  (intval($_GET['room_id']) )
-    $data['room_sel'] = intval($_GET['room_id']) ;
-else
-    $data['room_sel'] = 0 ;
 
- if  (intval($_GET['teacher_id']) )
-    $data['teacher_sel'] = intval($_GET['teacher_id']) ;
+if  (intval($_GET['room_id']) )
+   $data['room_sel'] = intval($_GET['room_id']) ;
 else
-    $data['teacher_sel'] = key($data['teacher_list']) ;
+   $data['room_sel'] = 0 ;
 
+
+if ($CanSearchTeacher) {
+    if  (intval($_GET['teacher_id']) )
+        $data['teacher_sel'] = intval($_GET['teacher_id']) ;
+    else
+        $data['teacher_sel'] = key($data['teacher_list']) ;
+}
 
 //echo  $data['teacher_sel']   ;
 if ($data['room_sel'] >0 ) {
     $room_name = $data['room_list'][$data['room_sel']] ;
     $tab = get_ones_timetable( 'room' , $n_year , $n_semester  ,  $room_name  ) ;
 
-}else
-    $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;
+}else{
+    if ($CanSearchTeacher)
+        $tab = get_ones_timetable( 'teacher' , $n_year , $n_semester  , $data['teacher_sel']  ) ;
+}
 //var_dump($tab) ;
 
 $data['error'] = check_timetable_double($data['info']['year'],$data['info']['semester']) ;
-
+$data['isteacher'] = $CanSearchTeacher ;
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
 $xoopsTpl->assign( "data" , $data ) ;

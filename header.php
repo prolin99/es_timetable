@@ -13,9 +13,9 @@ $isAdmin=isAdmin();
 
 //ini_set('display_errors', 'On');
 
- 
+
 $interface_menu['課表查詢']="index.php";
-$interface_menu['教師查詢']="teacher_list.php";
+$interface_menu['教師、教室查詢']="teacher_list.php";
 $interface_menu['級任排課']="class_set.php";
 
 if($isAdmin){
