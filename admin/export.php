@@ -76,10 +76,9 @@ if  ($_GET['mode']) {
 	$styleFont_cell_left =  array('name'=>'Tahoma',  'size'=>12 , 'bold'=>true );
 	$style_cell_left  = array('align'=>'center');
 
-	/*
-	$styleTable = array('borderColor'=>'006699', 'borderSize'=>6, 'cellMargin'=>50); //表格樣式（可用設定：cellMarginTop、cellMarginLeft、cellMarginRight、cellMarginBottom、cellMargin、bgColor、 borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor、borderInsideHSize、borderInsideHColor、borderInsideVSize、borderInsideVColor、borderSize、borderColor）
-	$styleFirstRow = array('bgColor'=>'66BBFF'); //首行樣式
-	*/
+	$styleTable    = array('borderColor' => '000000', 'borderSize' => 6, 'cellMargin' => 50);
+	$styleFirstRow = array('bgColor' => 'EEEEEE'); //首行樣式
+
 	$page =0 ;
 foreach ($timetable as $key =>	$table_data) {
 	 if ($page >0) $section->addPageBreak();  //換頁 (第一次不換頁)
@@ -96,7 +95,7 @@ foreach ($timetable as $key =>	$table_data) {
 
 
 
-	//$PHPWord->addTableStyle('myTable', $styleTable, $styleFirstRow); //建立表格樣式
+	$PHPWord->addTableStyle('myTable', $styleTable, $styleFirstRow); //建立表格樣式
 	$PHPWord->addTableStyle('myTable' ); //建立表格樣式
 	$table = $section->addTable('myTable');//建立表格
 
