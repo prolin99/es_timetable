@@ -57,6 +57,9 @@ if  (intval($_GET['room_id']) )
 else
    $data['room_sel'] = 0 ;
 
+//教室代碼是否正確
+if ( !$data['room_list'][ $data['room_sel']  ]  )
+    $data['room_sel'] = 0 ;
 
 if ($CanSearchTeacher) {
     if  (intval($_GET['teacher_id']) )
