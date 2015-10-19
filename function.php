@@ -289,11 +289,13 @@ function get_subject_list() {
 function get_subject_data_list() {
 	//取得科目資料庫中多欄位
 	global  $xoopsDB ;
-	$sql =  "  SELECT  subject_id , subject_name ,subject_scope   FROM " . $xoopsDB->prefix("es_timetable_subject") . " order by subject_id  " ;
+	$sql =  "  SELECT  subject_id , subject_name ,subject_scope ,e_subject ,s_subject    FROM " . $xoopsDB->prefix("es_timetable_subject") . " order by subject_id  " ;
 	$result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error());
 	while($row=$xoopsDB->fetchArray($result)){
 		$data[$row['subject_id']]['subject'] = $row['subject_name'] ;
 		$data[$row['subject_id']]['scope'] = $row['subject_scope'] ;
+        $data[$row['subject_id']]['e_subject'] = $row['e_subject'] ;
+        $data[$row['subject_id']]['s_subject'] = $row['s_subject'] ;
 	}
 	return $data ;
 

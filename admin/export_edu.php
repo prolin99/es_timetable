@@ -53,7 +53,8 @@ $s = $data['info']['semester']  ;
             ->setCellValue('H' . $row, '領域')
             ->setCellValue('I' . $row, '科目')
             ->setCellValue('J' . $row, '語言別')
-            ->setCellValue('K' . $row, '上課頻率');
+            ->setCellValue('K' . $row, '校訂課程名稱(選填)')
+            ->setCellValue('L' . $row, '上課頻率');
 
 
 
@@ -98,7 +99,8 @@ $s = $data['info']['semester']  ;
 		}
 		$teacher = $teacher_list[$row_data['teacher']];
 
-		$sub_name = trim($subject[$row_data['ss_id']]['subject']);
+		$sub_name = trim($subject[$row_data['ss_id']]['e_subject']);
+        $sub_s_name = trim($subject[$row_data['ss_id']]['s_subject']);
 		$sub_scope = trim($subject[$row_data['ss_id']]['scope']);
 
 		$sub_local ='' ;
@@ -153,10 +155,12 @@ $s = $data['info']['semester']  ;
 			$col_str =$col .$row ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_kind ) ;
 
+            //教育部領域
 			$col ++ ;
 			$col_str =$col .$row ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_scope ) ;
 
+            //教育部科目
 			$col ++ ;
 			$col_str =$col .$row ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_name) ;
@@ -166,10 +170,13 @@ $s = $data['info']['semester']  ;
 			$col_str =$col .$row ;
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_local ) ;
 
+            //校訂科目
+            $col ++ ;
+			$col_str =$col .$row ;
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $sub_s_name) ;
 
 			$col ++ ;
 			$col_str =$col .$row ;
-
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str , $week_d) ;
 
             //sheet 只列一次教師名

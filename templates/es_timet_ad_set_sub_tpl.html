@@ -1,16 +1,19 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
- 
+
 <div class="row-fluid" >
     <form action="set_subject.php" enctype="multipart/form-data" method="POST">
     <fieldset>
     <input type="text" name="new_kmo" placeholder="新增科目，可以逗號分隔多項" class="span4">
-    <button type="submit" name="do_key" class="btn btn-primary">新增科目</button> 
+    <button type="submit" name="do_key" class="btn btn-primary">新增科目</button>
     </fieldset>
-    </form>  
+    </form>
 <table class="table table-hover ">
-<tr><td>代號</td><td>科目 - 領域</td>
+<tr>
+<td>代號</td>
+<td class="span2">課表呈現科目名</span></td>
+<td class="span2">配合教育部領域、科目、校訂科目(供匯入教育部系統用)</td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 <td><{$grade}>年級</td>
 <{/foreach}>
@@ -19,33 +22,39 @@
 
 <{foreach  key=s_key item=subject   from=$data.subject_name  }>
 <tr><td><{$s_key}></td>
-<td><input type="text" id="name_<{$s_key}>" value="<{$subject.subject}>" class="sub_edit span4" title="自動存入">
-  <input type="text" id="scope_<{$s_key}>" value="<{$subject.scope}>" class="scope_edit span4" title="領域名稱,自動存入">  
-  <i class="icon-remove" data_ref="<{$s_key}>" title="刪除"></i></td>
+<td class="span2">
+  <input type="text" id="name_<{$s_key}>" value="<{$subject.subject}>" class="sub_edit span9" title="課表出現名稱">
+</td>
+<td class="span6 alert-info">
+     <i class="icon-remove" data_ref="<{$s_key}>" title="刪除"></i>
+  <input type="text" id="scope_<{$s_key}>" value="<{$subject.scope}>" class="scope_edit span3" title="配合教育部領域名稱" placeholder="領域名稱">
+  <input type="text" id="esubject_<{$s_key}>" value="<{$subject.e_subject}>" class="e_subject_edit span3" title="配合教育部科目" placeholder="科目">
+  <input type="text" id="ssubject_<{$s_key}>" value="<{$subject.s_subject}>" class="s_subject_edit span3" title="配合教育部校訂科目"  placeholder="校訂科目">
+</td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
-	<td> 
+	<td>
 		<{if $data.grade_subject[$grade][$s_key]}>
    		 	<label class="checkbox"><input type="checkbox"  value="1" id="chk_<{$grade}>_<{$s_key}>" checked class="chk" >使用</label>
    		<{else}>
    			<label class="checkbox"><input type="checkbox"  value="1" id="chk_<{$grade}>_<{$s_key}>" class="chk" >使用</label>
-   		<{/if}> 	
-    	 
+   		<{/if}>
+
   	</td>
 <{/foreach}>
-  <td> 
+  <td>
     <{* 特殊班,代號 99   *}>
     <{if $data.grade_subject[99][$s_key]}>
         <label class="checkbox"><input type="checkbox"  value="1" id="chk_99_<{$s_key}>" checked class="chk" >使用</label>
       <{else}>
         <label class="checkbox"><input type="checkbox"  value="1" id="chk_99_<{$s_key}>" class="chk" >使用</label>
-      <{/if}>   
-       
+      <{/if}>
+
     </td>
 </tr>
 <{/foreach}>
 
 </table>
- 
+
 </div>
       <div class="alert alert-info">
         <p>
@@ -56,10 +65,10 @@
 
             特殊班指資源班之類班級。
 
-        </p>  
-      </div> 
- 
-      
+        </p>
+      </div>
+
+
 <script>
 
 //刪除
@@ -71,9 +80,9 @@ $(function() {
  			window.location.href = 'set_subject.php?do=del&id='+ v_id;
  		}
 	});
-});	
+});
 
- 
+
 //修改科目
 $(function() {
 	$(".sub_edit").change(function(){
@@ -82,7 +91,7 @@ $(function() {
 		//alert(v_id) ;
  		save_subject( 'edit' ,v_id ,  edit_text ) ;
 	});
-});	
+});
 
 //修改領域名
 $(function() {
@@ -92,8 +101,28 @@ $(function() {
     //alert(v_id) ;
     save_subject( 'edit' ,v_id ,  edit_text ) ;
   });
-}); 
-	
+});
+
+//修改領域名
+$(function() {
+  $(".e_subject_edit").change(function(){
+    var v_id = $( this ).attr('id') ;
+    var edit_text = $( this ).val();
+    //alert(v_id) ;
+    save_subject( 'edit' ,v_id ,  edit_text ) ;
+  });
+});
+
+//修改領域名
+$(function() {
+  $(".s_subject_edit").change(function(){
+    var v_id = $( this ).attr('id') ;
+    var edit_text = $( this ).val();
+    //alert(v_id) ;
+    save_subject( 'edit' ,v_id ,  edit_text ) ;
+  });
+});
+
  //寫入科目
  function save_subject(do_mode ,tid , sdata )  {
   	$.ajax({
@@ -107,14 +136,14 @@ $(function() {
  	})
  	.fail(function() {
  		console.log("error");
- 		
+
  	})
  	.always(function() {
  		console.log("complete");
  	});
-  }	
-  
-	
+  }
+
+
 //指定年級使用
 $(function () {
         $(".chk").click(function(){
@@ -131,7 +160,7 @@ $(function () {
 
       	  //記錄
             var URLs="ajax_set_grade_subject.php" ;
-    
+
             $.ajax({
                 url: URLs,
                 type:"GET",
@@ -147,4 +176,7 @@ $(function () {
                  }
            })
         }
+
+
+
 </script>
