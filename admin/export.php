@@ -107,11 +107,7 @@ foreach ($timetable as $key =>	$table_data) {
 
 	for ($i=1 ; $i <= $DEF_SET['days'] ; $i++)
 		$table->addCell(1600,$cellStyle )->addText($DEF_SET['week'][$i] ,$styleFont_cell_top ,$style_cell_top ); //新增一格
-
-	//課表內容
- 	for ($s=1 ; $s <= $DEF_SET['sects'] ; $s++ )  {
-		$table->addRow(); //新增一列
-
+2
 		//$table->addCell(1000,$cellStyle )->addText("第 $s 節",$styleFont_cell_top,$style_cell_top); //新增一格
 		$time_str = preg_replace('/[~-]/', "~\n", $DEF_SET['time_list'][$s] );
 		$table->addCell(1000,$cellStyle )->addText($DEF_SET['sects_cht_list'][$s]  ."\n $time_str"   ,$styleFont_cell_left,$style_cell_left); //新增一格
@@ -135,7 +131,7 @@ foreach ($timetable as $key =>	$table_data) {
 						if ( $w  >0 ) {
 							$font= $styleFont_d_cell_red ;
 						}else {
-							$font= $styleFont_cell_red ;
+							$font= $styleFont_cell_red ;2
 						}
 					}else {
 						if ( $w  >0 ) {
@@ -159,7 +155,8 @@ foreach ($timetable as $key =>	$table_data) {
 	}
 
 }
-	header('Content-Type: application/vnd.ms-word');
+	//header('Content-Type: application/vnd.ms-word');
+	header('Content-Type:application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 	header('Content-Disposition: attachment;filename=功課表'.$mid . '.docx');
 	header('Cache-Control: max-age=0');
 	$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');

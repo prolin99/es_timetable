@@ -117,7 +117,8 @@ if  ($_GET['mode']) {
 
 
 
-	header('Content-Type: application/vnd.ms-excel');
+	//header('Content-Type: application/vnd.ms-excel');
+	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 	header('Content-Disposition: attachment;filename=teacher_v_all'.date("mdHi").'.xlsx' );
 	header('Cache-Control: max-age=0');
 

@@ -25,7 +25,7 @@ $data['my_class_id']=get_my_class_id() ;
 if (!$data['my_class_id'])
   	redirect_header('index.php',3, "非級任，無法設定班級課表！");
 
-
+報表產生中
 if (!$DEF_SET['input'])
  	redirect_header('index.php',3, "尚未開放級任編修課表！請先向負責人員確認。");
 
