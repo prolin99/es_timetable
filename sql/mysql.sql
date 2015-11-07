@@ -11,7 +11,7 @@ CREATE TABLE  `es_timetable_subject` (
   PRIMARY KEY (`subject_id`)
 ) ENGINE=MyISAM  COMMENT='科目名稱';
 
-INSERT INTO es_timetable_subject (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`, `subject_scope`) VALUES
+INSERT INTO es_timetable_subject (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`, `subject_scope`,e_subject ,s_subject) VALUES
 (1, '國語', '', 'subject', '1', '語文領域', '國語/文', '國語'),
 (2, '本土語言', '', 'subject', '1', '語文領域', '本土語言', '本土語言'),
 (3, '數學', '', 'scope', '1', '數學領域', '數學', '數學'),
