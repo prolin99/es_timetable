@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] ='課表';				//模組名稱
-$modversion['version']	= '1.8';				//模組版次
+$modversion['version']	= '1.81';				//模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';		//模組作者
 $modversion['description'] ='展示功課表';			//模組說明
 $modversion['credits']	= 'prolin';				//模組授權者
