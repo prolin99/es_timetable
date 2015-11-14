@@ -12,7 +12,7 @@
 
 }
 .weekd{
-  font-size: 8px;
+  font-size: 10px;
 }
 
 </style>
@@ -40,20 +40,20 @@
 
       <table class="table table-bordered">
       <tr>
-      <td class="col-md-1">節</td>
+      <td class="col-md-1 col-xs-1">節</td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td class="col-md-2"><{$DEF_SET.week[$smarty.section.di.index]}></td>
+      <td class="col-md-2  col-xs-2"><{$DEF_SET.week[$smarty.section.di.index]}></td>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="col-md-1">
+      <td class="col-md-1  col-xs-1">
         <{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br/>
         <{$DEF_SET.time_list[$smarty.section.si.index]}>
       </td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td class="col-md-2">
-      	<div class="groupbox col-md-12 pagination-centered" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
+      <td class="col-md-2  col-xs-2">
+      	<div data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
       </td>
       <{ /section }>
       </tr>
@@ -130,8 +130,8 @@ function teacher_sect_show(do_mode , teacher_tab) {
 
                         if (teacher_tab[d][s][w]['ss_id']> 0){
                             if (w==0)  week_str ='<div ><span>' ;
-                            if (w==1)  week_str ='<div class="weekd col-md-6" ><span class="label label-info" title="單週">' ;
-                            if (w==2)  week_str ='<div class="weekd col-md-6"><span class="label label-warning" title="雙週">' ;
+                            if (w==1)  week_str ='<div ><span class="label label-info" title="單週">' ;
+                            if (w==2)  week_str ='<div  "><span class="label label-warning" title="雙週">' ;
                             <{*  級任 *}>
                             if (now_class_teacher == teacher_tab[d][s][w]['teacher_name']) {
                                 <{if ($isUser)}> <{* 有登入*}>
