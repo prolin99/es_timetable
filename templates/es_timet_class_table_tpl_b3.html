@@ -30,10 +30,10 @@
 
       <div class="col-md-2" > <!-- left  -->
 
-        <div id="kmo_div">
+        <div id="kmo_div" class="row" >
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
-      		   <span class="subj col-md-12" data_ref="subj_<{$s_key}>_<{$subject}>"  >
+      		   <span class="col-md-12 col-xs-4 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
                      <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
       		                 <{$subject}>
                     </label>
@@ -47,23 +47,23 @@
 
 
       	<div class="row" >
-      		<span id="sub_count" class="alert alert-info"></span>
+      		<span id="sub_count" class="col-md-12 col-xs-12" ></span>
       	</div>
 
       <table class="table table-bordered">
       <tr>
-      <td class="col-md-1">節</td>
+      <td class="col-md-1 col-xs-1">節</td>
 
 
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td ><{$DEF_SET.week[$smarty.section.di.index]}></td>
+      <td  class="col-md-2 col-xs-2"><{$DEF_SET.week[$smarty.section.di.index]}></td>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="col-md-1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}></td>
+      <td class="col-md-1 col-xs-1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}></td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td class="col-md-2">
+      <td class="col-md-2 col-xs-2">
       <{assign var="cell_showed"  value=0 }>
 
       <{assign var="cell_tab" value=$data.my_table[$smarty.section.di.index][$smarty.section.si.index]}>
@@ -71,15 +71,15 @@
 
           <{if ( ($cell_data.class_id) and ( $cell_data.class_id <> $data.my_class_id)) }>  <{*有課且不同班*}>
             <{assign var="cell_showed"  value=1 }>
-            <div class="col-md-12 nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'>
-            </div>在:
+            <div class="nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'>
+            </div>
               <{if $w==1}>單週-<{/if}>
               <{if $w==2}>雙週-<{/if}>
             <{$data.class_list_c[$cell_data.class_id]}>_<{$cell_data.subject_name}>
           <{/if}>
        <{/foreach}>
        <{if ($cell_showed==0) }>  <{* 自已的課 *}>
-            <div class="groupbox col-md-12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><br /><br />
+            <div class="groupbox " data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><br /><br />
        <{/if}>
        </div>
       </td>
@@ -96,8 +96,8 @@
 
       <div class="row">
 
-            <span class="label label-info col-md-1">說明</span>
-            <div class="col-md-8">
+            <span class="label label-info col-md-1 col-xs-12">說明</span>
+            <div class="col-md-10">
            拖拉左方的科目到節次中，新增課程，科任課無法更動。<br/>
            先排好的科目，可以拖拉到其它節次中。<br/>
            級任無法排單雙週課表，只有管理員才可以排單雙週課表。<br/>
