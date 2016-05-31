@@ -190,11 +190,11 @@ function teacher_sect_show(do_mode , teacher_tab) {
         				}else {
         				  //科任	不可放入
                                     if (w==0)
-                                        sect_str2 +='<span class="label label-inverse"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="label label-default"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
                                      if (w==1)
-                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
                                      if (w==2)
-                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
 
         				  $('#' + sectt).html( sect_str2 ) ;
         				  $('#' + sectt).attr("data_ref" ,'') ;     //科任時去除此值

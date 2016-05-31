@@ -59,7 +59,7 @@ $next_m = strtotime($data['beg_date'].'+ 1 months -1 day');
 $data['end_date'] = date('Y-m-d', $next_m);
 //check double
 
-// ??????? 嚴格模式做檢查
+//  嚴格模式做檢查
 if ($data['info']['year'] and  $data['info']['semester'])
  $data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
 
