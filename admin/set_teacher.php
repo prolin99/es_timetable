@@ -24,7 +24,7 @@ if ($_POST['new_teacher']) {
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable_teacher').
                 ' (`name` )  '.
                 "  VALUES  ( '$kmo_o' )   ";
-        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     }
 }
 

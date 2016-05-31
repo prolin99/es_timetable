@@ -28,7 +28,7 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']) {
         " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  class_id= '{$_GET['id']}'
 		and  day='$d' and  sector='$s' order by day,sector   ";
     sleep(1);
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $row['subject_name'] = $subject[$row['ss_id']];
         $row['teacher_name'] = $teacher_list[$row['teacher']]['name'];

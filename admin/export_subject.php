@@ -32,14 +32,14 @@ $s = $data['info']['semester'];
 
     //單雙週為半節
     $sql = ' select class_id, ss_id, teacher ,count(*) as cc  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'  and  week_d>0  group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  ";
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data_part[$row['class']][$row['ss_id']][$row['teacher']] = $row['cc'] / 2;
     }
 
     //整節
     $sql = ' select class_id, ss_id, teacher ,count(*) as cc  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'  and week_d = 0  group by  class_id, ss_id ,teacher order by class_id, ss_id ,teacher  ";
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $sect['name'] = $row['teacher'];
         $sect['cc'] = $row['cc'] + $data_part[$row['class']][$row['ss_id']][$row['teacher']];

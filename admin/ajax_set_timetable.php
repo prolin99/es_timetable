@@ -21,7 +21,7 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] 
         $sql = ' DELETE FROM  '.$xoopsDB->prefix('es_timetable').
             " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'
 			and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'    and  week_d='$week_d' ";
-        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
         //echo $_GET['do'] . $sql ;
     }
 
@@ -34,7 +34,7 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] 
             $sql = ' DELETE FROM  '.$xoopsDB->prefix('es_timetable').
                 " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'
 				and day='$day' and sector='$sect'  and  teacher= '$tea_id'    and  ( week_d='$week_d'  or week_d=0 )";
-            $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+            $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
             //echo $_GET['do'] . $sql ;
         }
 
@@ -49,12 +49,12 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] 
 			and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'    and  ( week_d='$week_d'  or week_d=0 )  ";
         }
 
-        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
 
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable').
                 ' (`school_year`, `semester`, `class_id`, `teacher`,`day` , sector ,ss_id,room ,week_d )  '.
                 "  VALUES  ( '{$_GET['year']}' , '{$_GET['semester']}','{$_GET['class_id']}' ,'$tea_id' ,'$day','$sect' , '$subj_id' , '{$_GET['room']}'  ,'$week_d'  )   ";
-        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
         //echo $_GET['do'] . $sql ;
     }
 }

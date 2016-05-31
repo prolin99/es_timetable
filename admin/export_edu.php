@@ -76,7 +76,7 @@ $s = $data['info']['semester'];
 
     $sql = ' select  *   FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'   order by  teacher , day ,  sector  ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     //$mi=0 ;
     while ($row_data = $xoopsDB->fetchArray($result)) {
         //$day ='週' . $ch_num[$row_data['day'] ];

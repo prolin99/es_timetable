@@ -16,11 +16,11 @@ include_once 'header.php';
 if ($_GET['do'] = 'del') {
     $id = $_GET['id'];
     $sql = ' DELETE FROM '.$xoopsDB->prefix('es_timetable_subject')."    where   subject_id= '$id' ";
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
 
     //年級科目
     $sql = ' DELETE FROM '.$xoopsDB->prefix('es_timetable_subject_year')."    where   subject_id= '$id' ";
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
 }
 
 //加入新科目，以逗號做分隔
@@ -33,7 +33,7 @@ if ($_POST['new_kmo']) {
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable_subject').
                 ' (subject_id ,`subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope)  '.
                 "  VALUES  ( 0 , '$kmo_o' , '','subject' ,'1'  ,'' )   ";
-        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+        $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     }
 }
 

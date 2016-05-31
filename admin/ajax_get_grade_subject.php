@@ -17,7 +17,7 @@ if ($_GET['id']) {
     $y = substr($_GET['id'], 0, -2);
     $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable_subject_year')." where grade='$y'  order by subject_id ";
 
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     $i = 0;
     while ($row = $xoopsDB->fetchArray($result)) {
         ++$i;

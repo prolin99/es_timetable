@@ -23,6 +23,6 @@ if ($_GET['id']) {
         $sql = ' UPDATE  '.$xoopsDB->prefix('es_timetable_teacher')." SET name = '$new'  where   teacher_id= '$id' ";
     }
 
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     echo $_GET['do'].$sql;
 }

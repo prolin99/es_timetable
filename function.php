@@ -15,6 +15,8 @@ if (!file_exists(XOOPS_ROOT_PATH.'/modules/e_stud_import/es_comm_function.php'))
 }
 include_once XOOPS_ROOT_PATH.'/modules/e_stud_import/es_comm_function.php';
 /********************* 自訂函數 *********************/
+//把  ONLY_FULL_GROUP_BY 移除
+
 
 $DEF_SET['days'] = $xoopsModuleConfig['es_tt_days'];
 $DEF_SET['days_sm'] = $xoopsModuleConfig['es_tt_days'] + 1;
@@ -133,7 +135,7 @@ function get_tad_cal_holiday($kword, $beg_date = '', $end_date = '')
 
     $sql = ' select  start , title  FROM  '.$xoopsDB->prefix('tad_cal_event')." where start >= '$beg_date'  and  start<= '$end_date'  and    ( $query_sql )    order by  start  ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $h_d = substr($row['start'], 0, 10);
         $data[$h_d] = $row['title'];
@@ -165,15 +167,22 @@ function get_timetable_info()
     //取得課表內容--最近的年度、期別
     global  $xoopsDB;
     $sql = '  SELECT  school_year , semester  FROM '.$xoopsDB->prefix('es_timetable').'  order by school_year DESC , semester DESC  ';
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     $row = $xoopsDB->fetchArray($result);
     $data['year'] = $row['school_year'];
     $data['semester'] = $row['semester'];
 
     $sql = '  SELECT  count(*) as cc   FROM '.$xoopsDB->prefix('es_timetable')." where school_year='{$data['school_year']}' and semester ='{$data['semester']}'  group by  class_id  ";
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     $row = $xoopsDB->fetchArray($result);
     $data['class'] = $row['cc'];
+    /*
+    if (!$data['year']) {
+        $data['year']=104;
+        $data['semester'] =1 ;
+
+    }
+*/
 
     return $data;
 }
@@ -204,7 +213,7 @@ function get_timetable_data($mode, $y, $s, $class_sel = 'all', $over_id = '')
         $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'   and room <>''   order by room,day,sector   ";
     }
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $key = $row[$mode];        //取得該師目前代號或該班代號
 
@@ -249,7 +258,7 @@ function get_timetable_data_list(  $y ,$s ,  $plus='') {
         $sql = " select *  FROM  "  . $xoopsDB->prefix("es_timetable")  .  " where school_year= '$y'  and  semester= '$s'   $where_plus     order by teacher,day,sector " ;
 
 
-    $result = $xoopsDB->query($sql) or die($sql."<br>". mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql."<br>". $xoopsDB->error());
     while($row=$xoopsDB->fetchArray($result)){
         $key =$row['teacher'] ;
         $data[$key][] = $row ;
@@ -268,7 +277,7 @@ function get_class_room_list($y, $s)
 
     $sql = ' select  room   FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'     and room <>''   group by  room ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[] = $row['room'];
     }
@@ -281,7 +290,7 @@ function get_subject_list()
     //取得科目名稱
     global  $xoopsDB;
     $sql = '  SELECT  subject_id , subject_name   FROM '.$xoopsDB->prefix('es_timetable_subject').' order by subject_id  ';
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[$row['subject_id']] = $row['subject_name'];
     }
@@ -294,7 +303,7 @@ function get_subject_data_list()
     //取得科目資料庫中多欄位
     global  $xoopsDB;
     $sql = '  SELECT  subject_id , subject_name ,subject_scope ,e_subject ,s_subject    FROM '.$xoopsDB->prefix('es_timetable_subject').' order by subject_id  ';
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[$row['subject_id']]['subject'] = $row['subject_name'];
         $data[$row['subject_id']]['scope'] = $row['subject_scope'];
@@ -310,7 +319,7 @@ function get_subject_grade_list()
     //取得目前的各年級使用科目
     global  $xoopsDB;
     $sql = '  SELECT  subject_id , grade   FROM '.$xoopsDB->prefix('es_timetable_subject_year').' order by grade ,subject_id ';
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[$row['grade']][$row['subject_id']] = $row['subject_id'];
     }
@@ -335,7 +344,7 @@ function join_table_teacher($uid, $user)
     global  $xoopsDB;
     $sql = '  SELECT  teacher_id , user_id , name   FROM '.$xoopsDB->prefix('es_timetable_teacher')." where  user_id='$uid' or name ='$user' ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     $row = $xoopsDB->fetchArray($result);
     if ((!$row['user_id']) and ($row['name'] == '')) {
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable_teacher').
@@ -345,7 +354,7 @@ function join_table_teacher($uid, $user)
         $teacher_id = $row['teacher_id'];
         $sql = ' UPDATE '.$xoopsDB->prefix('es_timetable_teacher')." SET  user_id='$uid' where  teacher_id='$teacher_id' ";
     }
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
 }
 
 function get_table_teacher_data()
@@ -356,7 +365,7 @@ function get_table_teacher_data()
 
 
     $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,  teacher_id DESC  ';
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $table_teacher[$row['teacher_id']] = $row;
     }
@@ -383,7 +392,7 @@ function get_table_teacher_list($mode = 'hide')
             " where  a.hide='0'   order by a.kind , b.staff  , b.class_id , a.name  ";
     }
     //echo  $sql ;
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $table_teacher[$row['teacher_id']] = $row['name'];
     }
@@ -401,7 +410,7 @@ function get_my_id_in_timetable($uid = 0)
     $sql = '  SELECT  teacher_id  FROM '.$xoopsDB->prefix('es_timetable_teacher').
                    " where user_id= '$uid'   ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($data_row = $xoopsDB->fetchArray($result)) {
         $teacher_id = $data_row['teacher_id'];
     }
@@ -427,7 +436,7 @@ order by  u.user_occ ,c.class_id
             ' left join '.$xoopsDB->prefix('e_classteacher').' as c on u.uid = c.uid '.
             "  WHERE g.groupid ='$teach_group_id'  group by u.uid   order by  c.staff , c.class_id , u.name ";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         if ($show) {
             //email
@@ -453,14 +462,18 @@ function check_timetable_double($y, $s)
     //檢查是否有重複
     global  $xoopsDB ,$DEF_SET;
 
+    //把  ONLY_FULL_GROUP_BY 移除
+    $sql = " SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', )); "  ;
+    $xoopsDB->queryF($sql)   ;
+
     //取得中文班名
     $class_list_c = es_class_name_list_c();
     //讀取科目
     $subject = get_subject_list();
 
     //班級同一節有兩科
-    $sql = '   SELECT * , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector ,week_d HAVING cc>1    ";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql = '   SELECT class_id , day ,  sector ,week_d , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector ,week_d HAVING cc>1    ";
+    $result = $xoopsDB->query($sql) or die( $sql .'<br/>' . $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= $class_list_c[$row['class_id']].$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  <br />';
     }
@@ -468,15 +481,15 @@ function check_timetable_double($y, $s)
     //教師同一節有兩科
     $teacher_list = get_table_teacher_data();
 
-    $sql = '   SELECT * , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector ,week_d  HAVING cc>1    ";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql = '   SELECT teacher , day ,  sector ,week_d , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector ,week_d  HAVING cc>1    ";
+    $result = $xoopsDB->query($sql) or die( $sql .'<br/>' . $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= $teacher_list[$row['teacher']]['name'].'  --  '.$DEF_SET['week'][$row['day']].$DEF_SET['sects_cht_list'][$row['sector']].' --- ';
         //取得該教師那一節課
         $sql2 = '   SELECT class_id , ss_id  FROM  '.$xoopsDB->prefix('es_timetable').
             "  where school_year= '$y'  and  semester= '$s'    and  teacher='{$row['teacher']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       ";
 
-        $result2 = $xoopsDB->query($sql2) or die(mysql_error());
+        $result2 = $xoopsDB->query($sql2) or die( $sql .'<br/>' . $xoopsDB->error() );
         while ($row2 = $xoopsDB->fetchArray($result2)) {
             $data .= $class_list_c[$row2['class_id']].$subject[$row2['ss_id']].'  , ';
         }
@@ -487,13 +500,13 @@ function check_timetable_double($y, $s)
     //教室
     $sql = '   SELECT * , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    ";
     //echo $sql ;
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or  die($xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= $row['room'].' 教室--'.$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  ---  ';
         $sql2 = '   SELECT class_id , teacher  FROM  '.$xoopsDB->prefix('es_timetable').
             "  where school_year= '$y'  and  semester= '$s'    and  room='{$row['room']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       ";
 
-        $result2 = $xoopsDB->query($sql2) or die(mysql_error());
+        $result2 = $xoopsDB->query($sql2) or die( $sql .'<br/>' . $xoopsDB->error()  );
         while ($row2 = $xoopsDB->fetchArray($result2)) {
             $data .= $class_list_c[$row2['class_id']].' (<a href="set_room.php?teacher_id='.$row2['teacher'].'">'.$teacher_list[$row2['teacher']]['name'].'</a>) , ';
         }
@@ -504,7 +517,7 @@ function check_timetable_double($y, $s)
     //單雙週有無配對
     $sql = '   SELECT * , sum(week_d) as wsum FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'    '' group by  class_id , day ,  sector    HAVING  (wsum>0  and  wsum<3)  ";
     //echo $sql ;
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or  die( $sql .'<br/>' . $xoopsDB->error() );
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= '<a href="ed_timetable.php?class_id='.$row['class_id'].'">'.$class_list_c[$row['class_id']].'</a>  單雙週配對不完整--'.$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']];
         if ($row['wsum'] == 1) {
@@ -543,7 +556,7 @@ function get_ones_timetable($mode, $y, $s, $id)
         $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'    and  class_id= '$id'  order by day,sector ,week_d   ";
     }
     //echo $sql ;
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $row['subject_name'] = $subject[$row['ss_id']];
         $row['teacher_name'] = $teacher_list[$row['teacher']]['name'];
@@ -569,7 +582,7 @@ function get_class_list()
 
     $sql = '  SELECT  class_id  FROM '.$xoopsDB->prefix('e_student').'   group by class_id   ';
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[$row['class_id']] = $row['class_id'];
     }
@@ -582,7 +595,7 @@ function get_class_grade_list()
     //取得全校年級列表
     global  $xoopsDB;
     $sql = '  SELECT  SUBSTR( `class_id` , 1, 1 ) AS grade   FROM '.$xoopsDB->prefix('e_student').'   group by  SUBSTR( `class_id` , 1, 1 )   ';
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[$row['grade']] = $row['grade'];
     }
@@ -597,7 +610,7 @@ function get_class_num()
 
     $sql = '  SELECT  count(class_id) as cc   FROM '.$xoopsDB->prefix('e_student').'   group by class_id   ';
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data = $row['cc'];
     }
@@ -612,7 +625,7 @@ function get_class_teacher_list()
     $sql = '  SELECT  t.uid, t.class_id , u.name  FROM '.$xoopsDB->prefix('e_classteacher').'  t  , '.$xoopsDB->prefix('users').'  u    '.
                    ' where t.uid= u.uid    ';
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($data_row = $xoopsDB->fetchArray($result)) {
         $class_id[$data_row['class_id']] = $data_row['name'];
     }
@@ -630,7 +643,7 @@ function get_my_class_id($uid = 0)
     $sql = '  SELECT  class_id  FROM '.$xoopsDB->prefix('e_classteacher').
                    " where uid= '$uid'   ";
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($data_row = $xoopsDB->fetchArray($result)) {
         $class_id = $data_row['class_id'];
     }

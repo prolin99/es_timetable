@@ -20,6 +20,6 @@ if ($_GET['id'] and $_GET['do']) {
         $sql = ' DELETE FROM  '.$xoopsDB->prefix('es_timetable_subject_year')." where grade='$grade' and subject_id= '$subject' ";
     }
 
-    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.mysql_error());
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     //echo $_GET['do'] . $sql ;
 }
