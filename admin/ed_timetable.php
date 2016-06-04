@@ -62,7 +62,7 @@ $data['class_teacher'] = get_class_teacher_list();
 
 $data['select_class_id'] = $_GET['class_id'];
 
-$data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
+$data['error'] = check_timetable_double( $n_year , $n_semester );
 
 /*-----------秀出結果區--------------*/
 

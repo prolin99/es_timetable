@@ -463,8 +463,8 @@ function check_timetable_double($y, $s)
     global  $xoopsDB ,$DEF_SET;
 
     //把  ONLY_FULL_GROUP_BY 移除
-    $sql = " SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', )); "  ;
-    $xoopsDB->queryF($sql)   ;
+    //$sql = " SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', )); "  ;
+    //$xoopsDB->queryF($sql)   ;
 
     //取得中文班名
     $class_list_c = es_class_name_list_c();
@@ -498,9 +498,9 @@ function check_timetable_double($y, $s)
     }
 
     //教室
-    $sql = '   SELECT * , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    ";
+    $sql = '   SELECT room , day ,  sector , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    ";
     //echo $sql ;
-    $result = $xoopsDB->query($sql) or  die($xoopsDB->error());
+    $result = $xoopsDB->query($sql) or  die( $sql .'<br/>' . $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= $row['room'].' 教室--'.$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  ---  ';
         $sql2 = '   SELECT class_id , teacher  FROM  '.$xoopsDB->prefix('es_timetable').
@@ -515,7 +515,7 @@ function check_timetable_double($y, $s)
     }
 
     //單雙週有無配對
-    $sql = '   SELECT * , sum(week_d) as wsum FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'    '' group by  class_id , day ,  sector    HAVING  (wsum>0  and  wsum<3)  ";
+    $sql = '   SELECT class_id , day ,  sector , sum(week_d) as wsum FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'    '' group by  class_id , day ,  sector    HAVING  (wsum>0  and  wsum<3)  ";
     //echo $sql ;
     $result = $xoopsDB->query($sql) or  die( $sql .'<br/>' . $xoopsDB->error() );
     while ($row = $xoopsDB->fetchArray($result)) {
