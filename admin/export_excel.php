@@ -93,7 +93,7 @@ if ($_GET['mode']) {
                             $tstr .= ',';
                         }
                         if ($mytable[$i][$s][$w]['other']) {
-                            $tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']]."&\n".$short_ss;
+                            $tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']]."&". $class_list_c[$mytable[$i][$s][$w]['other']]. "\n".$short_ss;
                         } else {
                             $tstr .= $class_list_c[$mytable[$i][$s][$w]['class_id']]."\n".$short_ss;
                         }
