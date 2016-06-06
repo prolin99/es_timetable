@@ -26,7 +26,7 @@ $adminmenu[$i]['icon'] = 'images/admin/main.png';
 $adminmenu[$i]['title'] = '編排課表';
 $adminmenu[$i]['link'] = 'admin/ed_timetable.php';
 $adminmenu[$i]['desc'] = '課表編排';
-$adminmenu[$i]['icon'] = 'images/admin/logadm.png';
+$adminmenu[$i]['icon'] = 'images/admin/timetable.png';
 
 ++$i;
 $adminmenu[$i]['title'] = '指定教室，超鐘點';
