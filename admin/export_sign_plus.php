@@ -2,6 +2,7 @@
 //  ------------------------------------------------------------------------ //
 // 本模組由 prolin 製作
 // 製作日期：2014-07-20
+// 超鐘點 匯出成 excel
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
@@ -24,7 +25,7 @@ $data['info'] = get_timetable_info();
 function cell_border($objPHPExcel, $cell, $thick_left = false)
 {
     //設定框線
-        $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+    $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     if ($thick_left) {
         $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
@@ -32,6 +33,25 @@ function cell_border($objPHPExcel, $cell, $thick_left = false)
         $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     }
     $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+}
+
+//左方標題
+function left_title($objPHPExcel, $row)
+{
+    $col = 'A' ;
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$row, '日期');
+    $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth(5);
+    cell_border($objPHPExcel, $col.$row);
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 1), '星期');
+    cell_border($objPHPExcel, $col.($row + 1));
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 2), '節次');
+    cell_border($objPHPExcel, $col.($row + 2));
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 3), '班級');
+    cell_border($objPHPExcel, $col.($row + 3));
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), "簽\n到");
+    cell_border($objPHPExcel, $col.($row + 4));
+    $objPHPExcel->getActiveSheet()->getRowDimension($row + 4)->setRowHeight('45');
+
 }
 
     //科目
@@ -59,7 +79,7 @@ function cell_border($objPHPExcel, $cell, $thick_left = false)
         }
     }
 
-    //取得
+    //取得超鐘點的節次
     $timetable = get_timetable_data('teacher', $data['info']['year'], $data['info']['semester'], 'all', $over_id);
 
     //讀取 tad_cal 行事曆
@@ -73,12 +93,11 @@ function cell_border($objPHPExcel, $cell, $thick_left = false)
     //橫向
     //$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 
-    //大小
+    //紙張大小
     $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
 
     $objActSheet = $objPHPExcel->getActiveSheet(); //指定預設工作表為 $objActSheet
     $objActSheet->setTitle('簽名表');  //設定標題
-
 
     $objActSheet->getDefaultRowDimension()->setRowHeight(14);
     if ($DEF_SET['es_tt_week_D']) {
@@ -93,9 +112,14 @@ function cell_border($objPHPExcel, $cell, $thick_left = false)
 //分月份重覆列出
 for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 month')) {
     $show_end_date = strtotime(date('Y-m-01', $m).'+1 month');
+    /*
     if ($row > 0) {
         $objPHPExcel->setActiveSheetIndex(0)->setBreak('A'.$row, PHPExcel_Worksheet::BREAK_ROW);
     }
+    */
+
+
+
     //超鐘點課表
     foreach ($timetable as $key => $table_data) {
         $om = 0;
@@ -113,7 +137,11 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                 }
             }
         }
+        //教師開始的列
+        $tea_beg_row = $row  ;
+
         ++$row;
+        $tea_beg_row = $row  ;
 
         //左方標題處
         $col = 'A';
@@ -123,6 +151,8 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
         //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$teacher_list[$key]['name'] .date('Y 年 n 月',$m) .'超鐘點(共       節)')  ;
 
         ++$row;
+        left_title($objPHPExcel, $row) ;
+        /*
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$row, '日期');
         $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth(5);
         cell_border($objPHPExcel, $col.$row);
@@ -135,6 +165,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), "簽\n到");
         cell_border($objPHPExcel, $col.($row + 4));
         $objPHPExcel->getActiveSheet()->getRowDimension($row + 4)->setRowHeight('45');
+        */
 
         //此月各週
         for ($do_day = $beg_date; $do_day <= $end_date; $do_day = $do_day + 60 * 60 * 24) {
@@ -154,6 +185,14 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                         for ($w = 0;$w <= 2;++$w) {
                             if ($table_data[$d][$ss][$w]['class_id']) {
                                 $week_mark = '';
+                                //太多節，不要太長 取10 節
+                                if ($col >= 'K'){
+                                    $col = 'A' ;
+                                    $row += 6 ;
+                                    //左方標題
+                                    left_title($objPHPExcel, $row) ;
+                                }
+
                                 if ($w == 1) {
                                     $week_mark = '(單)';
                                 }
@@ -170,7 +209,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                                     cell_border($objPHPExcel, $col.($row + 2));
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 3), $class_list_c[$table_data[$d][$ss][$w]['class_id']].$week_mark);
                                     cell_border($objPHPExcel, $col.($row + 3));
-                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), '');
+                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), "\n\n");
                                     cell_border($objPHPExcel, $col.($row + 4));
                                     ++$add_sects;
                                 }
@@ -184,7 +223,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                                     cell_border($objPHPExcel, $col.($row + 2));
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 3), $class_list_c[$table_data[$d][$ss][$w]['class_id']].$week_mark);
                                     cell_border($objPHPExcel, $col.($row + 3));
-                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), '');
+                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), "\n\n");
                                     cell_border($objPHPExcel, $col.($row + 4));
                                     ++$add_sects;
                                 }
@@ -198,7 +237,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                                     cell_border($objPHPExcel, $col.($row + 2));
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 3), $class_list_c[$table_data[$d][$ss][$w]['class_id']].$week_mark);
                                     cell_border($objPHPExcel, $col.($row + 3));
-                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), '');
+                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.($row + 4), "\n\n");
                                     cell_border($objPHPExcel, $col.($row + 4));
                                     ++$add_sects;
                                 }
@@ -208,7 +247,8 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
                 }
             }
         }
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.($row - 1), $teacher_list[$key]['name'].date('Y 年 n 月', $m).$DEF_SET['es_tt_over_list'][$over_id]." (共 $add_sects 節)");
+        //人名的簽名標題
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$tea_beg_row , $teacher_list[$key]['name'].'-----' . date('Y 年 n 月', $m).$DEF_SET['es_tt_over_list'][$over_id]." (共 $add_sects 節)");
         $row = $row + 4;
     }
 }
