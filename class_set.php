@@ -46,11 +46,24 @@ $data['n_s'] = $data['info']['semester'];
 $all_subject_name = get_subject_list();
 
 //該學年的科目
+/*
 $grade_subject = get_subject_grade_list();
+
 $y = substr($data['my_class_id'], 0, 1);
 foreach ($grade_subject[$y] as $id => $sid) {
     $subject_name[$id] = $all_subject_name[$id];
 }
+$data['subject_name'] = $subject_name;
+*/
+$y = substr($data['my_class_id'], 0, -2);
+$sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable_subject_year')." where grade='$y'  order by subject_id ";
+
+$result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
+while ($row = $xoopsDB->fetchArray($result)) {
+    $id = $row['subject_id'];
+    $subject_name[$id] = $all_subject_name[$id];
+}
+
 $data['subject_name'] = $subject_name;
 
   //教師名冊

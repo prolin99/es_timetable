@@ -17,7 +17,6 @@ include_once XOOPS_ROOT_PATH.'/modules/e_stud_import/es_comm_function.php';
 /********************* 自訂函數 *********************/
 //把  ONLY_FULL_GROUP_BY 移除
 
-
 $DEF_SET['days'] = $xoopsModuleConfig['es_tt_days'];
 $DEF_SET['days_sm'] = $xoopsModuleConfig['es_tt_days'] + 1;
 $DEF_SET['sects'] = $xoopsModuleConfig['es_tt_sects'];
@@ -53,8 +52,16 @@ foreach ($time_list  as $oi => $sect_name) {
 $DEF_SET['spe_class'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_spe_class']);
 $i = 9901;
 foreach ($DEF_SET['spe_class']  as $oi => $spe_class_name) {
-    if ($spe_class_name) {
-        $DEF_SET['spe_class_list'][$i] = $spe_class_name;
+    //班名_教師名
+    $spec_class_teach = preg_split('/[_]/', $spe_class_name);
+    if ($spec_class_teach[0]) {
+        $DEF_SET['spe_class_list'][$i] = $spec_class_teach[0];
+        if ($spec_class_teach[1]){
+            //教師以名字做判別
+            $stea= trim( $spec_class_teach[1]) ;
+            $DEF_SET['spe_class_list_teacher'][$i] = $stea;
+            $DEF_SET['spe_teacher_in_class'][$stea] = $i ;
+        }
         ++$i;
     }
 }
@@ -66,7 +73,7 @@ $i = 2;
 foreach ($DEF_SET['es_tt_ex_teach_kind']  as $oi => $over_name) {
     $DEF_SET['es_tt_exteach'][$i] = $over_name;
     //說明文字
-    $DEF_SET['es_tt_exteach_message'] .= $i.'-'.$over_name . ' , ';
+    $DEF_SET['es_tt_exteach_message'] .= $i.'-'.$over_name.' , ';
     ++$i;
 }
 
@@ -80,7 +87,7 @@ foreach ($DEF_SET['es_tt_over']  as $oi => $over_name) {
     ++$i;
 }
 
-$DEF_SET['week'] = array('' ,'週一' ,'週二','週三','週四','週五','週六','週日');
+$DEF_SET['week'] = array('', '週一', '週二', '週三', '週四', '週五', '週六', '週日');
 
 $DEF_SET['es_tt_Holiday_KW'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_holiday_kw']);
 
@@ -159,13 +166,13 @@ function get_tad_cal_holiday($kword, $beg_date = '', $end_date = '')
 function get_timetable_class_list_c($mode = 'short')
 {
     global $DEF_SET;
-  //獨立模式
-  if ($DEF_SET['es_tt_single_mode']) {
-      $class_list = $DEF_SET['sm_class_id'];
-  } else {
-      $class_list = es_class_name_list_c($mode);
-  }
-
+    //獨立模式
+    if ($DEF_SET['es_tt_single_mode']) {
+        $class_list = $DEF_SET['sm_class_id'];
+    } else {
+        $class_list = es_class_name_list_c($mode);
+    }
+    //特殊班
     foreach ($DEF_SET['spe_class_list'] as $class_id => $class_name) {
         $class_list[$class_id] = $class_name;
     }
@@ -374,7 +381,6 @@ function get_table_teacher_data()
     global  $xoopsDB;
     //由學校資料表中取得
 
-
     $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,  teacher_id DESC  ';
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
@@ -449,8 +455,9 @@ order by  u.user_occ ,c.class_id
 
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
-        if (!$row['name'])
-          $row['name']=$row['uname'] ;
+        if (!$row['name']) {
+            $row['name'] = $row['uname'];
+        }
         if ($show) {
             //email
             if ($row['email'] and $row['user_viewemail']) {        //EMAIL 顯示做保護
@@ -463,7 +470,6 @@ order by  u.user_occ ,c.class_id
             if ($row['class_id']) {
                 $row['staff'] .= '-'.$row['class_id'].'班';
             }
-
         }
         $teacher[$row['uid']] = $row;
     }
@@ -476,8 +482,9 @@ function check_timetable_double($y, $s)
     //檢查是否有重複
     global  $xoopsDB ,$DEF_SET;
 
-    if ((!$y) or (!$s))
-      return ;
+    if ((!$y) or (!$s)) {
+        return;
+    }
 
     //把  ONLY_FULL_GROUP_BY 移除
     //$sql = " SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', )); "  ;
@@ -491,24 +498,24 @@ function check_timetable_double($y, $s)
     //班級同一節有兩科
     $sql = '   SELECT class_id , day ,  sector ,week_d , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  class_id , day ,  sector ,week_d HAVING cc>1    ";
 
-    $result = $xoopsDB->query($sql) or die( $sql .'<br/>' . $xoopsDB->error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br/>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
-        $data .= '(一班多節)' .$class_list_c[$row['class_id']].$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  (把該班該節科目先移除)<br />';
+        $data .= '(一班多節)'.$class_list_c[$row['class_id']].$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  (把該班該節科目先移除)<br />';
     }
 
     //教師同一節有兩科
     $teacher_list = get_table_teacher_data();
 
     $sql = '   SELECT teacher , day ,  sector ,week_d , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   group by  teacher , day ,  sector ,week_d  HAVING cc>1    ";
-    $result = $xoopsDB->query($sql) or die( $sql .'<br/>' . $xoopsDB->error());
+    $result = $xoopsDB->query($sql) or die($sql.'<br/>'.$xoopsDB->error());
 
     while ($row = $xoopsDB->fetchArray($result)) {
-        $data .= '(一師多節)' .$teacher_list[$row['teacher']]['name'].'  --  '.$DEF_SET['week'][$row['day']].$DEF_SET['sects_cht_list'][$row['sector']].' --- ';
+        $data .= '(一師多節)'.$teacher_list[$row['teacher']]['name'].'  --  '.$DEF_SET['week'][$row['day']].$DEF_SET['sects_cht_list'][$row['sector']].' --- ';
         //取得該教師那一節課
         $sql2 = '   SELECT class_id , ss_id  FROM  '.$xoopsDB->prefix('es_timetable').
             "  where school_year= '$y'  and  semester= '$s'    and  teacher='{$row['teacher']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       ";
 
-        $result2 = $xoopsDB->query($sql2) or die( $sql .'<br/>' . $xoopsDB->error() );
+        $result2 = $xoopsDB->query($sql2) or die($sql.'<br/>'.$xoopsDB->error());
 
         while ($row2 = $xoopsDB->fetchArray($result2)) {
             $data .= $class_list_c[$row2['class_id']].$subject[$row2['ss_id']].'  , ';
@@ -521,14 +528,14 @@ function check_timetable_double($y, $s)
     $sql = '   SELECT room , day ,  sector , count(*) as cc FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'   and room <> '' group by  room , day ,  sector    HAVING cc>1    ";
     //echo $sql ;
 
-    $result = $xoopsDB->query($sql) or   die( $sql .'<br/>' . $xoopsDB->error() );
+    $result = $xoopsDB->query($sql) or   die($sql.'<br/>'.$xoopsDB->error());
 
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= $row['room'].' 教室--'.$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']].'  ---  ';
         $sql2 = '   SELECT class_id , teacher  FROM  '.$xoopsDB->prefix('es_timetable').
             "  where school_year= '$y'  and  semester= '$s'    and  room='{$row['room']}' and `day`='{$row['day']}'  and  sector='{$row['sector']}'       ";
 
-        $result2 = $xoopsDB->query($sql2) or die( $sql .'<br/>' . $xoopsDB->error()  );
+        $result2 = $xoopsDB->query($sql2) or die($sql.'<br/>'.$xoopsDB->error());
         while ($row2 = $xoopsDB->fetchArray($result2)) {
             $data .= $class_list_c[$row2['class_id']].' (<a href="set_room.php?teacher_id='.$row2['teacher'].'">'.$teacher_list[$row2['teacher']]['name'].'</a>) , ';
         }
@@ -540,7 +547,7 @@ function check_timetable_double($y, $s)
     $sql = '   SELECT class_id , day ,  sector  , sum(week_d) as wsum FROM  '.$xoopsDB->prefix('es_timetable')."  where school_year= '$y'  and  semester= '$s'    '' group by  class_id , day ,  sector    HAVING  (wsum>0  and  wsum<3)  ";
 
     //echo $sql ;
-    $result = $xoopsDB->query($sql) or  die( $sql .'<br/>' . $xoopsDB->error() );
+    $result = $xoopsDB->query($sql) or  die($sql.'<br/>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $data .= '<a href="ed_timetable.php?class_id='.$row['class_id'].'">'.$class_list_c[$row['class_id']].'</a>  單雙週配對不完整--'.$DEF_SET['week'][$row['day']].'-'.$DEF_SET['sects_cht_list'][$row['sector']];
         if ($row['wsum'] == 1) {
@@ -644,7 +651,7 @@ function get_class_num()
 function get_class_teacher_list()
 {
     //取得全部級任名冊
-    global  $xoopsDB;
+    global  $xoopsDB , $DEF_SET;
     $sql = '  SELECT  t.uid, t.class_id , u.name  FROM '.$xoopsDB->prefix('e_classteacher').'  t  , '.$xoopsDB->prefix('users').'  u    '.
                    ' where t.uid= u.uid    ';
 
@@ -652,6 +659,11 @@ function get_class_teacher_list()
     while ($data_row = $xoopsDB->fetchArray($result)) {
         $class_id[$data_row['class_id']] = $data_row['name'];
     }
+    //如果有特殊班指定
+    foreach ($DEF_SET['spe_class_list'] as  $cid =>$cname  ){
+        $class_id[$cid] = $DEF_SET['spe_class_list_teacher'][$cid].'' ;
+    }
+
 
     return $class_id;
 }
@@ -659,10 +671,12 @@ function get_class_teacher_list()
 function get_my_class_id($uid = 0)
 {
     //取得$uid 的任教班級
-    global  $xoopsDB ,$xoopsUser;
+    global  $xoopsDB ,$xoopsUser, $DEF_SET;
     if (!$uid) {
         $uid = $xoopsUser->uid();
     }
+    $uid_name=XoopsUser::getUnameFromId($uid,1);
+
     $sql = '  SELECT  class_id  FROM '.$xoopsDB->prefix('e_classteacher').
                    " where uid= '$uid'   ";
 
@@ -670,6 +684,11 @@ function get_my_class_id($uid = 0)
     while ($data_row = $xoopsDB->fetchArray($result)) {
         $class_id = $data_row['class_id'];
     }
+
+    //特殊班中指定教師名
+    if ($DEF_SET['spe_teacher_in_class'][$uid_name])
+        $class_id =  $DEF_SET['spe_teacher_in_class'][$uid_name] ;
+
 
     return $class_id;
 }
