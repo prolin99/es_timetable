@@ -1,5 +1,5 @@
 <?php
-
+//轉向經費減點如超鐘點等
 if (@$_POST['do_plus']) {
     $beg_date = ($_POST['beg_date']);
     $end_date = ($_POST['end_date']);
@@ -12,6 +12,7 @@ if (@$_POST['do_plus']) {
 // 本模組由 prolin 製作
 // 製作日期：2014-07-20
 // $Id:$
+//
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
 include_once 'header_admin.php';
@@ -33,7 +34,7 @@ $data['info'] = get_timetable_info();
 function cell_border($objPHPExcel, $cell, $thick_left = false)
 {
     //設定框線
-        $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+    $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     if ($thick_left) {
         $objPHPExcel->getActiveSheet()->getStyle($cell)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
@@ -49,87 +50,87 @@ function cell_show_title($objPHPExcel, $row, $title)
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$row, $title);
     $objPHPExcel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(20);
     ++$row;
-           //節次
-           $col = 'A';
+    //節次
+    $col = 'A';
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '編號');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('3');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '日期');
     $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth('8');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '節次');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('6');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '班級');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('8');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '簽到');
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth('16');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '編號');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('3');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '日期');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('8');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+1)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '節次');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('6');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '班級');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('6');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
     ++$col;
 
     $col_str = $col.($row);
     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '簽到');
     $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth('16');
-        //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
-        //框線
-        cell_border($objPHPExcel, $col_str);
+    //$objPHPExcel->getActiveSheet()->getRowDimension($row+2)->setRowHeight('15');
+    //框線
+    cell_border($objPHPExcel, $col_str);
 }
 
 if ($_POST['do_2688']) {
@@ -191,7 +192,7 @@ if ($_POST['do_2688']) {
         $om = 0;
         unset($wd_have_class);
 
-        if ($teacher_list[$key]['kind'] == 2) {
+        if ($teacher_list[$key]['kind'] >= 2) {
             //有排課的那些天
                    for ($d = 1; $d <= $DEF_SET['days']; ++$d) {
                        for ($ss = 1; $ss <= $DEF_SET['sects']; ++$ss) {
@@ -227,8 +228,9 @@ if ($_POST['do_2688']) {
                     $ord_i = 1;
 
                     ++$row;
-                           //標題行
-                    $title_str = $data['info']['year'].'學年度第'.$data['info']['semester'].'學期教育部增置教師授課 '.$teacher_list[$key]['name'].date('Y 年 n 月', $do_day).'簽到表';
+                    //標題行
+                    $ex_mode = $DEF_SET['es_tt_exteach'][$teacher_list[$key]['kind']] ;
+                    $title_str = $data['info']['year'].'學年度第'.$data['info']['semester'].'學期 ' . $ex_mode  . ' : '.$teacher_list[$key]['name'] . '  ' .date('Y 年 n 月', $do_day).' 簽到表';
                     cell_show_title($objPHPExcel, $row, $title_str);
                     ++$row;
                     //echo $row ;
@@ -320,7 +322,7 @@ if ($_POST['do_2688']) {
             ++$row;
             $col_str = 'A'.$row;
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col_str, '共 '.($ord_i - 1).'  節');
-        }//身份2688
+        }//身份2688等
     }
 
     //header('Content-Type: application/vnd.ms-excel');

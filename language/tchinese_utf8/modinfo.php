@@ -37,8 +37,11 @@ define("_MI_ES_TT_CONFIG_DTime","每節上課時間，如 8:40~9:10,以逗號分
 define("_MI_ES_TT_CONFIG_Tlocal","本土語言預設值");
 define("_MI_ES_TT_CONFIG_Dlocal","匯出教育部課表預設值，閩南語  客語  原住民語");
 
-define("_MI_ES_TT_CONFIG_OVER","減授課經費");
-define("_MI_ES_TT_CONFIG_DESC_OVER","經費類別以逗號分隔，如：超鐘點,圖書教師鐘點費,輔導教師減課鐘點費,縣領域輔導團減課鐘點費");
+define("_MI_ES_TT_CONFIG_TEAKIND","外聘教師身份別");
+define("_MI_ES_TT_CONFIG_DESC_TEAKIND","外聘教師類別以逗號分隔(在任課身份別設定，方便製作簽名冊)，如：教育部增置教師,超鐘點教師,管控教師");
+
+define("_MI_ES_TT_CONFIG_OVER","校內減授課經費來源類別");
+define("_MI_ES_TT_CONFIG_DESC_OVER","校內教師減授課，經費來源類別以逗號分隔，如：超鐘點,圖書教師鐘點費,輔導教師減課鐘點費,縣領域輔導團減課鐘點費");
 
 define("_MI_ES_TT_CONFIG_TWEEKD","單雙週排課");
 define("_MI_ES_TT_CONFIG_DWEEKD","是否單雙週排課");
@@ -48,7 +51,7 @@ define("_MI_ES_TT_CONFIG_D_HOLIDAY_K","如放假,補假 等，使用逗號做分
 
 define("_MI_ES_TT_CONFIG_SINGLE_MODE","獨立模式，不使用單位名冊班級");
 define("_MI_ES_TT_CONFIG_D_SINGLE_MODE","如果沒有學生資料，不使用單位名冊模組(仍需安裝)，可以下方做班級數指定");
- 
+
 define("_MI_ES_TT_CONFIG_SM_CLASS_NUM","獨立模式，每年級班級數");
 define("_MI_ES_TT_CONFIG_D_SM_CLASS_NUM","如 2,3,2,2,2,2 ，每年級班級數，逗號分隔 ");
 

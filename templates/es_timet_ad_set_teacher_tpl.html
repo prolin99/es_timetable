@@ -1,21 +1,21 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
- 
+
 <div class="row-fluid" >
     <form action="set_teacher.php" enctype="multipart/form-data" method="POST">
     <fieldset>
     <input type="text" name="new_teacher" placeholder="新增教師，可以逗號分隔多人" class="span4">
-    <button type="submit" name="do_key" class="btn btn-primary">新增</button> 
+    <button type="submit" name="do_key" class="btn btn-primary">新增</button>
     </fieldset>
-    </form>  
+    </form>
 <table class="table table-hover span7">
-<tr><td>代號</td><td>姓名</td><td>類別(2 代表 2688)</td><td>顯示/隱藏</td></tr>
+<tr><td>代號</td><td>姓名</td><td>類別(偏好中自訂)</td><td>顯示/隱藏</td></tr>
 
 <{foreach  key=s_key item=teacher   from=$data.teacher  }>
 <tr><td><{$s_key}></td>
 <td><input type="text" id="name_<{$s_key}>"  data_ref="<{$s_key}>"   value="<{$teacher.name}>" class="name_edit" title="自動存入"></td>
-<td><input type="text" id="kind_<{$s_key}>"   data_ref="<{$s_key}>"  value="<{$teacher.kind}>" class="kind_edit span4" title="2 代表為 2688"></td>
+<td><input type="text" id="kind_<{$s_key}>"   data_ref="<{$s_key}>"  value="<{$teacher.kind}>" class="kind_edit span4" title="<{$DEF_SET.es_tt_exteach_message}>"></td>
 <td>
 	<{if ($teacher.hide==0) }>
 	<button class="btn btn-primary" type="button" data_ref="<{$teacher.teacher_id}>" title="選擇教師時不出現，不影響課表內容" >顯示</button>
@@ -27,16 +27,16 @@
 <{/foreach}>
 
 </table>
- 
+
 </div>
       <div class="alert alert-info">
       	<p>
             <span class="label label-info">說明</span><br />
             課表人員名單是獨立的，但會試著加入系統人員。<br />
             隱藏時，代表在編排時，不出現該人名，但不影響已排課表內容。<br />
-            類別 2 ，代表為 2688 ，方便列印簽到記錄，無其它功能。<br />
+            類別 <{$DEF_SET.es_tt_exteach_message}>，方便列印簽到記錄。<br />
             不建議直接更改姓名為其他人名，以免造成不一致的情形。
-        </p>  
+        </p>
       </div>
 <script>
 
@@ -53,12 +53,12 @@ $(function() {
 			}else {
  				$(this).addClass('btn btn-primary') ;
  				$(this).text('顯示') ;
- 			}	
+ 			}
  		save_teacher( 'hide' ,v_id ,  class_mode ) ;
 	});
-});	
+});
 
- 
+
 //修改
 $(function() {
 	$(".name_edit").change(function(){
@@ -67,7 +67,7 @@ $(function() {
 		//alert(v_id) ;
  		save_teacher( 'edit' ,v_id ,  edit_text ) ;
 	});
-});	 
+});
 
 $(function() {
 	$(".kind_edit").change(function(){
@@ -77,8 +77,8 @@ $(function() {
  		save_teacher( 'edit_kind' ,v_id ,  edit_text ) ;
 	});
 });
-	
- //寫入 
+
+ //寫入
  function save_teacher(do_mode ,tid , sdata )  {
   	$.ajax({
  		url: 'ajax_set_teacher.php',
@@ -91,12 +91,12 @@ $(function() {
  	})
  	.fail(function() {
  		console.log("error");
- 		
+
  	})
  	.always(function() {
  		console.log("complete");
  	});
-  }	
-  
- 
+  }
+
+
 </script>

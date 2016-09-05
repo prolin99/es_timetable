@@ -59,7 +59,18 @@ foreach ($DEF_SET['spe_class']  as $oi => $spe_class_name) {
     }
 }
 
-//
+//外聘教師類別
+$DEF_SET['es_tt_ex_teach_kind'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_ex_teach_kind']);
+
+$i = 2;
+foreach ($DEF_SET['es_tt_ex_teach_kind']  as $oi => $over_name) {
+    $DEF_SET['es_tt_exteach'][$i] = $over_name;
+    //說明文字
+    $DEF_SET['es_tt_exteach_message'] .= $i.'-'.$over_name . ' , ';
+    ++$i;
+}
+
+//校內減課經費來源
 $DEF_SET['es_tt_over'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_over_list']);
 
 $i = 1;

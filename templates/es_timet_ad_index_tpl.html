@@ -37,9 +37,9 @@
      ~
     <input type='text'  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name='end_date'  class='span2'   value="<{$data.end_date}>" placeholder="指定結束日期"
     title="指定結束日期" >
-    <button type="submit" name="do_2688"  value='2688' class="btn btn-success" title='需在任課教師指定身份類別'>2688師簽到表</button>
+    <button type="submit" name="do_2688"  value='2688' class="btn btn-success" title='任課教師指定身份類別，如2688、節數代課'>外聘教師簽到表</button>
     依經費：<{html_options name=over_id id=over_id  options=$DEF_SET.es_tt_over_list    class="span2" title="列印經費總類" }>
-    <button type="submit" name="do_plus"  value='超鐘點' class="btn btn-primary">超鐘點簽到表</button><br/>
+    <button type="submit" name="do_plus"  value='plus' title='如校內教師超鐘點、特別經費減課' class="btn btn-primary">校內依經費減課簽到表</button><br/>
 
     <{if $DEF_SET.es_tt_week_D}>
     <div class="row-fluid" >
@@ -98,10 +98,10 @@
     教育部課表匯出可以產生符合國民中小學教師人力資源網課表，但有些部份仍需要自行調整。例教師身份證號，本土語言為閩南語或客語等，特殊班如資源班上課年級等。
     </li>
     <li>
-    2688教師需要在任課教師，類別設定為 2。
+    外聘教師需要在任課教師中設定身份類別。
     </li>
     <li>
-    超鐘點類別，在偏好中設定。在指定超鐘點項中指定減免的節次。
+    校內教師依經費減課，在指定超鐘點項中指定減免的節次。
     </li>
     <li>
     支援單雙週排課，需要在偏好中設定。列印簽到名冊單雙週開始日以週一為一週的啟始日。
