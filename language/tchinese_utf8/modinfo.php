@@ -29,7 +29,7 @@ define("_MI_ES_TT_CONFIG_T7","節次中文名稱");
 define("_MI_ES_TT_CONFIG_D7","導師時間/早自習,第一節,午休等排課節次,以逗號分隔");
 
 define("_MI_ES_TT_CONFIG_T8","特殊班級");
-define("_MI_ES_TT_CONFIG_D8","如資源班、智優三忠等,以逗號分隔");
+define("_MI_ES_TT_CONFIG_D8","格式：班名_導師名(底線分格)，例如資源班_林**,智優三忠_王**  等,以逗號分隔");
 
 define("_MI_ES_TT_CONFIG_Time","每節時間");
 define("_MI_ES_TT_CONFIG_DTime","每節上課時間，如 8:40~9:10,以逗號分隔");
