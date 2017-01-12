@@ -22,16 +22,16 @@
 
 
 
-      <div class="col-md-10" id="table_div">
+      <div class="col-xs-10" id="table_div">
 
       	<div class="row" >
 
-      	<div class='col-md-4'>
+      	<div class='col-xs-5'>
           <form action="teacher_list.php"  method="GET">
             <div class="form-group">
                 <{if ($data.isteacher)}>
-              <label for="teacher_id" class="col-md-4 control-label">查詢教師:</label>
-              <div class='col-md-8'>
+              <label for="teacher_id" class="col-xs-4 control-label">查詢教師:</label>
+              <div class='col-xs-8'>
               <{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="form-control" }>
             </div>
             <{/if}>
@@ -39,11 +39,11 @@
         </form>
       	</div>
 
-      <div class='col-md-4'>
+      <div class='col-xs-5'>
           <form action="teacher_list.php"  method="GET">
               <div class="form-group">
                 <label for="room_id" class="col-sm-4 control-label">查詢教室:</label>
-                <div class='col-md-8'>
+                <div class='col-xs-8'>
                 <{html_options name=room_id id=room_id  options=$data.room_list  selected=$data.room_sel  onchange="submit();"   class="form-control" }>
         </div>
         </div>
@@ -53,18 +53,18 @@
 
       <table class="table table-bordered">
       <tr>
-      <td class="col-md-1 col-xs-1">節</td>
+      <td class="col-xs-1 col-xs-1">節</td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td class="col-md-2  col-xs-2" ><{$DEF_SET.week[$smarty.section.di.index]}></td>
+      <td class="col-xs-2  col-xs-2" ><{$DEF_SET.week[$smarty.section.di.index]}></td>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="col-md-1  col-xs-1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br />
+      <td class="col-xs-1  col-xs-1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br />
         <{$DEF_SET.time_list[$smarty.section.si.index]}>
       </td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td class="col-md-2  col-xs-2">
+      <td class="col-xs-2  col-xs-2">
 
 
       	<div  data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >
