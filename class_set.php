@@ -6,7 +6,7 @@
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
-$xoopsOption['template_main'] = set_bootstrap('es_timet_class_table_tpl.html');
+$xoopsOption['template_main'] = set_bootstrap('es_timet_class_table.tpl');
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 

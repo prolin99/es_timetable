@@ -6,9 +6,8 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
-
-include_once 'header.php';
+include_once "header.php";
+include_once "../function.php";
 
 if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] and $_GET['sect']) {
     $week_d = intval($_GET['week']);
@@ -45,7 +44,7 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] 
 			and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'     ";
         } else {
             $sql = ' DELETE FROM  '.$xoopsDB->prefix('es_timetable').
-            " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'   
+            " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'
 			and day='$day' and sector='$sect'  and  class_id= '{$_GET['class_id']}'    and  ( week_d='$week_d'  or week_d=0 )  ";
         }
 

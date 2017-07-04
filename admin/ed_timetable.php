@@ -6,10 +6,11 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
+
 //樣版
 $xoopsOption['template_main'] = 'es_timet_ad_table_tpl.html';
-include_once 'header.php';
+include_once "header.php";
+include_once "../function.php";
 
 /*-----------function區--------------*/
 //取得參數

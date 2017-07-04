@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.01';                //模組版次
+$modversion['version'] = '2.1';                //模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -50,25 +50,19 @@ $modversion['onUpdate'] = 'include/onUpdate.php';
 //---樣板設定---要有指定，才會編譯動作，//
 $modversion['templates'] = array();
 $i = 1;
-$modversion['templates'][$i]['file'] = 'es_timet_index_tpl.html';
-$modversion['templates'][$i]['description'] = 'es_timet_index_tpl.html';
-++$i;
-$modversion['templates'][$i]['file'] = 'es_timet_index_tpl_b3.html';
-$modversion['templates'][$i]['description'] = 'es_timet_index_tpl.html';
+
+$modversion['templates'][$i]['file'] = 'es_timet_index.tpl';
+$modversion['templates'][$i]['description'] = 'es_timet_index.tpl';
+
 
 ++$i;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_index_tpl.html';
-$modversion['templates'][$i]['description'] = 'es_timet_ad_index_tpl.html';
-++$i;
-$modversion['templates'][$i]['file'] = 'es_timet_ad_index_tpl_b3.html';
 $modversion['templates'][$i]['description'] = 'es_timet_ad_index_tpl.html';
 
 ++$i;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_set_sub_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_ad_set_sub_tpl.html';
-++$i;
-$modversion['templates'][$i]['file'] = 'es_timet_ad_set_sub_tpl_b3.html';
-$modversion['templates'][$i]['description'] = 'es_timet_ad_set_sub_tpl.html';
+
 
 ++$i;
 $modversion['templates'][$i]['file'] = 'es_timet_ad_set_teacher_tpl.html';
@@ -83,18 +77,14 @@ $modversion['templates'][$i]['file'] = 'es_timet_setroom_tpl.html';
 $modversion['templates'][$i]['description'] = 'es_timet_setroom_tpl.html';
 
 ++$i;
-$modversion['templates'][$i]['file'] = 'es_timet_class_table_tpl.html';
-$modversion['templates'][$i]['description'] = 'es_timet_class_table_tpl.html';
-++$i;
-$modversion['templates'][$i]['file'] = 'es_timet_class_table_tpl_b3.html';
-$modversion['templates'][$i]['description'] = 'es_timet_class_table_tpl.html';
+$modversion['templates'][$i]['file'] = 'es_timet_class_table.tpl';
+$modversion['templates'][$i]['description'] = 'es_timet_class_table.tpl';
+
 
 ++$i;
-$modversion['templates'][$i]['file'] = 'es_timetable_show.html';
-$modversion['templates'][$i]['description'] = 'es_timetable_show.html';
-++$i;
-$modversion['templates'][$i]['file'] = 'es_timetable_show_b3.html';
-$modversion['templates'][$i]['description'] = 'es_timetable_show.html';
+$modversion['templates'][$i]['file'] = 'es_timetable_show.tpl';
+$modversion['templates'][$i]['description'] = 'es_timetable_show.tpl';
+
 
 $i = 0;
 //偏好設定

@@ -6,9 +6,8 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
-
-include_once 'header.php';
+include_once "header.php";
+include_once "../function.php";
 
 if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']) {
     //讀取科目

@@ -8,7 +8,7 @@
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
 //樣版
-$xoopsOption['template_main'] = set_bootstrap('es_timetable_show.html');
+$xoopsOption['template_main'] = set_bootstrap('es_timetable_show.tpl');
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 

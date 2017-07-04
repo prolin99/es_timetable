@@ -4,11 +4,19 @@
 // 製作日期：2014-03-01
 // $Id:$
 // ------------------------------------------------------------------------- //
+$adminmenu = array();
+
 $i = 0;
-$adminmenu[$i]['title'] = '課表';
-$adminmenu[$i]['link'] = 'admin/index.php';
+$adminmenu[$i]['title'] =_MI_TAD_ADMIN_HOME;
+$adminmenu[$i]['link'] = 'admin/index.php' ;
+$adminmenu[$i]['desc'] = _MI_TAD_ADMIN_HOME_DESC ;
+$adminmenu[$i]['icon'] = 'images/admin/home.png' ;
+
+++$i;
+$adminmenu[$i]['title'] = '學期課表';
+$adminmenu[$i]['link'] = 'admin/main.php';
 $adminmenu[$i]['desc'] = '報名管理';
-$adminmenu[$i]['icon'] = 'images/admin/home.png';
+$adminmenu[$i]['icon'] = 'images/admin/button.png';
 
 ++$i;
 $adminmenu[$i]['title'] = '科目設定';

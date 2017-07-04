@@ -5,10 +5,8 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
-
-include_once 'header.php';
-
+include_once "header.php";
+include_once "../function.php";
 include_once '../../tadtools/PHPWord.php';
 
 /*-----------function區--------------*/

@@ -6,9 +6,8 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
-
-include_once 'header.php';
+include_once "header.php";
+include_once "../function.php";
 
 if ($_GET['id'] and $_GET['setdata']) {
     list($name, $id) = preg_split('/[_]/', $_GET['id']);

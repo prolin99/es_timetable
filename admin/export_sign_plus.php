@@ -6,9 +6,8 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
-include_once 'header_admin.php';
-
-include_once 'header.php';
+include_once "header.php";
+include_once "../function.php";
 
 include_once '../../tadtools/PHPExcel.php';
 require_once '../../tadtools/PHPExcel/IOFactory.php';

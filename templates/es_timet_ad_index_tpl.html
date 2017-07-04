@@ -4,10 +4,11 @@
 <script language='javascript' type='text/javascript' src='<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js'></script>
 <{if $data.info.year }>
 <div class="row-fluid" >
-      	<form action="index.php" enctype="multipart/form-data" method="post">
+      	<form action="main.php" enctype="multipart/form-data" method="post">
       	<span class="span6" ><h2>目前課表<{$data.info.year}>學年度  第<{$data.info.semester}>學期</h2></span>
       	<span class="span6" ><a class="btn btn-success" href="ed_timetable.php">開始編輯</a>
-      	<button type="submit" name='act_clear'  value='刪除'  class="btn btn-danger" onclick='return confirm("真的要清空本學期課表?")' >清空</button>
+      	<button type="submit" name='act_clear'  value='刪除'  class="btn btn-danger" onclick='return confirm("真的要清空本學期課表，重新排課?")' >清空本學期</button>
+        <button type="submit" name='act_clear_old'  value='刪除舊學期'  class="btn btn-danger" onclick='return confirm("刪除舊資料，只保存本學年課表資料?")' >刪除舊學期</button>
       	</span>
       	</form>
 </div>
@@ -62,7 +63,7 @@
 
 
 
-    <form action="index.php" enctype="multipart/form-data" method="post">
+    <form action="main.php" enctype="multipart/form-data" method="post">
     <fieldset>
     <legend>複製成新學期</legend>
     <input type="text" name="year" placeholder="新學年度(如 105 )" class="span2"><input type="text"  name="semester" placeholder="新學期 (1 or 2)" class="span2" title="1 或 2">

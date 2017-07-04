@@ -4,6 +4,7 @@
 // 製作日期：2014-06-16
 // $Id:$
 // ------------------------------------------------------------------------- //
+include_once XOOPS_ROOT_PATH."/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
 define("_MI_ESTIMETABLE_NAME","課表");
 define("_MI_ESTIMETABLE_AUTHOR","prolin (prolin@tn.edu.tw)");
