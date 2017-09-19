@@ -27,12 +27,12 @@
 
     	<div class="row" >
           <div class="form-group">
-          <label for="class_id" class="col-sm-2 control-label">班級：</label>
-          <div class='col-xs-3'>
+          <label for="class_id" class="col-md-2 control-label">班級：</label>
+          <div class='col-md-3'>
     	  <{html_options name=class_id id=class_id  class="form-control" options=$data.class_list_c  selected=$data.select_class_id  onchange="class_change();"    }>
     	  </div>
             <div class="form-group">
-                <label for="class_id" class="col-sm-3 control-label">級任：<span id="class_teacher_name"></span></label>
+                <label for="class_id" class="col-md-3 control-label">級任：<span id="class_teacher_name"></span></label>
             </div>
         </div>
         </div>
@@ -114,11 +114,15 @@ $(function () {
 
 //顯示出已排課表內容
 function teacher_sect_show(do_mode , teacher_tab) {
-
+  <{if ($DEF_SET.sects_first_show)}>
+  var fSect = '<{$DEF_SET.sects_first}>' ;
+  <{else}>
+  var fSect = '' ;
+  <{/if}>
 
   	//班級
 	for (d = 1;d<=<{$DEF_SET.days}>;d++) {
-		for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
+		for (s =1 ; s<= <{$DEF_SET.sects}> ; s++) {
 			var sectt = 'sect_'+ d +'_'+ s ;
 			$('#' + sectt).html('<br/><br/>') ;
                     var cell_str = '' ;
@@ -126,31 +130,49 @@ function teacher_sect_show(do_mode , teacher_tab) {
                     var cell_str2 = '' ;
                     var cell_str_open2='' ;
                     var week_str ='' ;
+                    var cell_str_f='' ;
+
                     for (w=0 ; w<=2 ; w++ ) {
+                      <{if ($DEF_SET.sects_first_show)}>
+                        <{* 第一節為自修時出現自修名稱 *}>
+                        if ( (s==1) && (teacher_tab[d][s][w]['ss_id']<= 0) &&w==0){
+                          cell_str_f = '<div ><span>'+ fSect + '</span><br/>  \n'  ;
+                          $('#' + sectt).html( cell_str_f ) ;
+                        }
+                      <{/if}>
 
                         if (teacher_tab[d][s][w]['ss_id']> 0){
                             if (w==0)  week_str ='<div ><span>' ;
                             if (w==1)  week_str ='<div ><span class="label label-info" title="單週">' ;
                             if (w==2)  week_str ='<div  "><span class="label label-warning" title="雙週">' ;
+
+
                             <{*  級任 *}>
+
                             if (now_class_teacher == teacher_tab[d][s][w]['teacher_name']) {
                                 <{if ($isUser)}> <{* 有登入*}>
+
                                   cell_str +=week_str + teacher_tab[d][s][w]['subject_name']+' </span><br/> \n <a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+  teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div> '  ;
 
                                   $('#' + sectt).html(cell_str  ) ;
                                 <{else}>
+
                                       cell_str_open+= week_str+teacher_tab[d][s][w]['subject_name']+' </span><br/> \n'+ teacher_tab[d][s][w]['teacher_name']+' <br/> \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>  \n'  ;
                                       $('#' + sectt).html( cell_str_open ) ;
                                 <{/if}>
+
                              }else{
                                 <{if ($isUser)}> <{* 有登入*}>
+
                                   cell_str2 += week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+ teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>'+teacher_tab[d][s][w]['room'] +'</a><br/></div> '  ;
 
                                   $('#' + sectt).html( cell_str2 ) ;
                                 <{else}>
+
                                       cell_str_open +=week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/>  \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>   \n'  ;
                                       $('#' + sectt).html( cell_str_open ) ;
                                 <{/if}>
+
 
                             }
 

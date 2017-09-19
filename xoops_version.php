@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.1';                //模組版次
+$modversion['version'] = '2.11';                //模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -128,6 +128,25 @@ $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DTime';
 $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = '8:40~9:20,9:30~10:10,10:30~11:10,11:10~12:00,13:30~14:10,14:20~15:00,15:10~15:50';
+
+
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_m_sects_first_show';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_TFirst_c';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DFirst_c';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = false;
+
+
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_m_sects_first';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_TFirst';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_DFirst';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'text';
+$modversion['config'][$i]['default'] = '早自習';
+
 
 ++$i;
 $modversion['config'][$i]['name'] = 'es_tt_class_input';

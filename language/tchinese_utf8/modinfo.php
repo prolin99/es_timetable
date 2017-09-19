@@ -23,8 +23,11 @@ define("_MI_ES_TT_CONFIG_D4","級任是否可以輸入課表");
 define("_MI_ES_TT_CONFIG_T5","年級");
 define("_MI_ES_TT_CONFIG_D5","以逗號分隔");
 
-define("_MI_ES_TT_CONFIG_T6","開始節次");
-define("_MI_ES_TT_CONFIG_D6","開始節次 0 or 1");
+define("_MI_ES_TT_CONFIG_TFirst_c","是否出現自修");
+define("_MI_ES_TT_CONFIG_DFirst_c","第一節是自修，而且未排課，要出現早自習等指定字串(配合下一項名稱設定)");
+
+define("_MI_ES_TT_CONFIG_TFirst","早自修的出現名稱");
+define("_MI_ES_TT_CONFIG_DFirst","早自習，要出現的名稱為：");
 
 define("_MI_ES_TT_CONFIG_T7","節次中文名稱");
 define("_MI_ES_TT_CONFIG_D7","導師時間/早自習,第一節,午休等排課節次,以逗號分隔");

@@ -21,7 +21,7 @@
       <div class="col-xs-8" >
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期   <{$data.class_list_c[$data.my_class_id]}>功課表 </h3>
  	</div>
- 	<div class="col-xs-3" >
+ 	<div class="col-md-3" >
  	<a class="btn btn-info" href="export.php?class_id=<{$data.my_class_id}>">下載課表</a>
  	</div>
  </div>
