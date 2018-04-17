@@ -392,7 +392,7 @@ function get_table_teacher_data()
     return $table_teacher;
 }
 
-function get_table_teacher_list($mode = 'hide')
+function get_table_teacher_list($mode = 'hide' , $sortByname ='' )
 {
     //取得目前教師
     global  $xoopsDB;
@@ -404,7 +404,14 @@ function get_table_teacher_list($mode = 'hide')
     } else {
         //不出現隱去者
         //$sql =  "  SELECT  teacher_id , user_id , name   FROM " . $xoopsDB->prefix("es_timetable_teacher")  ." where  hide='0'  order by name  "   ;
-        $sql = '  SELECT  a.teacher_id , a.user_id , a.name , a.kind ,b.class_id , b.staff   FROM '.
+        if ($sortByname)
+          $sql = '  SELECT  a.teacher_id , a.user_id , a.name , a.kind ,b.class_id , b.staff   FROM '.
+            $xoopsDB->prefix('es_timetable_teacher').' a  '.
+            ' LEFT JOIN '.$xoopsDB->prefix('e_classteacher').' b '.
+            ' On a.user_id = b.uid '.
+            " where  a.hide='0'   order  by a.name  ";
+        else
+          $sql = '  SELECT  a.teacher_id , a.user_id , a.name , a.kind ,b.class_id , b.staff   FROM '.
             $xoopsDB->prefix('es_timetable_teacher').' a  '.
             ' LEFT JOIN '.$xoopsDB->prefix('e_classteacher').' b '.
             ' On a.user_id = b.uid '.

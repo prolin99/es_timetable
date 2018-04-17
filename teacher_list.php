@@ -39,7 +39,7 @@ $data['n_y'] = $n_year;
 $data['n_s'] = $n_semester;
 
   //教師名冊
-$data['teacher_list'] = get_table_teacher_list();
+$data['teacher_list'] = get_table_teacher_list('hide','byname');
 
 //教室名稱陣列
 $data['room_list'] = get_class_room_list($n_year, $n_semester);
