@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.11';                //模組版次
+$modversion['version'] = '2.20';                //模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -235,3 +235,20 @@ $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_SM_CLASS_NUM';
 $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = '2,2,2,2,3,3';
+
+
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_sm__OpenYear';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_OpenYear';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_OpenYear';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '';
+
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_sm__OpenSemester';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_OpenSemester';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_OpenSemester';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '';

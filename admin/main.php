@@ -11,17 +11,27 @@ $xoopsOption['template_main'] = 'es_timet_ad_index_tpl.html';
 include_once "header.php";
 include_once "../function.php";
 
-//複製課表到新年學
-//if ($_POST['do_key']) {
+//設定
 
+if ($_POST['do_key']) {
 
+    $sql=  " update   " . $xoopsDB->prefix("config") ." set conf_value='{$_POST['class_teacher_input']}' where conf_name='es_tt_class_input' ; "  ;
+	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+
+    $sql =  " update   " . $xoopsDB->prefix("config") ." set conf_value='{$_POST['OpenYear']}' where conf_name='es_tt_sm__OpenYear' ; "  ;
+	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+
+    $sql =  " update   " . $xoopsDB->prefix("config") ." set conf_value='{$_POST['OpenSemester']}' where conf_name='es_tt_sm__OpenSemester' ; "  ;
+	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+    redirect_header($_SERVER['PHP_SELF']) ;
+}
 /*-----------function區--------------*/
 
 
 sync_teacher($DEF_SET['teacher_group']);
 
 //檢查目前的課表
-$data['info'] = get_timetable_info();
+$data['info'] = get_timetable_info(true);
 
 //目前班級數
 $data['school_class_num'] = get_class_num();
@@ -31,7 +41,7 @@ if ($_POST['act_clear_old'] == '刪除舊學期') {
     $sql = ' DELETE  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year < '{$data['info']['year']}'   ";
     //echo $sql ;
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
-    $data['info'] = get_timetable_info();
+    $data['info'] = get_timetable_info(true);
 }
 
 //清空本學期
@@ -39,7 +49,7 @@ if ($_POST['act_clear'] == '刪除') {
     $sql = ' DELETE  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '{$data['info']['year']}'  and  semester= '{$data['info']['semester']}' ";
     //echo $sql ;
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
-    $data['info'] = get_timetable_info();
+    $data['info'] = get_timetable_info(true);
 }
 
 //複製
@@ -56,7 +66,7 @@ if (($_POST['year'] > $data['info']['year']) or  (($_POST['year'] == $data['info
     }
 
     //檢查目前的課表
-    $data['info'] = get_timetable_info();
+    $data['info'] = get_timetable_info(true);
 }
 
 //讀取 tad_cal 行事曆

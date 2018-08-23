@@ -23,7 +23,7 @@ $data['class_list_c'] = get_timetable_class_list_c();
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //檢查目前的課表
-$data['info'] = get_timetable_info();
+$data['info'] = get_timetable_info( true);
 
 if (($_GET['year'] > $data['info']['year']) or  (($_GET['year'] == $data['info']['year']) and ($_GET['semester'] >= $data['info']['semester']))) {
     $n_year = $_GET['year'];

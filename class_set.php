@@ -34,7 +34,7 @@ $data['my_teacher_id'] = get_my_id_in_timetable();
 $data['my_name'] = $xoopsUser->name();
 
 //檢查目前的課表
-$data['info'] = get_timetable_info();
+$data['info'] = get_timetable_info(true);
 
 $data['n_y'] = $data['info']['year'];
 $data['n_s'] = $data['info']['semester'];

@@ -31,6 +31,9 @@ $DEF_SET['teacher_group'] = $xoopsModuleConfig['es_tt_teacher_group'];
 
 $DEF_SET['es_tt_week_D'] = $xoopsModuleConfig['es_tt_week_D'];
 
+$DEF_SET['es_tt_showYear'] = $xoopsModuleConfig['es_tt_sm__OpenYear'];
+$DEF_SET['es_tt_showSemester'] = $xoopsModuleConfig['es_tt_sm__OpenSemester'];
+
 //$DEF_SET['es_tt_begin']=   $xoopsModuleConfig['es_tt_begin']  ;
 
 //中文節次
@@ -182,15 +185,25 @@ function get_timetable_class_list_c($mode = 'short')
     return $class_list;
 }
 
-function get_timetable_info()
+function get_timetable_info($adm= false)
 {
     //取得課表內容--最近的年度、期別
-    global  $xoopsDB;
+    global  $xoopsDB, $DEF_SET ;
+
     $sql = '  SELECT  school_year , semester  FROM '.$xoopsDB->prefix('es_timetable').'  order by school_year DESC , semester DESC  ';
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     $row = $xoopsDB->fetchArray($result);
-    $data['year'] = $row['school_year'];
-    $data['semester'] = $row['semester'];
+
+    #如果在偏好中設定，只取得
+    if ($adm or $DEF_SET['es_tt_showSemester']==0){
+        $data['year'] = $row['school_year'];
+        $data['semester'] = $row['semester'];
+    }else {
+        $data['year'] = $DEF_SET['es_tt_showYear'];
+        $data['semester'] = $DEF_SET['es_tt_showSemester'];
+    }
+
+
 
     $sql = '  SELECT  count(*) as cc   FROM '.$xoopsDB->prefix('es_timetable')." where school_year='{$data['school_year']}' and semester ='{$data['semester']}'  group by  class_id  ";
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());

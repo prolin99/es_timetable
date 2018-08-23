@@ -19,6 +19,17 @@
     <{$data.error}>
     </div>
     <{/if}>
+    <form action="main.php" enctype="multipart/form-data" method="post">
+        <fieldset>
+        <legend>參數設定</legend>
+        <label class="checkbox">
+          <input type="checkbox"  name="class_teacher_input" value="1" <{if $DEF_SET.input }>checked<{/if}>> 開放級任排課
+        </label>
+        開放讀取課表年度：<input type="text"  name="OpenYear" placeholder="學年度如108" class="span2" title="學年度" value="<{$DEF_SET.es_tt_showYear}>">
+        學期：<input type="text"  name="OpenSemester" placeholder="學期 (1 or 2)" class="span2" title="1 或 2" value="<{$DEF_SET.es_tt_showSemester}>">
+        <button type="submit" name="do_key" class="btn btn-primary" title='設定開放讀取、級任排課' value='設定'>設定</button>
+    </fieldset>
+    </form>
 
 	<a class="btn btn-info" href="export.php?mode=class_id">班級總表匯出</a>
 	<a class="btn btn-info" href="export.php?mode=teacher">教師個別課表匯出</a>
