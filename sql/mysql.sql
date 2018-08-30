@@ -1,6 +1,6 @@
 
 CREATE TABLE  `es_timetable_subject` (
-  `subject_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `subject_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(255) NOT NULL DEFAULT '',
   `subject_school` set('0','1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
   `subject_kind` enum('scope','subject') DEFAULT NULL,
@@ -8,6 +8,7 @@ CREATE TABLE  `es_timetable_subject` (
   `subject_scope` varchar(80) DEFAULT NULL,
   `e_subject` varchar(80) DEFAULT NULL,
   `s_subject` varchar(80) DEFAULT NULL,
+  `subject_id_size` int(11) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`subject_id`)
 ) ENGINE=MyISAM  COMMENT='科目名稱';
 
@@ -35,9 +36,9 @@ INSERT INTO es_timetable_subject (`subject_id`, `subject_name`, `subject_school`
 
 
 CREATE TABLE   `es_timetable_subject_year` (
-  `y_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `y_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `grade` tinyint(3) NOT NULL DEFAULT  '0',
-  `subject_id` tinyint(3) NOT NULL DEFAULT  '0',
+  `subject_id` int(11) NOT NULL DEFAULT  '0',
   PRIMARY KEY (`y_id`)
 ) ENGINE=MyISAM  COMMENT='年段科目';
 
