@@ -65,4 +65,8 @@ define("_MI_ES_TT_CONFIG_D_OpenYear","可以查看的年度，正在輸入的課
 define("_MI_ES_TT_CONFIG_OpenSemester","可查看課表的學期");
 define("_MI_ES_TT_CONFIG_D_OpenSemester","1或2，可以查看的學期，正在輸入的課表不被查看。");
 
+define("_MI_ES_TT_CONFIG_noon","匯出時加午休欄位");
+define("_MI_ES_TT_CONFIG_D_noon","如果節次名已加入午休排課，則不要再印午休欄位。");
+
+
 ?>

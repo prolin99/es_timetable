@@ -70,10 +70,9 @@ $data['info'] = get_timetable_info();
     $styleFont_cell_left = array('name' => 'Tahoma',  'size' => 10 , 'bold' => true);
     $style_cell_left = array('align' => 'center');
 
-    /*
-    $styleTable = array('borderColor'=>'006699', 'borderSize'=>6, 'cellMargin'=>50); //表格樣式（可用設定：cellMarginTop、cellMarginLeft、cellMarginRight、cellMarginBottom、cellMargin、bgColor、 borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor、borderInsideHSize、borderInsideHColor、borderInsideVSize、borderInsideVColor、borderSize、borderColor）
-    $styleFirstRow = array('bgColor'=>'66BBFF'); //首行樣式
-    */
+    $styleTable = array('borderColor' => '000000', 'borderSize' => 6, 'cellMargin' => 50);
+    $styleFirstRow = array('bgColor' => 'EEEEEE'); //首行樣式
+
     $page = 0;
 foreach ($timetable as $key => $table_data) {
     if ($page > 0) {
@@ -95,18 +94,25 @@ foreach ($timetable as $key => $table_data) {
     }
     $section->addText($h2_title, $styleFont_h2, $styleParagraph_h2);
 
-    //$PHPWord->addTableStyle('myTable', $styleTable, $styleFirstRow); //建立表格樣式
-    $PHPWord->addTableStyle('myTable'); //建立表格樣式
+    $PHPWord->addTableStyle('myTable', $styleTable, $styleFirstRow); //建立表格樣式
+    //$PHPWord->addTableStyle('myTable'); //建立表格樣式
     $table = $section->addTable('myTable');//建立表格
 
 
     $table->addRow(1000); //新增一列
-
+/*
     //$cellStyle =array('textDirection'=>PHPWord_Style_Cell::TEXT_DIR_BTLR, 'bgColor'=>'C0C0C0'); //儲存格樣式（設定項：valign、textDirection、bgColor、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
     $table->addCell(2000, $cellStyle)->addText('節次', $styleFont_cell_top, $style_cell_top); //新增一格
 
     for ($i = 1; $i <= $DEF_SET['days']; ++$i) {
         $table->addCell(1000, $cellStyle)->addText($DEF_SET['week'][$i], $styleFont_cell_top, $style_cell_top);
+    } //新增一格
+*/
+    //$cellStyle =array('textDirection'=>PHPWord_Style_Cell::TEXT_DIR_BTLR, 'bgColor'=>'C0C0C0'); //儲存格樣式（設定項：valign、textDirection、bgColor、borderTopSize、borderTopColor、borderLeftSize、borderLeftColor、borderRightSize、borderRightColor、borderBottomSize、borderBottomColor）
+    $table->addCell(1000, $cellStyle)->addText('節', $styleFont_cell_top, $style_cell_top); //新增一格
+
+    for ($i = 1; $i <= $DEF_SET['days']; ++$i) {
+        $table->addCell(1600, $cellStyle)->addText($DEF_SET['week'][$i], $styleFont_cell_top, $style_cell_top);
     } //新增一格
 
     //課表內容
@@ -152,14 +158,14 @@ foreach ($timetable as $key => $table_data) {
                     }
                 }
             }
-            $table->addCell(2000)->addText($cell_doc, $font, $style_cell); //新增一格
+            $table->addCell(1600)->addText($cell_doc, $font, $style_cell); //新增一格
         }
-        if ($s == $DEF_SET['m_sects']) {
+        if ( ($s == $DEF_SET['m_sects']) and  $DEF_SET['noon_show']  ) {
             //上午節數
             $table->addRow(500); //新增一列
             $table->addCell(1000, $cellStyle)->addText('午休', $styleFont_cell_top, $style_cell_top); //新增一格
             for ($i = 1; $i <= $DEF_SET['days']; ++$i) {
-                $table->addCell(1000, $cellStyle)->addText('', $styleFont_cell_top, $style_cell_top); //新增一格
+                $table->addCell(1600, $cellStyle)->addText('', $styleFont_cell_top, $style_cell_top); //新增一格
             }
         }
     }

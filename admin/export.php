@@ -96,7 +96,7 @@ if ($_GET['mode']) {
         $section->addText($h2_title, $styleFont_h2, $styleParagraph_h2);
 
         $PHPWord->addTableStyle('myTable', $styleTable, $styleFirstRow); //建立表格樣式
-    $PHPWord->addTableStyle('myTable'); //建立表格樣式
+    //$PHPWord->addTableStyle('myTable'); //建立表格樣式
     $table = $section->addTable('myTable');//建立表格
 
 
@@ -163,7 +163,7 @@ if ($_GET['mode']) {
                 $table->addCell(1600)->addText($cell_doc, $font, $style_cell); //新增一格
             }
 
-        if ($s == $DEF_SET['m_sects']) {
+        if ( ($s == $DEF_SET['m_sects'] ) and  $DEF_SET['noon_show']  ) {
             //上午節數
                 $table->addRow(500); //新增一列
                 $table->addCell(1000, $cellStyle)->addText('午休', $styleFont_cell_top, $style_cell_top); //新增一格

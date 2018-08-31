@@ -33,6 +33,7 @@ $DEF_SET['es_tt_week_D'] = $xoopsModuleConfig['es_tt_week_D'];
 
 $DEF_SET['es_tt_showYear'] = $xoopsModuleConfig['es_tt_sm__OpenYear'];
 $DEF_SET['es_tt_showSemester'] = $xoopsModuleConfig['es_tt_sm__OpenSemester'];
+$DEF_SET['noon_show'] = $xoopsModuleConfig['es_tt_noon_show'];
 
 //$DEF_SET['es_tt_begin']=   $xoopsModuleConfig['es_tt_begin']  ;
 

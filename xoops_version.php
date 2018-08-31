@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.21';                //模組版次
+$modversion['version'] = '2.3';                //模組版次
 $modversion['author'] = 'prolin(prolin@tn.edu.tw)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -147,6 +147,13 @@ $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = '早自習';
 
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_noon_show';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_noon';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_noon';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = True;
 
 ++$i;
 $modversion['config'][$i]['name'] = 'es_tt_class_input';
