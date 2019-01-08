@@ -19,7 +19,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));        //模組目錄名�
 
 //---模組狀態資訊---//
 
-$modversion['release_date'] = '2016-06-01';
+$modversion['release_date'] = '2019-01-08';
 $modversion['module_website_url'] = 'https://github.com/prolin99/es_timetable';
 $modversion['module_website_name'] = 'prolin';
 $modversion['module_status'] = 'release';
