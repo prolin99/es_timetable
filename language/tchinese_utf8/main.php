@@ -6,10 +6,12 @@
 // ------------------------------------------------------------------------- //
 
 //需加入模組語系
+xoops_loadLanguage('main', 'tadtools');
+
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
 
- 
+
 define("_MA_INPUT_FORM","輸入表單");
 
 define("_MD_INPUT_VALID","「%s」欄位檢查");

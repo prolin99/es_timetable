@@ -4,11 +4,11 @@
 // 製作日期：2014-09-01
 // $Id:$
 // ------------------------------------------------------------------------- //
-
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
 //樣版
-$xoopsOption['template_main'] = set_bootstrap('es_timetable_show.tpl');
+$xoopsOption['template_main'] = 'es_timetable_show.tpl';
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 
@@ -77,7 +77,7 @@ if ($data['room_sel'] > 0) {
 $data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
 $data['isteacher'] = $CanSearchTeacher;
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('data', $data);
 $xoopsTpl->assign('DEF_SET', $DEF_SET);
 $xoopsTpl->assign('tab', $tab);

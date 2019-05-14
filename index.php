@@ -4,9 +4,10 @@
 // 製作日期：2014-07-20
 // $Id:$
 // ------------------------------------------------------------------------- //
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
-$xoopsOption['template_main'] = set_bootstrap('es_timet_index.tpl');
+$xoopsOption['template_main'] = 'es_timet_index.tpl';
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 
@@ -44,7 +45,7 @@ if ($_GET['class_id']) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('data', $data);
 $xoopsTpl->assign('DEF_SET', $DEF_SET);
 $xoopsTpl->assign('isUser', $xoopsUser);

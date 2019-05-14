@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 
 function xoops_module_update_es_timetable(&$module, $old_version)
 {

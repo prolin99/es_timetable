@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 function xoops_module_install_es_timetable(&$module) {
  	global $xoopsDB;
  	$sql="select count(*) as cc from ".$xoopsDB->prefix("es_timetable_subject");
@@ -6,7 +8,7 @@ function xoops_module_install_es_timetable(&$module) {
   	$row=$xoopsDB->fetchArray($result) ;
   	echo  $row['cc'] ;
   	if($row['cc']<= 0 ) {
-		$sql = "INSERT INTO ".$xoopsDB->prefix("es_timetable_subject")." (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope) VALUES 
+		$sql = "INSERT INTO ".$xoopsDB->prefix("es_timetable_subject")." (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable` ,subject_scope) VALUES
 		(1, '國語', '', 'subject', '1' ,'語文領域'),
 		(2, '本土語言', '', 'subject', '1','語文領域'),
 		(3, '數學', '', 'scope', '1','數學領域'),
@@ -30,6 +32,6 @@ function xoops_module_install_es_timetable(&$module) {
 	return true;
 }
 
- 
+
 
 ?>

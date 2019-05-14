@@ -5,10 +5,7 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 //引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH.'/modules/tadtools/tad_function.php')) {
-    redirect_header('http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50', 3, _TAD_NEED_TADTOOLS);
-}
-include_once XOOPS_ROOT_PATH.'/modules/tadtools/tad_function.php';
+use XoopsModules\Tadtools\Utility;
 
 if (!file_exists(XOOPS_ROOT_PATH.'/modules/e_stud_import/es_comm_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=33', 3, '需要單位名稱模組(e_stud_import)1.9以上');

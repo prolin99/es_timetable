@@ -4,9 +4,10 @@
 // 製作日期：2014-07-20
 // $Id:$
 // ------------------------------------------------------------------------- //
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
-$xoopsOption['template_main'] = set_bootstrap('es_timet_class_table.tpl');
+$xoopsOption['template_main'] = 'es_timet_class_table.tpl';
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 
@@ -76,7 +77,7 @@ $data['class_teacher'] = get_class_teacher_list();
 $data['my_table'] = get_ones_timetable('teacher', $data['n_y'], $data['n_s'], $data['my_teacher_id']);
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('data', $data);
 $xoopsTpl->assign('DEF_SET', $DEF_SET);
 
