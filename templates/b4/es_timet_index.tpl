@@ -43,15 +43,15 @@
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td >
-        <{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br/>
-        <{$DEF_SET.time_list[$smarty.section.si.index]}>
-      </td>
-      <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td >
-      	<div data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
-      </td>
-      <{ /section }>
+          <th scope="row">
+            <{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br/>
+            <{$DEF_SET.time_list[$smarty.section.si.index]}>
+          </th>
+          <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
+          <td >
+          	<div data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
+          </td>
+          <{ /section }>
       </tr>
       <{ /section }>
       </table>
