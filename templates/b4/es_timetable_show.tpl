@@ -53,18 +53,18 @@
 
       <table class="table table-bordered">
       <tr>
-      <td class="col-1">節</td>
+      <th scope="col">節</th>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td class="col-2 " ><{$DEF_SET.week[$smarty.section.di.index]}></td>
+      <th scope="col"><{$DEF_SET.week[$smarty.section.di.index]}></th>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="col-1"><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br />
+      <td ><{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br />
         <{$DEF_SET.time_list[$smarty.section.si.index]}>
       </td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td class="col-2">
+      <td  >
 
 
       	<div  data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >

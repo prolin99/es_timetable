@@ -19,10 +19,6 @@
 
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>
 
-      <div class="row" > <!-- box1 -->
-
-
-      <div class="col-10" id="table_div">
 
 
 
@@ -40,19 +36,19 @@
 
       <table class="table table-bordered">
       <tr>
-      <td class="col-1 col-1">節</td>
+      <th scope="col">節</th>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <td class="col-2  col-2"><{$DEF_SET.week[$smarty.section.di.index]}></td>
+      <th scope="col"><{$DEF_SET.week[$smarty.section.di.index]}></th>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
-      <td class="col-1  col-1">
+      <td >
         <{$DEF_SET.sects_cht_list[$smarty.section.si.index]}><br/>
         <{$DEF_SET.time_list[$smarty.section.si.index]}>
       </td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td class="col-2  col-2">
+      <td >
       	<div data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
       </td>
       <{ /section }>
@@ -61,10 +57,9 @@
       </table>
 
 
-      </div>      <!-- table_div end-->
 
 
-      </div><!-- box1 end-->
+
 <SCRIPT type="text/javascript">
 //指定教師
 var now_teacher_array =[] ;
