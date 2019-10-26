@@ -394,7 +394,7 @@ function get_table_teacher_data()
     global  $xoopsDB;
     //由學校資料表中取得
 
-    $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,  kind , teacher_id     ';
+    $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,   teacher_id    DESC  ';
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $table_teacher[$row['teacher_id']] = $row;
