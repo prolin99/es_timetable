@@ -55,8 +55,9 @@ function left_title($objPHPExcel, $row)
 
     //科目
     //$subject= get_subject_list() ;
-    //讀取人名
-    $teacher_list = get_table_teacher_data();
+    //讀取人名 級任前、科任後
+    $teacher_list = get_table_teacher_data_order_classid($data['info']['year'], $data['info']['semester']);
+    //$teacher_list = get_table_teacher_data() ;
 
     //取得級任姓名
     //$class_teacher_list = get_class_teacher_list() ;
@@ -119,13 +120,22 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
 
 
 
-    //超鐘點課表
-    foreach ($timetable as $key => $table_data) {
+    //超鐘點課表  ---> 改以  $teacher_list  㾺順序  key  為教師
+
+    //foreach ($timetable as $key => $table_data) {
+
+    foreach ($teacher_list     as  $key=>$teacher_list_data) {
+        if  ($timetable[$key])
+            $table_data = $timetable[$key] ;
+        else
+            continue  ;
+
+
         $om = 0;
         $add_sects = 0;
         unset($wd_have_class);
 
-        //有排課的那些天
+        //有排課的那些天  整理放到  表中
         for ($d = 1; $d <= $DEF_SET['days']; ++$d) {
             for ($ss = 1; $ss <= $DEF_SET['sects']; ++$ss) {
                 for ($w = 0; $w <= 2;++$w) {
@@ -145,7 +155,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
         //左方標題處
         $col = 'A';
 
-        $objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(12);
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$row)->getFont()->setSize(14);
         $objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight('20');
         //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A' . $row,$teacher_list[$key]['name'] .date('Y 年 n 月',$m) .'超鐘點(共       節)')  ;
 
@@ -247,7 +257,7 @@ for ($m = $beg_date; $m <= $end_date;  $m = strtotime(date('Y-m-01', $m).'+1 mon
             }
         }
         //人名的簽名標題
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$tea_beg_row , $teacher_list[$key]['name'].'-----' . date('Y 年 n 月', $m).$DEF_SET['es_tt_over_list'][$over_id]." (共 $add_sects 節)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$tea_beg_row , "*" .$teacher_list[$key]['name'].'-----' . date('Y 年 n 月', $m).$DEF_SET['es_tt_over_list'][$over_id]." (共 $add_sects 節)");
         $row = $row + 4;
     }
 }

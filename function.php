@@ -229,7 +229,7 @@ function get_timetable_data($mode, $y, $s, $class_sel = 'all', $over_id = '')
     }
 
     if ($mode == 'teacher') {
-        $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'   $where_plus     order by teacher,day,sector ";
+        $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'   $where_plus     order by  teacher,day,sector ";
     }
 
     if ($mode == 'class_id') {
@@ -394,7 +394,7 @@ function get_table_teacher_data()
     global  $xoopsDB;
     //由學校資料表中取得
 
-    $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,  teacher_id DESC  ';
+    $sql = '  SELECT  *  FROM '.$xoopsDB->prefix('es_timetable_teacher').' order by hide ,  kind , teacher_id     ';
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $table_teacher[$row['teacher_id']] = $row;
@@ -402,6 +402,40 @@ function get_table_teacher_data()
 
     return $table_teacher;
 }
+
+
+
+function get_table_teacher_data_order_classid($y ,$s)
+{
+    //教師名單，級任在前、科任在後
+    global  $xoopsDB;
+
+    $teacher=get_table_teacher_data() ;
+    // 取得多班  大於 3 表 科任
+
+    $t_list = array() ;
+    //大於10節 為級任
+    $sql = " select teacher ,  class_id , count(*) as cc  From " .  $xoopsDB->prefix('es_timetable') .
+            "  where school_year= '$y'  and  semester= '$s'   group by  teacher, class_id  having cc >10   order by  class_id     ";
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
+    while ($row = $xoopsDB->fetchArray($result)) {
+            if (!$t_list[$row['teacher']] ){
+                $table_teacher[$row['teacher']] = $teacher[$row['teacher']];
+                $t_list[$row['teacher']] =1 ;
+            }
+    }
+    //其除為科任
+    foreach ($teacher as $key=>$tea_data){
+        if (!$t_list[$key] ){
+            $table_teacher[$key] =$tea_data  ;
+            $t_list[$row['teacher']] =1 ;
+        }
+    }
+    return $table_teacher;
+}
+
+
+
 
 function get_table_teacher_list($mode = 'hide' , $sortByname ='' )
 {
