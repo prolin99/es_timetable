@@ -5,6 +5,11 @@ function xoops_module_update_es_timetable(&$module, $old_version)
 {
     global $xoopsDB;
 
+    //edu 暫存表
+    if (!chk_add_edu_tmp()) {
+        go_update_add_edu_tmp();
+    }
+
     //領域
     if (!chk_add_subject_scope()) {
         go_update_add_subject_scope();
@@ -111,6 +116,45 @@ function go_update_add_week_d()
 {
     global $xoopsDB;
     $sql = ' ALTER TABLE  '.$xoopsDB->prefix('es_timetable')." ADD `week_d` TINYINT NOT NULL DEFAULT '0' ";
+
+    $xoopsDB->queryF($sql);
+}
+
+
+//----------------------------------------------------------------------------------------
+function chk_add_edu_tmp()
+{
+    global $xoopsDB;
+    $sql = 'select count(`id`)  from '.$xoopsDB->prefix('es_timetable_tmp');
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return false;
+    }
+
+    return true;
+}
+
+function go_update_add_edu_tmp()
+{
+    global $xoopsDB;
+    $sql = '  CREATE TABLE  '.$xoopsDB->prefix('es_timetable_tmp').
+    " (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `weekday` varchar(30) NOT NULL,
+      `sect` varchar(30) NOT NULL,
+      `class_year` varchar(30) NOT NULL,
+      `class_id` varchar(30) NOT NULL,
+      `teacher` varchar(30) NOT NULL,
+      `teacher_id` varchar(30) NOT NULL,
+      `subject_mode` varchar(30) NOT NULL,
+      `subject_class` varchar(30) NOT NULL,
+      `subject` varchar(30) NOT NULL,
+      `subject_lang` varchar(30) NOT NULL,
+      `subject_short` varchar(30) NOT NULL,
+      `in_week` varchar(30) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=MyISAM COMMENT='教育部匯入課表'
+    ";
 
     $xoopsDB->queryF($sql);
 }

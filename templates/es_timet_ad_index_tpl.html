@@ -100,6 +100,20 @@
     </fieldset>
     </form>
 
+ <div class="alert alert-danger">
+    <form action="import_edu.php" enctype='multipart/form-data' method=post  >
+    <fieldset>
+        <legend>由教育部課表匯入建新學期</legend>
+    <input type="text" name="year" placeholder="學年度(如 109 )" class="span2"><input type="text"  name="semester" placeholder="學期 (1 or 2)" class="span2" title="1 或 2">
+    <label>上傳 教育部課表 XLSX (excel2007)檔案:</label>
+    <input type="file" name="edutable"  accept=".xlsx">
+    <button type="submit" name="do_key" class="btn btn-danger" title='按此鍵建製新學期'>匯建新學期</button>
+    <p  >使用匯入功能，代表不是由本系統建制的課表，所以原先教師、科目記錄會全部清除。</p>
+    <p  >如果要在本系統做編修，請再修改科目設定等。</p>
+    </fieldset>
+    </form>
+</div>
+
 
 
        <div class="alert alert-info">

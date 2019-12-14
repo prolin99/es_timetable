@@ -132,3 +132,22 @@ CREATE TABLE   `es_timetable_teacher` (
   `kind` tinyint(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=MyISAM  COMMENT='授課教師';
+
+
+
+CREATE TABLE `es_timetable_tmp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weekday` varchar(30) NOT NULL,
+  `sect` varchar(30) NOT NULL,
+  `class_year` varchar(30) NOT NULL,
+  `class_id` varchar(30) NOT NULL,
+  `teacher` varchar(30) NOT NULL,
+  `teacher_id` varchar(30) NOT NULL,
+  `subject_mode` varchar(30) NOT NULL,
+  `subject_class` varchar(30) NOT NULL,
+  `subject` varchar(30) NOT NULL,
+  `subject_lang` varchar(30) NOT NULL,
+  `subject_short` varchar(30) NOT NULL,
+  `in_week` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM COMMENT='教育部匯入課表';
