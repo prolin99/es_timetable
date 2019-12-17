@@ -85,6 +85,9 @@ $modversion['templates'][$i]['description'] = 'es_timet_class_table.tpl';
 $modversion['templates'][$i]['file'] = 'es_timetable_show.tpl';
 $modversion['templates'][$i]['description'] = 'es_timetable_show.tpl';
 
+++$i;
+$modversion['templates'][$i]['file'] = 'es_timet_import_edu.html';
+$modversion['templates'][$i]['description'] = 'es_timet_import_edu.html';
 
 $i = 0;
 //偏好設定

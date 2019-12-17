@@ -5,6 +5,7 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
+$xoopsOption['template_main'] = 'es_timet_import_edu.html';
 include_once "header.php";
 include_once "../function.php";
 
@@ -85,7 +86,7 @@ function import_edu_excel($file_up,$ver=2007) {
 
 
 function do_import( $y , $s){
-    global $xoopsDB , $DEF   ;
+    global $xoopsDB , $DEF ,$message   ;
    	//清空學資料庫中  es_timetable_subject , es_timetable_subject_year ,es_timetable , es_timetable_teacher
    	$sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_subject")  ;
    	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
@@ -100,24 +101,24 @@ function do_import( $y , $s){
    	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
 
     //教師
-    echo "教師名單 <br>" ;
+    $message .=  "匯入教師名單 <br>" ;
     $sql = "select teacher  from "  . $xoopsDB->prefix("es_timetable_tmp") . " group by teacher, teacher_id " ;
 
     $tid=0 ;
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $tid++ ;
-        $tt = $row['teacher'] ;
+        $tea_i = $row['teacher']. $row['teacher_id'] ;
         $insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable_teacher") .
         "  (`teacher_id`, `user_id`, `name`  )
-         VALUES ('$tid' , '$tid' , '$tt' )
+         VALUES ('$tid' , '$tid' , '{$row['teacher']}' )
          " ;
          $result2 = $xoopsDB->query($insert_sql) ;
-         $edu['teacher'][$tt]= $tid ;
+         $edu['teacher'][$tea_i]= $tid ;
     }
 
     //科目
-    echo "科目設定 <br>" ;
+    $message .= "科目設定完成 <br>" ;
     $sql = "select subject_class, subject , subject_short from "  . $xoopsDB->prefix("es_timetable_tmp") . " group by subject_class, subject , subject_short  order by  subject_class, subject   " ;
 
     $tid=0 ;
@@ -130,9 +131,12 @@ function do_import( $y , $s){
          " ;
          $result2 = $xoopsDB->query($insert_sql) ;
          $edu['subject'][$row['subject_short']] = $tid ;
+		 $get_max['subid'] = $tid ;
     }
 
-    //科目
+
+
+    //課表
     $cy['一年級'] = 1 ;
     $cy['二年級'] = 2 ;
     $cy['三年級'] = 3 ;
@@ -161,7 +165,7 @@ function do_import( $y , $s){
     $cs['第九節'] =9  ;
     $cs['第十節'] =10  ;
 
-    echo "寫入課表 <br>" ;
+    $message .= "寫入課表 <br>" ;
     $sql = "select *  from "  . $xoopsDB->prefix("es_timetable_tmp") ;
 
 
@@ -170,9 +174,17 @@ function do_import( $y , $s){
     while ($row = $xoopsDB->fetchArray($result)) {
         $tid++ ;
         $c_id = mb_substr($row['class_id'],1 ,2)+0 ;
+		if ($get_max['min_y'] ==0)
+			$get_max['min_y'] = $cy[$row['class_year']];
+		if ($get_max['min_y'] > $cy[$row['class_year']])
+			$get_max['min_y'] = $cy[$row['class_year']] ;
+
+		if ($get_max['max_y'] < $cy[$row['class_year']])
+			$get_max['max_y'] = $cy[$row['class_year']] ;
 
         $c_ord = $cy[$row['class_year']] *100+  $c_id ;
-        $tea_id = $edu['teacher'][$row['teacher']] ;
+		$tea_i = $row['teacher']. $row['teacher_id'] ;
+        $tea_id = $edu['teacher'][$tea_i] ;
         $day =$cw[$row['weekday']] ;
 
         $sect =$cs[$row['sect']] ;
@@ -183,10 +195,33 @@ function do_import( $y , $s){
          VALUES
         ( '0' ,  '$y' , '$s',   '$c_ord'   ,  '$tea_id' ,   '$day' ,  '$sect' ,'$ss_id' ,''    )
          " ;
-
+		 //echo $tea_i . '---' . $insert_sql . "<br>" ;
          $result2 = $xoopsDB->query($insert_sql) ;
 
     }
-    echo "匯入完成<br>" ;
-    echo ("<a href='main.php'>回管理頁面</a>")  ;
+
+
+	//各年級使用科目
+    $message .= "各年級使用科目設定 <br>" ;
+	//echo $get_max['min_y'] .' - ' .  $get_max['max_y']  .' - ' .  $get_max['subid'] ;
+
+	for ($ty=$get_max['min_y'] ; $ty<=$get_max['max_y'] ; $ty++    ){
+		for ($tid=1 ; $tid<=$get_max['subid'] ; $tid++ ) {
+			$insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable_subject_year") .
+			"(`y_id`, `grade`, `subject_id`) VALUES (0, $ty , $tid) " ;
+			$result2 = $xoopsDB->query($insert_sql) ;
+		}
+    }
+
+
+    $message .= "匯入完成<br>" ;
+
 }
+
+
+/*-----------秀出結果區--------------*/
+
+$xoopsTpl->assign('message', $message);
+$xoopsTpl->assign('tab', $tab);
+
+include_once 'footer.php';
