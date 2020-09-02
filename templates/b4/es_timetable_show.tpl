@@ -13,7 +13,7 @@
 
 }
 .weekd{
-  font-size: 8px;
+  font-size: 0.8em;
 }
  </style>
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期</h3>

@@ -12,7 +12,7 @@
 
 }
 .weekd{
-  font-size: 10px;
+  font-size: 0.8em;
 }
 
 </style>
