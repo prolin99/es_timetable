@@ -29,6 +29,15 @@ if ($_POST['new_teacher']) {
     }
 }
 
+//清除 不在的教師名冊
+if ($_POST['del_hide_key']=='del_all'){
+    echo 'del' ;
+    $sql = ' delete   from    '.$xoopsDB->prefix('es_timetable_teacher').
+                ' where hide = 1   ';
+    $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
+
+}
+
 /*-----------執行動作判斷區----------*/
  $data['teacher'] = get_table_teacher_data();
 

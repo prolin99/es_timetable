@@ -8,8 +8,8 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.51';                //模組版次
-$modversion['author'] = 'prolin(prolin@tn.edu.tw)';        //模組作者
+$modversion['version'] = '2.6';                //模組版次
+$modversion['author'] = 'prolin(prolin99@gmail.com)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
 $modversion['license'] = 'GPL see LICENSE';        //模組版權
@@ -19,7 +19,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));        //模組目錄名�
 
 //---模組狀態資訊---//
 
-$modversion['release_date'] = '2019-01-08';
+$modversion['release_date'] = '2021-08-16';
 $modversion['module_website_url'] = 'https://github.com/prolin99/es_timetable';
 $modversion['module_website_name'] = 'prolin';
 $modversion['module_status'] = 'release';

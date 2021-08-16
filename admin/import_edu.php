@@ -74,16 +74,18 @@ function import_edu_excel($file_up,$ver=2007) {
 
 		}
 
-		if ($v[1]){
-                $sql=  "INSERT INTO " . $xoopsDB->prefix("es_timetable_tmp") .
-    			           " VALUES ('0' , '{$v[0]}' , '{$v[1]}' , '{$v[2]}', '{$v[3]}', '{$v[4]}', '{$v[5]}', '{$v[6]}', '{$v[7]}', '{$v[8]}', '{$v[9]}', '{$v[10]}', '{$v[11]}' ) " ;
-        }
+		if ($v[1]<>""){
+            $sql=  "INSERT INTO " . $xoopsDB->prefix("es_timetable_tmp") .
+    			           " VALUES (0 , '{$v[0]}' , '{$v[1]}' , '{$v[2]}', '{$v[3]}', '{$v[4]}', '{$v[5]}', '{$v[6]}', '{$v[7]}', '{$v[8]}', '{$v[9]}', '{$v[10]}', '{$v[11]}' ) " ;
 
             //echo "$sql <br>" ;
-			$result = $xoopsDB->query($sql) ;
+            $result = $xoopsDB->query($sql) ;
             if ($xoopsDB->error() )
-                 echo  $xoopsDB->error() . $sql ."<br />" ;
-		}
+                echo  $xoopsDB->error() . $sql ."<br />" ;
+        }
+
+
+	}
 
 }
 
@@ -116,6 +118,7 @@ function do_import( $y , $s){
         "  (`teacher_id`, `user_id`, `name`  )
          VALUES ('$tid' , '$tid' , '{$row['teacher']}' )
          " ;
+         //echo $insert_sql ." <br> ";
          $result2 = $xoopsDB->query($insert_sql) ;
          $edu['teacher'][$tea_i]= $tid ;
     }
@@ -132,6 +135,7 @@ function do_import( $y , $s){
         "   (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`, `subject_scope`,e_subject ,s_subject) VALUES
         ( '$tid' ,  '{$row['subject_short']}' , '', 'subject', '1', '{$row['subject_class']}' , '{$row['subject']}', '{$row['subject_short']}')
          " ;
+         //echo $insert_sql ." <br> ";
          $result2 = $xoopsDB->query($insert_sql) ;
          $edu['subject'][$row['subject_short']] = $tid ;
 		 $get_max['subid'] = $tid ;
@@ -176,7 +180,7 @@ function do_import( $y , $s){
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $tid++ ;
-        $c_id = mb_substr($row['class_id'],1 ,2)+0 ;
+        $c_id = mb_substr($row['class_id'],1 ,2 , 'UTF-8' )+0 ;
 		if ($get_max['min_y'] ==0)
 			$get_max['min_y'] = $cy[$row['class_year']];
 		if ($get_max['min_y'] > $cy[$row['class_year']])
