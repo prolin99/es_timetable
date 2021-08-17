@@ -8,7 +8,7 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
-$modversion['version'] = '2.6';                //模組版次
+$modversion['version'] = '2.61';                //模組版次
 $modversion['author'] = 'prolin(prolin99@gmail.com)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -34,6 +34,7 @@ $modversion['tables'][1] = 'es_timetable_subject';
 $modversion['tables'][2] = 'es_timetable_subject_year';
 $modversion['tables'][3] = 'es_timetable';
 $modversion['tables'][4] = 'es_timetable_teacher';
+$modversion['tables'][5] = 'es_timetable_tmp';
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
