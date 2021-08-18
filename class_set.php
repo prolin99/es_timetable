@@ -11,9 +11,9 @@ $xoopsOption['template_main'] = 'es_timet_class_table.tpl';
 
 include_once XOOPS_ROOT_PATH.'/header.php';
 
- if (!$xoopsUser) {
-     redirect_header('index.php', 3, '需要登入，才能使用！');
- }
+if (!$xoopsUser) {
+    redirect_header('index.php', 3, '需要登入，才能使用！');
+}
 
 /*-----------function區--------------*/
 //取得中文班名
@@ -56,6 +56,8 @@ foreach ($grade_subject[$y] as $id => $sid) {
 }
 $data['subject_name'] = $subject_name;
 */
+
+//取得可設定的科目
 $y = substr($data['my_class_id'], 0, -2);
 $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable_subject_year')." where grade='$y'  order by subject_id ";
 
@@ -67,13 +69,13 @@ while ($row = $xoopsDB->fetchArray($result)) {
 
 $data['subject_name'] = $subject_name;
 
-  //教師名冊
+//教師名冊
 $data['teacher_list'] = get_table_teacher_list($DEF_SET['teacher_group']);
 
 //取得級任名冊
 $data['class_teacher'] = get_class_teacher_list();
 
- //該級任在別班任課，不可以填寫修改
+//該級任在別班任課，不可以填寫修改
 $data['my_table'] = get_ones_timetable('teacher', $data['n_y'], $data['n_s'], $data['my_teacher_id']);
 
 /*-----------秀出結果區--------------*/

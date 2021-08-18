@@ -4,6 +4,10 @@ use XoopsModules\Tadtools\Utility;
 function xoops_module_update_es_timetable(&$module, $old_version)
 {
     global $xoopsDB;
+    //級任課表保護，教學組排級任科目，級任不可刪除
+    if (!chk_add_class_power_chk()) {
+        go_update_add_class_power_chk();
+    }
 
     //edu 暫存表
     if (!chk_add_edu_tmp()) {
@@ -155,6 +159,29 @@ function go_update_add_edu_tmp()
       PRIMARY KEY (`id`)
     ) ENGINE=MyISAM COMMENT='教育部匯入課表'
     ";
+
+    $xoopsDB->queryF($sql);
+}
+
+
+
+//----------------------------------------------------------------------------------------
+function chk_add_class_power_chk()
+{
+    global $xoopsDB;
+    $sql = 'select count(`self_chk`)  from '.$xoopsDB->prefix('es_timetable_tmp');
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return false;
+    }
+
+    return true;
+}
+
+function go_update_add_class_power_chk()
+{
+    global $xoopsDB;
+    $sql = ' ALTER TABLE  '.$xoopsDB->prefix('es_timetable')." ADD `self_chk` TINYINT NOT NULL DEFAULT '0' ";
 
     $xoopsDB->queryF($sql);
 }

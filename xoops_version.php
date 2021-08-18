@@ -168,6 +168,14 @@ $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = false;
 
 ++$i;
+$modversion['config'][$i]['name'] = 'es_tt_class_self_chk';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_class_self_chk';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_class_self_chk';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = false;
+
+++$i;
 $modversion['config'][$i]['name'] = 'es_tt_grade';
 $modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_T5';
 $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D5';
@@ -263,3 +271,4 @@ $modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_OpenSemester';
 $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '';
+

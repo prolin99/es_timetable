@@ -32,7 +32,7 @@ $DEF_SET['es_tt_showYear'] = $xoopsModuleConfig['es_tt_sm__OpenYear'];
 $DEF_SET['es_tt_showSemester'] = $xoopsModuleConfig['es_tt_sm__OpenSemester'];
 $DEF_SET['noon_show'] = $xoopsModuleConfig['es_tt_noon_show'];
 
-//$DEF_SET['es_tt_begin']=   $xoopsModuleConfig['es_tt_begin']  ;
+$DEF_SET['self_chk'] = $xoopsModuleConfig['es_tt_class_self_chk'];
 
 //中文節次
 $DEF_SET['sects_cht'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_m_sects_cht']);
@@ -214,7 +214,7 @@ function get_timetable_info($adm= false)
 
     }
 */
-
+    //var_dump($data) ;
     return $data;
 }
 
@@ -619,7 +619,7 @@ function check_timetable_double($y, $s)
 //取得單人、教室、班級課表
 function get_ones_timetable($mode, $y, $s, $id)
 {
-    global  $xoopsDB;
+    global  $xoopsDB , $DEF_SET ;
     $class_list_c = get_timetable_class_list_c('short');
     $subject = get_subject_list();
 
@@ -627,8 +627,8 @@ function get_ones_timetable($mode, $y, $s, $id)
     //讀取人名
     $teacher_list = get_table_teacher_data();
     for ($d = 1; $d <= $DEF_SET['days'];++$d) {
-        for ($s = 1; $s <= $DEF_SET['sects'];++$s) {
-            $data[$d][$s]['ss_id'] = 0;
+        for ($ss = 1; $ss <= $DEF_SET['sects'];++$ss) {
+            $data[$d][$ss]['ss_id'] = 0;
         }
     }
 
@@ -639,7 +639,7 @@ function get_ones_timetable($mode, $y, $s, $id)
     } else {
         $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'    and  class_id= '$id'  order by day,sector ,week_d   ";
     }
-    //echo $sql ;
+
     $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         $row['subject_name'] = $subject[$row['ss_id']];
@@ -647,6 +647,11 @@ function get_ones_timetable($mode, $y, $s, $id)
         $row['room_id'] = array_search($row['room'], $room_list);
 
         $row['other'] = '';
+        $row['self_lock'] = 0 ;
+        //級任的課表教學組已設定的要保護
+        if ($DEF_SET['self_chk'] and $row['self_chk']==0 ){
+            $row['self_lock'] = 1 ;
+        }
 
         //如果同教師教兩班???
         if ($data[$row['day']][$row['sector']][$row['week_d']]) {

@@ -69,9 +69,8 @@
       <{assign var="cell_tab" value=$data.my_table[$smarty.section.di.index][$smarty.section.si.index]}>
       <{foreach  from=$cell_tab  key=w item=cell_data  }>
 
-          <{if ( ($cell_data.class_id) and ( $cell_data.class_id <> $data.my_class_id)) }>  <{*有課且不同班*}>
-            <{assign var="cell_showed"  value=1 }>
-            <div class="nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='在他班有課，不可排入'>
+          <{if ($cell_data.self_lock or( ($cell_data.class_id) and ( $cell_data.class_id <> $data.my_class_id)) ) }>  <{*有課且不同班*}>            <{assign var="cell_showed"  value=1 }>
+            <div class="nobox" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#AAA;" title='課表鎖定，不可排入'>
             </div>
               <{if $w==1}>單週-<{/if}>
               <{if $w==2}>雙週-<{/if}>
@@ -82,7 +81,7 @@
             <div class="groupbox " data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;">
             </div>
        <{/if}>
-
+ 
       </td>
       <{ /section }>
       </tr>
@@ -178,24 +177,32 @@ function teacher_sect_show(do_mode , teacher_tab) {
         			if (teacher_tab[d][s][w]['ss_id'] > 0){
         				if (teacher_tab[d][s][w]['teacher'] ==	<{$data.my_teacher_id}>) {
         				  //級任
-                                  if (w==0)
-                                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="label label-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
-                                      '<span class="glyphicon glyphicon-remove" aria-hidden="true"   data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '" title="刪除"></span>  </span><br /><br />' ;
-                                  if (w==1)
-                                            sect_str += '<span  class="label label"  title="單雙週級任不可自行修改" >單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
-                                  if (w==2)
-                                            sect_str += '<span  class="label label-warning"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
-        				  $('#' + sectt).html( sect_str ) ;
-                                    if (w>0)
-                                      $('#' + sectt).attr("data_ref" ,'') ;     //單雙週情形下時去除此值
-        				}else {
-        				  //科任	不可放入
-                                    if (w==0)
-                                        sect_str2 +='<span class="label label-default"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
-                                     if (w==1)
-                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
-                                     if (w==2)
-                                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                  if (w==0)
+                     //教學組排課保護
+                    if (teacher_tab[d][s][w]['self_lock']){
+                      sect_str += '<span  class="badge badge-success" >'+teacher_tab[d][s][w]['subject_name']+
+                      '</span><br /><br />' ;
+
+                    }else{
+                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="badge badge-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
+                      '<span class="fa fa-remove" aria-hidden="true"   data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '" title="刪除"></span>  </span><br /><br />' ;
+                    }
+
+                  if (w==1)
+                            sect_str += '<span  class="label label"  title="單雙週級任不可自行修改" >單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
+                  if (w==2)
+                            sect_str += '<span  class="label label-warning"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
+  $('#' + sectt).html( sect_str ) ;
+                    if (w>0)
+                      $('#' + sectt).attr("data_ref" ,'') ;     //單雙週情形下時去除此值
+}else {
+  //科任	不可放入
+                    if (w==0)
+                        sect_str2 +='<span class="label label-default"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                      if (w==1)
+                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                      if (w==2)
+                        sect_str2 +='<span class="label label-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="label label-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="label label-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
 
         				  $('#' + sectt).html( sect_str2 ) ;
         				  $('#' + sectt).attr("data_ref" ,'') ;     //科任時去除此值

@@ -41,7 +41,13 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']) {
         if ($row['room']) {
             $row['room_id'] = array_search($row['room'], $room_list);
         }
+        //級任的課表教學組已設定的要保護
+        if ($DEF_SET['self_chk'] and $row['self_chk']==0 ){
+            $row['self_lock'] = 1 ;
+        }
+
         $data[$row['day']][$row['sector']][$row['week_d']] = $row;
+
     }
 
     echo json_encode($data, JSON_FORCE_OBJECT);

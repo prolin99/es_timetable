@@ -67,5 +67,6 @@ define("_MI_ES_TT_CONFIG_D_OpenSemester","1或2，可以查看的學期，正在
 define("_MI_ES_TT_CONFIG_noon","匯出時加午休欄位");
 define("_MI_ES_TT_CONFIG_D_noon","如果節次名已加入午休排課，則不要再印午休欄位。");
 
-
+define("_MI_ES_TT_CONFIG_class_self_chk","教學組排課保護");
+define("_MI_ES_TT_CONFIG_D_class_self_chk","級任不可修改教學組已排的個人課表");
 ?>
