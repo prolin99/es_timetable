@@ -29,7 +29,7 @@
      <i class="icon-remove" data_ref="<{$s_key}>" title="刪除這個科目"></i>
   <input type="text" id="scope_<{$s_key}>" value="<{$subject.scope}>" class="scope_edit span3" title="配合教育部領域名稱" placeholder="領域名稱">
   <input type="text" id="esubject_<{$s_key}>" value="<{$subject.e_subject}>" class="e_subject_edit span3" title="配合教育部科目" placeholder="科目">
-  <input type="text" id="ssubject_<{$s_key}>" value="<{$subject.s_subject}>" class="s_subject_edit span3" title="配合教育部校訂科目"  placeholder="校訂科目">
+  △<input type="text" id="ssubject_<{$s_key}>" value="<{$subject.s_subject}>" class="s_subject_edit span3 " title="配合教育部校訂科目"  placeholder="校訂科目">
 </td>
 <{foreach  key=g_key item=grade    from= $DEF_SET.grade }>
 	<td>

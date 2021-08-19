@@ -102,15 +102,16 @@
 
  <div class="alert alert-danger">
     <form action="import_edu.php" enctype='multipart/form-data' method=post  >
-    <fieldset>
-        <legend>由教育部課表匯入建新學期</legend>
+    <legend>由教育部課表匯入建新學期</legend>
     <input type="text" name="year" placeholder="學年度(如 109 )" class="span2"><input type="text"  name="semester" placeholder="學期 (1 or 2)" class="span2" title="1 或 2">
+    <p><input type="checkbox" name="sect_remove" >全部匯入，科目設定一併清除重建。</p>
     <label>上傳 教育部課表 XLSX (excel2007)檔案:</label>
     <input type="file" name="edutable"  accept=".xlsx">
     <button type="submit" name="do_key" class="btn btn-danger" title='按此鍵建製新學期'>匯建新學期</button>
     <p>1.使用匯入功能，代表不是由本系統建制的課表，所以該學期課表全部清除。</p>
-    <p>2.注意：教師如有同名者請先調整。匯入時只以教師姓名做索引。</p>
-    <p>3.為求最大彈性，教師、科目名會檢索原資料，方便做原系統預設功能如：級任排課等功能。</p>
+    <p>2.先確定偏好中教師群組設定，並在"任課教師"功能是否完整取教師名，否則匯入教師無法和系統註冊人員相關聯，無法提供級任編修權限。另同名者請先調整。</p>
+    <p>3.先整理"科目設定"中的科目及使用年級。比對時會以匯入教育部檔"科目"欄，和"科目設定" 其中的教育部系統第三欄△作比對。</p>
+    <p>4.匯入課表會受"教學組排課保護"限制。</p>
     </fieldset>
     </form>
 </div>

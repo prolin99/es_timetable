@@ -38,7 +38,7 @@ $n_semester = $data['info']['semester'];
 $data['n_y'] = $n_year;
 $data['n_s'] = $n_semester;
 
-  //教師名冊
+//教師名冊
 $data['teacher_list'] = get_table_teacher_list('hide','byname');
 
 //教室名稱陣列

@@ -13,25 +13,35 @@ include_once "../function.php";
 //匯入判別
 
 
-	if ($_FILES['edutable']['name'] ) {
+if ($_FILES['edutable']['name'] ) {
 
-		$file_up = XOOPS_ROOT_PATH."/uploads/" .$_FILES['edutable']['name'] ;
-		copy($_FILES['edutable']['tmp_name'] , $file_up );
+    if ($_POST['sect_remove']){
+        echo 'cccc' ;
+        //清空科目設定
+        $sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_subject")  ;
+        $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
 
-		$main="開始匯入" . $file_up .'<br>';
+        $sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_subject_year")  ;
+        $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+    }
 
-		//副檔名
-		$file_array= preg_split('/[.]/', $_FILES['edutable']['name'] ) ;
-		$ext= strtoupper(array_pop($file_array)) ;
+    $file_up = XOOPS_ROOT_PATH."/uploads/" .$_FILES['edutable']['name'] ;
+    copy($_FILES['edutable']['tmp_name'] , $file_up );
 
-		if ($ext=='XLSX')
-			import_edu_excel($file_up , 2007) ;
+    $main="開始匯入" . $file_up .'<br>';
 
-		unlink($file_up)  ;
+    //副檔名
+    $file_array= preg_split('/[.]/', $_FILES['edutable']['name'] ) ;
+    $ext= strtoupper(array_pop($file_array)) ;
 
-        //進行各資料表內容
-        do_import($_POST['year'] , $_POST['semester']) ;
- 	}
+    if ($ext=='XLSX')
+        import_edu_excel($file_up , 2007) ;
+
+    unlink($file_up)  ;
+
+    //進行各資料表內容
+    do_import($_POST['year'] , $_POST['semester']) ;
+}
 
 
 
@@ -94,7 +104,7 @@ function add_new_teacher($teacher_name){
     $insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable_teacher") .
     "  (`teacher_id`, `user_id`, `name`  )
     VALUES ('0' , '0' , '{$teacher_name}' )         " ;
-    echo $insert_sql ." <br> ";
+    //echo $insert_sql ." <br> ";
     $result2 = $xoopsDB->query($insert_sql) ;
 
     $sql = "select teacher_id , name from "  . $xoopsDB->prefix("es_timetable_teacher") ." where name='{$teacher_name}' " ;
@@ -143,40 +153,43 @@ function do_import( $y , $s){
     }
 
     //科目 --原來的
-    $sql = "select subject_id , subject_name from "  . $xoopsDB->prefix("es_timetable_subject") .' order by subject_id' ;
+    $sql = "select subject_id , s_subject from "  . $xoopsDB->prefix("es_timetable_subject") .' order by subject_id' ;
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
-        $edu['subject'][$row['subject_name']] = $row['subject_id'] ;
+        $edu['subject'][$row['s_subject']] = $row['subject_id'] ;
         $get_max['subid'] = $row['subject_id'] ;
     }
 
     //匯入 新科目
     $message .= "科目設定完成 <br>" ;
-    $sql = "select subject_class, subject , subject_short from "  . $xoopsDB->prefix("es_timetable_tmp") . " group by subject_class, subject , subject_short  order by  subject_class, subject   " ;
+    $sql = "select subject_mode , subject_class, subject , subject_short from "  . $xoopsDB->prefix("es_timetable_tmp") . " group by subject_class, subject , subject_short  order by  subject_class, subject   " ;
 
-    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
-    while ($row = $xoopsDB->fetchArray($result)) {
-        if (!$edu['subject'][$row['subject_short']]) {
+    $result_sect = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
+    while ($row = $xoopsDB->fetchArray($result_sect)) {
+        if (!$edu['subject'][$row['subject']]) {
+            $new_subject= $row['subject'] ;
             //科目不存在 ，新增
             $insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable_subject") .
             "   (`subject_id`, `subject_name`, `subject_school`, `subject_kind`, `enable`, `subject_scope`,e_subject ,s_subject) VALUES
-            ( '0' ,  '{$row['subject_short']}' , '', 'subject', '1', '{$row['subject_class']}' , '{$row['subject']}', '{$row['subject_short']}')
+            ( '0' ,  '{$row['subject_short']}' , '', 'subject', '1', '{$row['subject_mode']}' ,'{$row['subject_class']}' , '$new_subject' )
             " ;
-            echo $insert_sql ." <br> ";
+            //echo $insert_sql ." <br> ";
             $result2 = $xoopsDB->query($insert_sql) ;
 
-            $sql = "select subject_id , subject_name from "  . $xoopsDB->prefix("es_timetable_subject") . " where  subject_name = '{$row['subject_short']}' " ;
-            $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
-            while ($row = $xoopsDB->fetchArray($result)) {
-                $tid = $row['subject_id'] ;
-                $edu['subject'][$row['subject_name']] = $row['subject_id'] ;
+            $sql = "select subject_id , s_subject from "  . $xoopsDB->prefix("es_timetable_subject") . " where  s_subject = '$new_subject' " ;
+            $result3 = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
+
+            //echo "--" . $sql ." <br> ";
+            while ($row2 = $xoopsDB->fetchArray($result3)) {
+                $tid = $row2['subject_id'] ;
+                $edu['subject'][$new_subject] = $row2['subject_id'] ;
 
                 //新科目的年級設定（全年級）
                 foreach($DEF_SET['grade'] as $ity=>$ty) {
                     $insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable_subject_year") .
                     "(`y_id`, `grade`, `subject_id`) VALUES (0, $ty , $tid) " ;
-                    echo $insert_sql ." <br> ";
-                    $result2 = $xoopsDB->query($insert_sql) ;
+                    //echo '0000-' . $insert_sql ." <br> ";
+                    $result4 = $xoopsDB->query($insert_sql) ;
                 }
             }
 
@@ -238,7 +251,13 @@ function do_import( $y , $s){
 
         $sect =$cs[$row['sect']] ;
 
-        $ss_id  =$edu['subject'][$row['subject_short']] ;
+        $ss_subject = $row['subject'];
+
+        $ss_id  = $edu['subject'][$ss_subject] ;
+        if ($ss_id ==0 ){
+            echo '*****ss_id .0.' . $ss_subject ."<br>" ;
+            var_dump($edu['subject']) ;
+        }
         $insert_sql =  " INSERT INTO " . $xoopsDB->prefix("es_timetable") .
         " ( course_id , school_year ,semester , class_id ,teacher , day ,sector , ss_id ,room )
         VALUES
