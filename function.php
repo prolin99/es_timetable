@@ -506,7 +506,7 @@ order by  u.user_occ ,c.class_id
             $xoopsDB->prefix('groups_users_link').'  AS g LEFT JOIN  '.$xoopsDB->prefix('users').'  AS u ON u.uid = g.uid '.
             ' left join '.$xoopsDB->prefix('e_classteacher').' as c on u.uid = c.uid '.
             "  WHERE g.groupid ='$teach_group_id'  group by u.uid   order by  c.staff , c.class_id , u.name ";
-
+    //echo $sql ;
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, $xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         if (!$row['name']) {
