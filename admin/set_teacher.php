@@ -38,6 +38,8 @@ if ($_POST['del_hide_key']=='del_all'){
 
 }
 
+sync_teacher($DEF_SET['teacher_group']);
+
 /*-----------執行動作判斷區----------*/
  $data['teacher'] = get_table_teacher_data();
 

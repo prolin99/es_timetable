@@ -28,7 +28,7 @@ if ($_POST['do_key']) {
 /*-----------function區--------------*/
 
 
-sync_teacher($DEF_SET['teacher_group']);
+//sync_teacher($DEF_SET['teacher_group']);
 
 //檢查目前的課表
 $data['info'] = get_timetable_info(true);

@@ -18,6 +18,8 @@ if ($_GET['id']) {
         $sql = ' UPDATE  '.$xoopsDB->prefix('es_timetable_teacher')." SET kind = '$new'  where   teacher_id= '$id' ";
     } elseif ($_GET['do'] == 'hide') {
         $sql = ' UPDATE  '.$xoopsDB->prefix('es_timetable_teacher')." SET hide =( not hide)  where   teacher_id= '$id' ";
+    } elseif ($_GET['do'] == 'user_id') {
+        $sql = ' UPDATE  '.$xoopsDB->prefix('es_timetable_teacher')." SET user_id = '0'  where   teacher_id= '$id' and user_id= '$new' ";
     } else {
         $sql = ' UPDATE  '.$xoopsDB->prefix('es_timetable_teacher')." SET name = '$new'  where   teacher_id= '$id' ";
     }

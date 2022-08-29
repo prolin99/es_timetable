@@ -16,13 +16,19 @@ include_once "../function.php";
 if ($_FILES['edutable']['name'] ) {
 
     if ($_POST['sect_remove']){
-        echo 'cccc' ;
+        //echo 'cccc' ;
         //清空科目設定
         $sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_subject")  ;
         $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
 
+
         $sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_subject_year")  ;
         $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+        $message = "清空舊科目名稱</br>" ;
+
+        $sql= "TRUNCATE TABLE   " . $xoopsDB->prefix("es_timetable_teacher")  ;
+        $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+        $message .= "清空舊任課教師名冊</br>" ;
     }
 
     $file_up = XOOPS_ROOT_PATH."/uploads/" .$_FILES['edutable']['name'] ;
@@ -273,6 +279,7 @@ function do_import( $y , $s){
 
 
     $message .= "匯入完成<br>" ;
+    $message .= "再進入 <a href='set_teacher.php'>任課教師</a> 頁中檢查教師名冊是否完整。" ;
 
 }
 

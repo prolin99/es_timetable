@@ -15,7 +15,13 @@
 
 <{foreach  key=s_key item=teacher   from=$data.teacher  }>
 <tr><td><{$s_key}></td>
-<td><input type="text" id="name_<{$s_key}>"  data_ref="<{$s_key}>"   value="<{$teacher.name}>" class="name_edit" title="自動存入"></td>
+<td><input type="text" id="name_<{$s_key}>"  data_ref="<{$s_key}>"   value="<{$teacher.name}>" class="name_edit" title="自動存入">
+	<{if ($teacher.user_id==0) }>
+	<i class="icon-stop" title="只出現於課表"></i>
+	<{else}>
+	<i data_ref="<{$s_key}>"   uid="<{$teacher.user_id}>" class="icon-user" title="網站成員，要先改名再點圖示，移除會員就可快速更換課表給他人。"></i>
+	<{/if}>
+</td>
 <td><input type="text" id="kind_<{$s_key}>"   data_ref="<{$s_key}>"  value="<{$teacher.kind}>" class="kind_edit span4" title="<{$DEF_SET.es_tt_exteach_message}>"></td>
 <td>
 	<{if ($teacher.hide==0) }>
@@ -33,13 +39,28 @@
       <div class="alert alert-info">
       	<p>
             <span class="label label-info">說明</span><br />
-            課表人員名單是獨立的，但會試著加入系統人員。<br />
-            隱藏時，代表在編排時，不出現該人名，但不影響已排課表內容。<br />
+            課表人員名單可以是獨立的，但每次進入本頁會試著加入或合併網站教師群組人員（右方會出現人頭圖示）。<br />
+            人員隱藏時，代表在編排時，不出現該人名，但不影響已排課表內容。<br />
             類別 <{$DEF_SET.es_tt_exteach_message}>，方便列印簽到記錄。<br />
-            不建議直接更改姓名為其他人名，以免造成不一致的情形。
+            快速把某人課表更換給他人的作法，在任課教師頁中，先更改教師姓名，如果右方為人頭圖示，代表有原連結網站成員，點擊後會移除變成只用於課表中。
         </p>
       </div>
 <script>
+
+//除去網站會員連結，快速把某人課表改給他人
+
+$(function() {
+	$(".icon-user").click(function(){
+			var v_id = $( this ).attr('data_ref') ;
+			//alert(v_id) ;
+			var edit_text = $( this ).attr('uid') ;
+			var class_mode = $( this ).attr('class') ;
+			save_teacher( 'user_id' ,v_id ,  edit_text ) ;
+			$(this).removeClass() ;
+			$(this).addClass('icon-stop') ;
+
+	});
+});
 
 //顯/隱
 $(function() {
