@@ -132,13 +132,13 @@ foreach ($timetable as $key => $table_data) {
                         $cell_doc .= '(雙)';
                     }
                     if ($mid == 'teacher') {
-                        $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$table_data[$i][$s][$w]['room']."\n";
+                        $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$table_data[$i][$s][$w]['room']."";
                     }
                     if ($mid == 'class_id') {
-                        $cell_doc .=  $subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."\n".$table_data[$i][$s][$w]['room']."\n";
+                        $cell_doc .=  $subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."\n".$table_data[$i][$s][$w]['room']."";
                     }
                     if ($mid == 'room') {
-                        $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."\n";
+                        $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."";
                     }
                     $show_w = $w;
 
