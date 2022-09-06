@@ -24,11 +24,11 @@
 
 
         <div class="row" >
-          <label for="class_id" class="col-2 control-label">班級：</label>
-          <div  >
+          <label for="class_id" class="col-md-2 control-label">班級：</label>
+          <div  class="col-md-4">
     	  <{html_options name=class_id id=class_id  class="form-control" options=$data.class_list_c  selected=$data.select_class_id  onchange="class_change();"    }>
     	  </div>
-          <label for="class_id" class="col-3 control-label">級任：<span id="class_teacher_name"></span></label>
+          <label for="class_id" class="col-md-3 control-label">級任：<span id="class_teacher_name"></span></label>
 
         </div>
 

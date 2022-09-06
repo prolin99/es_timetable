@@ -28,12 +28,12 @@
 
       <div class="row" > <!-- box1 -->
 
-      <div class="col-xs-2" > <!-- left  -->
+      <div class="col-md-2" > <!-- left  -->
 
         <div id="kmo_div" class="row" >
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
-      		   <span class="col-xs-12 col-xs-4 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
+      		   <span class="col-xs-12  subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
                      <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="label label-success">
       		                 <{$subject}>
                     </label>
@@ -43,7 +43,7 @@
 
       </div> <!--left end-->
 
-      <div class="col-xs-10" id="table_div">  <!--               table                          -->
+      <div class="col-md-10" id="table_div">  <!--               table                          -->
 
 
       	<div class="row" >

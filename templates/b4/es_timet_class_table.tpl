@@ -18,23 +18,23 @@
 </style>
 
  <div class="row" >
-      <div class="col-8" >
+      <div class="col-md-8" >
  <h3><{$data.n_y}> 學年度<{$data.n_s}> 學期   <{$data.class_list_c[$data.my_class_id]}>功課表 </h3>
  	</div>
- 	<div class="col-3" >
+ 	<div class="col-md-3" >
  	<a class="btn btn-info" href="export.php?class_id=<{$data.my_class_id}>">下載課表</a>
  	</div>
  </div>
 
       <div class="row" > <!-- box1 -->
 
-      <div class="col-2" > <!-- left  -->
+      <div class="col-md-2" > <!-- left  -->
 
         <div id="kmo_div" class="row" >
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
-      		   <span class="col-12 col-4 subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
-                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="badge badge-success">
+      		   <span class="col-md-auto  subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
+                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="badge badge-success bg-success">
       		                 <{$subject}>
                     </label>
                 </span>
@@ -43,7 +43,7 @@
 
       </div> <!--left end-->
 
-      <div class="col-10" id="table_div">  <!--               table                          -->
+      <div class="col-md-10" id="table_div">  <!--               table                          -->
 
 
       	<div class="row" >
@@ -96,7 +96,7 @@
 
       <div class="row">
 
-            <span class="badge badge-info ">說明</span>
+            <span class="badge badge-info bg-info">說明</span>
             <div class="col-10">
            拖拉左方的科目到節次中，新增課程，科任課無法更動。<br/>
            先排好的科目，可以拖拉到其它節次中。<br/>
@@ -124,6 +124,7 @@ $(function () {
                 	if (sect) {	//科任時為空值
                     	var user_data = ui.draggable.attr('data_ref') ;
                     	var old_sect = ui.draggable.attr('old_sect') ;
+                      //alert('aaaa') ;
                     	sect_show(sect , user_data , now_teacher_array , old_sect) ;
                     }
 
@@ -180,29 +181,29 @@ function teacher_sect_show(do_mode , teacher_tab) {
                   if (w==0 )
                     //教學組排課保護
                     if (teacher_tab[d][s][w]['self_lock']){
-                      sect_str += '<span  class="badge badge-success" >'+teacher_tab[d][s][w]['subject_name']+
+                      sect_str += '<span  class="badge badge-success bg-success" >'+teacher_tab[d][s][w]['subject_name']+
                       '</span><br /><br />' ;
 
                     }else{
-                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="badge badge-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
+                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="badge badge-success bg-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
                       '<span class="fa fa-remove" aria-hidden="true"   data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '" title="刪除"></span>  </span><br /><br />' ;
                     }
 
                   if (w==1)
                             sect_str += '<span  class="label label"  title="單雙週級任不可自行修改" >單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
                   if (w==2)
-                            sect_str += '<span  class="badge badge-warning"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
+                            sect_str += '<span  class="badge badge-warning bg-warning"  title="單雙週級任不可自行修改" >雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br /><br />' ;
   $('#' + sectt).html( sect_str ) ;
                     if (w>0)
                       $('#' + sectt).attr("data_ref" ,'') ;     //單雙週情形下時去除此值
         				}else {
         				  //科任	不可放入
                                     if (w==0)
-                                        sect_str2 +='<span class="badge badge-default"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="badge badge-default bg-secondary"  title="科任不可自行修改">'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info bg-info ">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default bg-secondary">'+teacher_tab[d][s][w]['room']+'</span> ' ;
                                      if (w==1)
-                                        sect_str2 +='<span class="badge badge-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="badge badge-warning bg-warning"  title="科任不可自行修改">單週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info bg-info ">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default bg-secondary">'+teacher_tab[d][s][w]['room']+'</span> ' ;
                                      if (w==2)
-                                        sect_str2 +='<span class="badge badge-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default">'+teacher_tab[d][s][w]['room']+'</span> ' ;
+                                        sect_str2 +='<span class="badge badge-warning bg-warning"  title="科任不可自行修改">雙週-'+teacher_tab[d][s][w]['subject_name']+'</span><br/><span class="badge badge-info bg-info ">'+ teacher_tab[d][s][w]['teacher_name']+'</span><br/><span class="badge badge-default bg-secondary">'+teacher_tab[d][s][w]['room']+'</span> ' ;
 
         				  $('#' + sectt).html( sect_str2 ) ;
         				  $('#' + sectt).attr("data_ref" ,'') ;     //科任時去除此值
@@ -302,7 +303,7 @@ function sect_show(sect , subject_data , now_teacher ,old_sect) {
     			 show_subject_count() ;
     		       }
 			$('#' + sect).html('<span id="' + subject_data +'" data_ref="' + subject_data +
-                            '" class="badge badge-success subj" old_sect="'+sect+'" >'+splits[2]+
+                            '" class="badge badge-success bg-success subj" old_sect="'+sect+'" >'+splits[2]+
                             '<span class="fa fa-remove" aria-hidden="true"  data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></span></span><br /><br /> ') ;
 
 		$(".subj").draggable({

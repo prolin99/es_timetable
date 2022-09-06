@@ -26,7 +26,7 @@
 
       	<div class="row" >
 
-      	<div class='col-5'>
+      	<div class='col-md-5'>
           <form action="teacher_list.php"  method="GET" class="form-inline">
             <div class="form-group">
                 <{if ($data.isteacher)}>
@@ -39,7 +39,7 @@
         </form>
       	</div>
 
-      <div class='col-5'>
+      <div class='col-md-5'>
           <form action="teacher_list.php"  method="GET" class="form-inline" >
               <div class="form-group">
                 <label for="room_id" class="control-label">查詢教室:</label>
