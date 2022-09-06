@@ -36,9 +36,9 @@
 
       <table class="table table-bordered">
       <tr>
-      <th scope="col">節</th>
+      <th scope="col" >節</th>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
-      <th scope="col"><{$DEF_SET.week[$smarty.section.di.index]}></th>
+      <th scope="col" ><{$DEF_SET.week[$smarty.section.di.index]}></th>
       <{ /section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
@@ -48,8 +48,8 @@
             <{$DEF_SET.time_list[$smarty.section.si.index]}>
           </th>
           <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-          <td >
-          	<div data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
+          <td style="width:16%">
+          	<div   data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" ><{$group}><br /><br /></div>
           </td>
           <{ /section }>
       </tr>
@@ -159,12 +159,12 @@ function teacher_sect_show(do_mode , teacher_tab) {
                              }else{
                                 <{if ($isUser)}> <{* 有登入*}>
 
-                                  cell_str2 += week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+ teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>'+teacher_tab[d][s][w]['room'] +'</a><br/></div> '  ;
+                                  cell_str2 += week_str+'<span text-wrap style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n<a href=teacher_list.php?teacher_id='+ teacher_tab[d][s][w]['teacher']+ '>'+ teacher_tab[d][s][w]['teacher_name']+'</a> <br/> \n<a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>'+teacher_tab[d][s][w]['room'] +'</a><br/></div> '  ;
 
                                   $('#' + sectt).html( cell_str2 ) ;
                                 <{else}>
 
-                                      cell_str_open +=week_str+'<span style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/>  \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>   \n'  ;
+                                      cell_str_open +=week_str+'<span text-wrap style="color:red">'+ teacher_tab[d][s][w]['subject_name']+'</span></span> <br/> \n '+ teacher_tab[d][s][w]['teacher_name']+' <br/>  \n <a href=teacher_list.php?room_id='+teacher_tab[d][s][w]['room_id'] + '>' +teacher_tab[d][s][w]['room'] +'</a><br/></div>   \n'  ;
                                       $('#' + sectt).html( cell_str_open ) ;
                                 <{/if}>
 

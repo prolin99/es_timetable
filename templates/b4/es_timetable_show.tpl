@@ -22,19 +22,19 @@
 
 
 
-      <div class="col-10" id="table_div">
+      <div class="row" id="table_div">
 
       	<div class="row" >
 
       	<div class='col-md-5'>
           <form action="teacher_list.php"  method="GET" class="form-inline">
             <div class="form-group">
-                <{if ($data.isteacher)}>
+             <{if ($data.isteacher)}>
               <label for="teacher_id" class="control-label">查詢教師:</label>
               <div >
               <{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="form-control" }>
-            </div>
-            <{/if}>
+              </div>
+              <{/if}>
             </div>
         </form>
       	</div>
@@ -65,7 +65,7 @@
         <{$DEF_SET.time_list[$smarty.section.si.index]}>
     </th>
       <{section name=di  start=1  loop=$DEF_SET.days_sm    step=1  }>
-      <td  >
+      <td  style="width:16%">
 
 
       	<div  data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" >
