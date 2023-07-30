@@ -7,8 +7,11 @@
 /*-----------引入檔案區--------------*/
 include_once "header.php";
 include_once "../function.php";
-include_once '../../tadtools/PHPWord.php';
 
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/vendor/autoload.php';
+
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 /*-----------function區--------------*/
 
 //取得中文班名
@@ -115,8 +118,8 @@ if ($_GET['mode']) {
         $table->addRow(); //新增一列
 
             //$table->addCell(1000,$cellStyle )->addText("第 $s 節",$styleFont_cell_top,$style_cell_top); //新增一格
-            $time_str = preg_replace('/[~-]/', "~\n", $DEF_SET['time_list'][$s]);
-        $table->addCell(1000, $cellStyle)->addText($DEF_SET['sects_cht_list'][$s]."\n $time_str", $styleFont_cell_left, $style_cell_left); //新增一格
+            $time_str = preg_replace('/[~-]/', "~<w:br/>", $DEF_SET['time_list'][$s]);
+        $table->addCell(1000, $cellStyle)->addText($DEF_SET['sects_cht_list'][$s]."<w:br/>$time_str", $styleFont_cell_left, $style_cell_left); //新增一格
             for ($i = 1; $i <= $DEF_SET['days']; ++$i) {
                 $cell_doc = '';
 
@@ -131,16 +134,16 @@ if ($_GET['mode']) {
 
                         //顯示模式
                         if ($mid == 'teacher') {
-                            $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$table_data[$i][$s][$w]['room']."";
+                            $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."<w:br/>".$subject[$table_data[$i][$s][$w]['ss_id']]."<w:br/>".$table_data[$i][$s][$w]['room']."";
                             if ($class_list_c[$table_data[$i][$s][$w]['other']]) {
                                 $cell_doc .= '('.$class_list_c[$table_data[$i][$s][$w]['other']].')';
                             }
                         }
                         if ($mid == 'class_id') {
-                            $cell_doc .=  $subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."\n".$table_data[$i][$s][$w]['room']."";
+                            $cell_doc .=  $subject[$table_data[$i][$s][$w]['ss_id']]."<w:br/>".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name']."<w:br/>".$table_data[$i][$s][$w]['room']."";
                         }
                         if ($mid == 'room') {
-                            $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."\n".$subject[$table_data[$i][$s][$w]['ss_id']]."\n".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name'];
+                            $cell_doc .= $class_list_c[$table_data[$i][$s][$w]['class_id']]."<w:br/>".$subject[$table_data[$i][$s][$w]['ss_id']]."<w:br/>".$teacher_list[$table_data[$i][$s][$w]['teacher']]['name'];
                         }
 
                         //班級課表，科任
@@ -177,7 +180,7 @@ if ($_GET['mode']) {
     header('Content-Type:application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     header('Content-Disposition: attachment;filename=功課表'.$mid.'.docx');
     header('Cache-Control: max-age=0');
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
+    $objWriter = IOFactory::createWriter($PHPWord, 'Word2007');
     ob_clean();
     $objWriter->save('php://output');
     exit;
