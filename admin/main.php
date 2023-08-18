@@ -81,6 +81,10 @@ $data['end_date'] = date('Y-m-d', $next_m);
 if ($data['info']['year'] and  $data['info']['semester'])
  $data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
 
+//姓名重
+$data['error'] .= ckeck_teacher_name_double() ;
+//echo $data['error'];
+
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign('data', $data);

@@ -2,6 +2,13 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
 
+<{if ($data.error)}>
+<div class="alert alert-error">
+  重複或錯誤:<br />
+<{$data.error}>
+</div>
+<{/if}>
+
 <div class="row-fluid" >
     <form action="set_teacher.php" enctype="multipart/form-data" method="POST">
     <fieldset>

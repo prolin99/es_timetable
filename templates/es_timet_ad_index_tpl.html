@@ -2,6 +2,14 @@
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
 <script language='javascript' type='text/javascript' src='<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js'></script>
+
+<{if ($data.error)}>
+<div class="alert alert-error">
+  重複或錯誤:<br />
+<{$data.error}>
+</div>
+<{/if}>
+
 <{if $data.info.year }>
 <div class="row-fluid" >
       	<form action="main.php" enctype="multipart/form-data" method="post">
@@ -13,12 +21,7 @@
       	</form>
 </div>
 
-    <{if ($data.error)}>
-    <div class="alert alert-error">
-      重複或錯誤:<br />
-    <{$data.error}>
-    </div>
-    <{/if}>
+
     <form action="main.php" enctype="multipart/form-data" method="post">
         <fieldset>
         <legend>參數設定</legend>

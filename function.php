@@ -531,6 +531,21 @@ order by  u.user_occ ,c.class_id
     return $teacher;
 }
 
+function ckeck_teacher_name_double()
+{
+    global  $xoopsDB ,$DEF_SET;
+    //檢查教師名是否重複
+    $sql = '  SELECT name , count(*) as cc  FROM  '.$xoopsDB->prefix('es_timetable_teacher').'  group by name ';
+    $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
+    while ($row = $xoopsDB->fetchArray($result)) {
+        if ($row['cc'] > 1) {
+            $data .= '教師姓名有重複：'.$row['name'].'，請檢查任課教師名冊！<br />';
+        }
+    }
+    return $data;
+}
+
+
 function check_timetable_double($y, $s)
 {
     //檢查是否有重複

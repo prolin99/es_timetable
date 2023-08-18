@@ -81,6 +81,8 @@ $tab = get_ones_timetable('teacher', $n_year, $n_semester, $data['teacher_sel'])
 
 $data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
 
+//各教室已設定的情形
+
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign('data', $data);
