@@ -104,45 +104,25 @@ opacity:0.5;
           <br /><br /><br />
           <{/if}>
         </div>
-		 
+
       </td>
       <{ /section }>
       </tr>
       <{ /section }>
       </table>
 
-      
+
       </div>      <!-- table_div end-->
 
 
       <div class="span2" id="show">
-        <div class="row" >
-       <!-- 右方各教室已存記錄-->
-       <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-          <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-              Collapsible Group Item #1
-            </a>
-          </div>
-          <div id="collapseOne" class="accordion-body collapse in">
-            <div class="accordion-inner">
-              Anim pariatur cliche<br />.<br />.<br />.<br />
-            </div>
-          </div>
-        </div>
-        <div class="accordion-group">
-          <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-              Collapsible Group Item #2
-            </a>
-          </div>
-          <div id="collapseTwo" class="accordion-body collapse">
-            <div class="accordion-inner">
-              Anim pariatur cliche<br />.<br />.<br />.<br />
-            </div>
-          </div>
-        </div>
+        <!-- 右方各教室已存記錄-->
+        查看教室空餘狀況：
+        <{foreach  from=$room_list  key=i item=room  }>
+        <{ if $i>0}>
+          <button class="btn btn-primary show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{ $room }>'><{ $room}></button>
+        <{/if}>
+        <{/foreach}>
       </div>
 
     </div>
@@ -150,7 +130,8 @@ opacity:0.5;
 
 
       </div><!-- box1 end-->
-      
+
+
       <div class="alert alert-info">
         <p>
             <span class="label label-info">說明</span><br />
@@ -161,7 +142,6 @@ opacity:0.5;
       </div> 
       
 
-<script src="<{$xoops_url}>/modules/tadtools/bootstrap/js/bootstrap-collapse.js" type="text/javascript"></script>
 
 <SCRIPT type="text/javascript">
 
@@ -177,6 +157,66 @@ $(function() {
   });
 });  
   
+
+//教室改變
+$(document).on("click", ".show_room", function(){
+  var v_id = $( this ).attr('id_num') ;
+
+  if (v_id>0) {
+    //alert(v_id) ;
+
+    ajax_get_table('room' , v_id ) ;
+  }
+
+});
+
+//顯示出已排課表內容
+function tab_sect_show( do_mode ,  teacher_tab) {
+
+
+	for (d = 1;d<=<{$DEF_SET.days}>;d++) {
+		for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
+      //alert(d + s) ;
+			//還原灰色
+			$('#sect_' + d+ '_'+s).attr('style','background:#EEE;' ) ;
+
+
+      if (teacher_tab[d][s]['room'] == '1') {
+        //alert(d+ '-'+ s  ) ;
+  			//其它班的課
+      	$('#sect_' + d+ '_'+s).attr('style','background:#FAAF9F;' ) ;
+      }
+
+    }
+  }  
+}
+
+//讀取課表內容(教師 / 班級)
+var ajax_get_table=function( do_mode ,tid  ){
+
+//記錄
+  var URLs="ajax_get_timetable_room.php" ;
+  //alert("ajax_get_timetable_room.php") ;
+
+  $.ajax({
+      url: URLs,
+      type:"GET",
+      dateType:'json', //接收資料格式
+  data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,id:tid ,  do:do_mode},
+      success: function(data){
+        //alert(data) ;
+        var json_obj = jQuery.parseJSON(data) ;
+
+        tab_sect_show( do_mode ,json_obj ) ;
+      },
+
+       error:function(xhr, ajaxOptions, thrownError){
+          alert('error:' + xhr.status);
+          alert(thrownError);
+       }
+  })
+}
+
 //超時鐘點
   $(document).on("click", ".plus", function(){
       var div_id = $(this).attr("id")  ;

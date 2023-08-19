@@ -82,10 +82,15 @@ $tab = get_ones_timetable('teacher', $n_year, $n_semester, $data['teacher_sel'])
 $data['error'] = check_timetable_double($data['info']['year'], $data['info']['semester']);
 
 //各教室已設定的情形
+$room_list = get_class_room_list($n_year, $n_semester);
 
+//$data_room = get_room_array($n_year, $n_semester);
+//var_dump($data_room); 
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign('data', $data);
+$xoopsTpl->assign('data_room', $data_room);
+$xoopsTpl->assign('room_list', $room_list);
 $xoopsTpl->assign('DEF_SET', $DEF_SET);
 $xoopsTpl->assign('tab', $tab);
 

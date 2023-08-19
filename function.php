@@ -299,12 +299,14 @@ function get_timetable_data_list(  $y ,$s ,  $plus='') {
 }
 */
 
+
 //取出課表  room
-function get_class_room_list($y, $s)
+function get_class_room_list($y, $s )
 {
     global  $xoopsDB;
 
     $data[0] = '選擇查看教室';
+
 
     $sql = ' select  room   FROM  '.$xoopsDB->prefix('es_timetable')." where school_year= '$y'  and  semester= '$s'     and room <>''   group by  room ";
 
@@ -535,7 +537,7 @@ function ckeck_teacher_name_double()
 {
     global  $xoopsDB ,$DEF_SET;
     //檢查教師名是否重複
-    $sql = '  SELECT name , count(*) as cc  FROM  '.$xoopsDB->prefix('es_timetable_teacher').'  group by name ';
+    $sql = '  SELECT name , count(*) as cc  FROM  '.$xoopsDB->prefix('es_timetable_teacher').'  where hide=0  group by name ';
     $result = $xoopsDB->query($sql) or die($sql.'<br>'.$xoopsDB->error());
     while ($row = $xoopsDB->fetchArray($result)) {
         if ($row['cc'] > 1) {
