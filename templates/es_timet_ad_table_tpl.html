@@ -75,7 +75,7 @@
               </label>
                </span>
       	<div class='span4'>
-      	教室:<input name="room" id='room' placeholder="教室" class="span6" type="text" title="拉進排課並指定上課教室">
+      	教室:<input name="room" id='room' placeholder="教室" class="span6 room_edit" type="text" title="拉進排課並指定上課教室">
       	</div>
       	</div>
       	<div class="row-fluid" >
@@ -101,7 +101,8 @@
       <td class="span2">
       <div id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>_loading" style="display:none" class="span1"><img src="../images/ajax-loader.gif" height='14'/> </div>
       	<div class="groupbox span12" data_ref="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" id="sect_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>" style="background:#EEE;"><{$group}><br /><br /></div>
-		<div class="show_hit span12" id="show_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"  ></div>
+		    <div class="show_hit span12" id="show_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"  ></div>
+        <div class="room_chk span12" id="room_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"><i class="icon-tag" title="教室已用"></i></div>
       </td>
       <{ /section }>
       </tr>
@@ -256,7 +257,7 @@ $(function () {
 	//第一次進入要列出班級課表
     class_change() ;
  	$(".show_hit").hide() ;
-
+  $(".room_chk").hide() ;
 });
 
 function teacher_box(tea) {
@@ -747,6 +748,54 @@ function now_sect_show(sectt ,teacher_tab ) {
                   revert: "valid",
                     start: function(event, ui) { $(this).css("z-index", zindex++ ); } ,
     });
+}
+
+
+//教室安排--------------------------------
+$(function() {
+  $("#room").change(function(){
+    $(".room_chk").hide() ;
+    var edit_text = $( this ).val();
+    //alert(edit_text) ;
+    ajax_get_room_table('room_name' , edit_text ) ;
+  });
+});
+
+//讀取課表內容
+var ajax_get_room_table=function( do_mode ,tid  ){
+
+//記錄
+  var URLs="ajax_get_timetable_room.php" ;
+  //alert (URLs) ;
+  $.ajax({
+      url: URLs,
+      type:"GET",
+      dateType:'json', //接收資料格式
+  data:{year:<{$data.n_y}> , semester:<{$data.n_s}> ,id:tid ,  do:do_mode},
+      success: function(data){
+        //alert(data) ;
+        var json_obj = jQuery.parseJSON(data) ;
+
+        tab_sect_show( do_mode ,json_obj ) ;
+      },
+
+       error:function(xhr, ajaxOptions, thrownError){
+          alert('error:' + xhr.status);
+          alert(thrownError);
+       }
+  })
+}
+
+//顯示
+function tab_sect_show( do_mode ,  teacher_tab) {
+  
+  for (d = 1;d<=<{$DEF_SET.days}>;d++) {
+    for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
+      if (teacher_tab[d][s]['room'] == '1') {
+        $('#room_' + d+ '_'+s).show()  ;
+      }
+    }
+  }
 }
 
 </script>

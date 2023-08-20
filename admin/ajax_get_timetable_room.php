@@ -22,6 +22,14 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']) {
         $room = $room_list[$_GET['id']];
         $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable').
         " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  room='$room'   order by day,sector   ";
+    }else{
+        $room_list = get_class_room_list($_GET['year'], $_GET['semester']);
+        $in = array_search($_GET['id'], $room_list);
+
+        if ($in){
+            $sql = ' select *  FROM  '.$xoopsDB->prefix('es_timetable').
+            " where school_year= '{$_GET['year']}'  and  semester= '{$_GET['semester']}'    and  room='{$_GET['id']}'   order by day,sector   ";
+        }
     }
 
     $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
