@@ -25,5 +25,8 @@ if ($_GET['id']) {
         $data[$i]['name'] = $subject[$row['subject_id']];
     }
     $data[0]['id'] = $i;
+
+    //清空輸出的緩沖區
+    ob_clean() ;
     echo json_encode($data, JSON_FORCE_OBJECT);
 }

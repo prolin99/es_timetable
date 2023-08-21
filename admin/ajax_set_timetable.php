@@ -57,5 +57,3 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['class_id'] 
         //echo $_GET['do'] . $sql ;
     }
 }
-//echo $_GET['do'] .$_GET['year'] . $_GET['semester']  . $_GET['do']  . $_GET['class_id'] . $_GET['sect']  ;
-;

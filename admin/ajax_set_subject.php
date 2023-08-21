@@ -28,5 +28,7 @@ if ($_GET['id'] and $_GET['setdata']) {
     }
 
     $result = $xoopsDB->queryF($sql) or die($sql.'<br>'.$xoopsDB->error());
+    //清空輸出的緩沖區
+    ob_clean() ;
     echo $_GET['do'].$sql;
 }

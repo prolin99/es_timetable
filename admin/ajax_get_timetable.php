@@ -50,9 +50,8 @@ if ($_GET['year'] and $_GET['semester']  and $_GET['do']  and $_GET['id']) {
         }
         $data[$row['day']][$row['sector']][$w] = $row;
     }
-    //echo $sql ;
-    //var_dump( $data );
+
+    //清空輸出的緩沖區
+    ob_clean() ;
     echo json_encode($data, JSON_FORCE_OBJECT);
 }
-//echo $_GET['do'] .$_GET['year'] . $_GET['semester']  . $_GET['do']  . $_GET['class_id'] . $_GET['sect']  ;
-;
