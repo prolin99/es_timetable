@@ -23,7 +23,13 @@ if ($_POST['do_key']) {
 
     $sql =  " update   " . $xoopsDB->prefix("config") ." set conf_value='{$_POST['OpenSemester']}' where conf_name='es_tt_sm__OpenSemester' ; "  ;
 	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+
+    $sql =  " update   " . $xoopsDB->prefix("config") ." set conf_value='{$_POST['Fontsize']}' where conf_name='es_tt_fontsize' ; "  ;
+	$result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, $xoopsDB->error());
+    //echo $sql;
+
     redirect_header($_SERVER['PHP_SELF']) ;
+
 }
 /*-----------function區--------------*/
 
