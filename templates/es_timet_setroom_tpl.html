@@ -119,13 +119,8 @@ opacity:0.5;
         <!-- 右方各教室已存記錄-->
         查看教室使用狀況：
         <{foreach  from=$room_list  key=i item=room  }>
-<<<<<<< HEAD
         <{if $i>0}>
           <button class="btn btn-primary show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{$room }>'><{$room}></button>
-=======
-        <{ if $i>0}>
-          <button class="btn btn-info show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{ $room }>'><{ $room}></button>
->>>>>>> 10cf38c2cc4e9580fdd585f1904126d2231a22c3
         <{/if}>
         <{/foreach}>
       </div>
