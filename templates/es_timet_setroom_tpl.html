@@ -60,7 +60,7 @@ opacity:0.5;
       <td class="span1">節</td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
       <td ><{$DEF_SET.week[$smarty.section.di.index]}></td>
-      <{ /section }>
+      <{/section }>
       </tr>      
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
@@ -89,7 +89,7 @@ opacity:0.5;
                 <{if  ($cell_data.other)  }>(同節:<{$cell_data.other }>) <br /><{/if}>
                 <input id="<{$cell_data.course_id}>" value="<{$cell_data.room}>" class="span8 text_edit" title="設定教室，移開後自動存入" type="text">
                  <{if  ($cell_data.c_kind) }>
-                    <span class="plus" id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>" data='<{ $cell_data.c_kind}>'><i   class='icon-plus-sign' title='鐘點費'> </i><{ $cell_data.c_kind}></span>
+                    <span class="plus" id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>" data='<{$cell_data.c_kind}>'><i   class='icon-plus-sign' title='鐘點費'> </i><{$cell_data.c_kind}></span>
                  <{else}>
                     <span class="plus"  id="plus_<{$cell_data.course_id}>"  id_num="<{$cell_data.course_id}>"  data='0'><i   class="icon-minus" title='非超鐘點'> </i></span>
                  <{/if}>
@@ -100,15 +100,15 @@ opacity:0.5;
              <{/if}>
 
           <{/foreach}>
-          <{ if  (! $cell_tab) }>
+          <{if  (! $cell_tab) }>
           <br /><br /><br />
           <{/if}>
         </div>
 
       </td>
-      <{ /section }>
+      <{/section }>
       </tr>
-      <{ /section }>
+      <{/section }>
       </table>
 
 
@@ -119,8 +119,8 @@ opacity:0.5;
         <!-- 右方各教室已存記錄-->
         查看教室空餘狀況：
         <{foreach  from=$room_list  key=i item=room  }>
-        <{ if $i>0}>
-          <button class="btn btn-primary show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{ $room }>'><{ $room}></button>
+        <{if $i>0}>
+          <button class="btn btn-primary show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{$room }>'><{$room}></button>
         <{/if}>
         <{/foreach}>
       </div>

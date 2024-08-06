@@ -12,7 +12,7 @@ include_once "../function.php";
 if ($_GET['id']) {
     $id = intval($_GET['id']);
     $myts = &MyTextSanitizer::getInstance();
-    $new = $myts->htmlspecialchars($myts->addSlashes($_GET['setdata']));
+    $new = $myts->htmlspecialchars($xoopsDB->escape($_GET['setdata']));
         //$new = $_GET['setdata'] ;
     if ($_GET['do'] == 'plus') {
         $kind = intval($new);

@@ -123,7 +123,7 @@ function get_tad_cal_holiday($kword, $beg_date = '', $end_date = '')
     //假日關鍵字
     $first = true;
     foreach ($kword as  $k => $w) {
-        $w = $myts->addSlashes($w);
+        $w = $xoopsDB->escape($w);
         $w = $myts->htmlspecialchars($w);
         if ($first) {
             $query_sql .=  "   `title` like '%$w%'   ";

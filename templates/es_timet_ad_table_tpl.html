@@ -92,7 +92,7 @@
       <td class="span1">節</td>
       <{section name=di  start=1  loop=$DEF_SET.days_sm  step=1  }>
       <td ><{$DEF_SET.week[$smarty.section.di.index]}></td>
-      <{ /section }>
+      <{/section }>
       </tr>
       <{section name=si  start=1  loop=$DEF_SET.sects_sm    step=1  }>
       <tr>
@@ -104,9 +104,9 @@
 		    <div class="show_hit span12" id="show_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"  ></div>
         <div class="room_chk span12" id="room_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"><i class="icon-tag" title="教室已用"></i></div>
       </td>
-      <{ /section }>
+      <{/section }>
       </tr>
-      <{ /section }>
+      <{/section }>
       </table>
 
 

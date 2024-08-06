@@ -19,7 +19,7 @@ include_once "../function.php";
 if ($_POST['new_teacher']) {
     $myts = &MyTextSanitizer::getInstance();
 
-    $kmo = preg_split('/[,]/', $myts->addSlashes($_POST['new_teacher']));
+    $kmo = preg_split('/[,]/', $xoopsDB->escape($_POST['new_teacher']));
     foreach ($kmo as $k => $v) {
         $kmo_o = trim($v);
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable_teacher').

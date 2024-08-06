@@ -28,7 +28,7 @@ if ($_GET['do'] = 'del') {
 if ($_POST['new_kmo']) {
     $myts = &MyTextSanitizer::getInstance();
 
-    $kmo = preg_split('/[,]/', $myts->addSlashes($_POST['new_kmo']));
+    $kmo = preg_split('/[,]/', $xoopsDB->escape($_POST['new_kmo']));
     foreach ($kmo as $k => $v) {
         $kmo_o = trim($v);
         $sql = ' INSERT INTO   '.$xoopsDB->prefix('es_timetable_subject').
