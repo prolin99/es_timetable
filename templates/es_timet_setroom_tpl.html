@@ -96,9 +96,9 @@ opacity:0.5;
                  <br />
 
 
-
+                    
              <{/if}>
-
+             <div class="room_chk span12" id="room_<{$smarty.section.di.index}>_<{$smarty.section.si.index}>"><i class="icon-tag" title="教室已用"></i></div>
           <{/foreach}>
           <{if  (! $cell_tab) }>
           <br /><br /><br />
@@ -117,10 +117,15 @@ opacity:0.5;
 
       <div class="span2" id="show">
         <!-- 右方各教室已存記錄-->
-        查看教室空餘狀況：
+        查看教室使用狀況：
         <{foreach  from=$room_list  key=i item=room  }>
+<<<<<<< HEAD
         <{if $i>0}>
           <button class="btn btn-primary show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{$room }>'><{$room}></button>
+=======
+        <{ if $i>0}>
+          <button class="btn btn-info show_room" id="room_<{$i}>"  id_num="<{$i}>" data='<{ $room }>'><{ $room}></button>
+>>>>>>> 10cf38c2cc4e9580fdd585f1904126d2231a22c3
         <{/if}>
         <{/foreach}>
       </div>
@@ -145,7 +150,10 @@ opacity:0.5;
 
 <SCRIPT type="text/javascript">
 
-
+$(function () {
+	//第一次進入要列出班級課表
+  $(".room_chk").hide() ;
+});
 
 //修改科目
 $(function() {
@@ -155,22 +163,31 @@ $(function() {
     //alert(v_id) ;
     save_teacher_room( 'edit' ,v_id ,  edit_text ) ;
   });
-});  
-  
+});
 
-//教室改變
+
+//教室改變------------------------------------
 $(document).on("click", ".show_room", function(){
+  $(".room_chk").hide() ;
   var v_id = $( this ).attr('id_num') ;
 
   if (v_id>0) {
-    //alert(v_id) ;
-
     ajax_get_table('room' , v_id ) ;
   }
 
 });
 
 //顯示出已排課表內容
+function tab_sect_show( do_mode ,  teacher_tab) {
+  for (d = 1;d<=<{$DEF_SET.days}>;d++) {
+    for (s =1 ; s<=<{$DEF_SET.sects}> ; s++) {
+      if (teacher_tab[d][s]['room'] == '1') {
+        $('#room_' + d+ '_'+s).show()  ;
+      }
+    }
+  }
+}
+/*
 function tab_sect_show( do_mode ,  teacher_tab) {
 
 
@@ -182,15 +199,16 @@ function tab_sect_show( do_mode ,  teacher_tab) {
 
 
       if (teacher_tab[d][s]['room'] == '1') {
+
         //alert(d+ '-'+ s  ) ;
   			//其它班的課
       	$('#sect_' + d+ '_'+s).attr('style','background:#FAAF9F;' ) ;
       }
 
     }
-  }  
+  }
 }
-
+*/
 //讀取課表內容(教師 / 班級)
 var ajax_get_table=function( do_mode ,tid  ){
 

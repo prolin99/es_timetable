@@ -69,4 +69,7 @@ define("_MI_ES_TT_CONFIG_D_noon","如果節次名已加入午休排課，則不�
 
 define("_MI_ES_TT_CONFIG_class_self_chk","教學組排課保護");
 define("_MI_ES_TT_CONFIG_D_class_self_chk","級任不可修改教學組已排的個人課表");
+
+define("_MI_ES_TT_CONFIG_fontsize","匯出word課表，文字大小");
+define("_MI_ES_TT_CONFIG_D_fontsize","調整文字大小，容納在單張中");
 ?>

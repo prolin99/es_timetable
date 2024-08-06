@@ -8,8 +8,12 @@
 //---基本設定---//
 
 $modversion['name'] = '課表';                //模組名稱
+<<<<<<< HEAD
 //$modversion['version'] = '2.71';                //模組版次
 $modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '2.8.0-Stable' : '2.8';
+=======
+$modversion['version'] = '2.72';                //模組版次
+>>>>>>> 10cf38c2cc4e9580fdd585f1904126d2231a22c3
 $modversion['author'] = 'prolin(prolin99@gmail.com)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明
 $modversion['credits'] = 'prolin';                //模組授權者
@@ -273,4 +277,11 @@ $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '';
 
+++$i;
+$modversion['config'][$i]['name'] = 'es_tt_fontsize';
+$modversion['config'][$i]['title'] = '_MI_ES_TT_CONFIG_fontsize';
+$modversion['config'][$i]['description'] = '_MI_ES_TT_CONFIG_D_fontsize';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '14';
 

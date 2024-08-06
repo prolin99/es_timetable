@@ -34,6 +34,11 @@ $DEF_SET['noon_show'] = $xoopsModuleConfig['es_tt_noon_show'];
 
 $DEF_SET['self_chk'] = $xoopsModuleConfig['es_tt_class_self_chk'];
 
+//匯出 word 文字大小
+$DEF_SET['es_tt_fontsize'] = $xoopsModuleConfig['es_tt_fontsize'];
+if ($DEF_SET['es_tt_fontsize'] ==0 )
+    $DEF_SET['es_tt_fontsize'] = 12 ;
+
 //中文節次
 $DEF_SET['sects_cht'] = preg_split('/[,]/', $xoopsModuleConfig['es_tt_m_sects_cht']);
 

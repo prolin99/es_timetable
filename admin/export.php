@@ -57,8 +57,10 @@ if ($_GET['mode']) {
     $styleParagraph_h2 = array('align' => 'center', 'spaceAfter' => 100);
     //
     $style_cell = array('align' => 'center');
-    $styleFont_cell = array('name' => 'Tahoma',  'size' => 14);
-    $styleFont_cell_red = array('name' => 'Tahoma',  'size' => 14 ,  'color' => 'red');
+    $styleFont_cell = array('name' => 'Tahoma',  'size' => $DEF_SET['es_tt_fontsize']);
+    $styleFont_cell_red = array('name' => 'Tahoma',  'size' =>  $DEF_SET['es_tt_fontsize'] ,  'color' => 'red');    
+    //$styleFont_cell = array('name' => 'Tahoma',  'size' => 14);
+    //$styleFont_cell_red = array('name' => 'Tahoma',  'size' => 14 ,  'color' => 'red');
 
     //有單雙週小字
     $styleFont_d_cell = array('name' => 'Tahoma',  'size' => 10);
