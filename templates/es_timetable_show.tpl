@@ -22,9 +22,6 @@
 
 
 
-      <div class="row" id="table_div">
-
-      	<div class="row" >
 
       	<div class='col-md-5'>
           <form action="teacher_list.php"  method="GET" class="form-inline">
@@ -49,7 +46,7 @@
         </div>
         </form>
       </div>
-      	</div>
+
 
       <table class="table table-bordered">
       <tr>
@@ -119,7 +116,7 @@
       </table>
 
 
-      </div>      <!-- table_div end-->
+
 
 
       </div><!-- box1 end-->

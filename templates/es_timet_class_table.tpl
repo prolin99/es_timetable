@@ -14,6 +14,9 @@
     background-color: #AAA;
 }
 
+.bgsubj {
+    background-color: #5cb85c;
+}
 
 </style>
 
@@ -34,7 +37,7 @@
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
       		   <span class="col-md-auto  subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
-                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="badge badge-success bg-success">
+                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="bgsubj badge badge-success ">
       		                 <{$subject}>
                     </label>
                 </span>
@@ -185,7 +188,7 @@ function teacher_sect_show(do_mode , teacher_tab) {
                       '</span><br /><br />' ;
 
                     }else{
-                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="badge badge-success bg-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
+                      sect_str += '<span id="subj_' + teacher_tab[d][s][w]['ss_id'] +'" data_ref="subj_'+teacher_tab[d][s][w]['ss_id'] +'_'+ teacher_tab[d][s][w]['subject_name'] +'" class="bgsubj badge badge-success bg-success subj" old_sect="'+ sectt + '">'+teacher_tab[d][s][w]['subject_name']+
                       '<span class="fa fa-remove" aria-hidden="true"   data_ref="'+ sectt + '" data_ref_sub="'+ teacher_tab[d][s][w]['ss_id'] + '" title="刪除"></span>  </span><br /><br />' ;
                     }
 
@@ -303,7 +306,7 @@ function sect_show(sect , subject_data , now_teacher ,old_sect) {
     			 show_subject_count() ;
     		       }
 			$('#' + sect).html('<span id="' + subject_data +'" data_ref="' + subject_data +
-                            '" class="badge badge-success bg-success subj" old_sect="'+sect+'" >'+splits[2]+
+                            '" class="bgsubj badge badge-success bg-success subj" old_sect="'+sect+'" >'+splits[2]+
                             '<span class="fa fa-remove" aria-hidden="true"  data_ref="'+sect+'" data_ref_sub="'+ splits[1] + '"  title="刪除"></span></span><br /><br /> ') ;
 
 		$(".subj").draggable({
