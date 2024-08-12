@@ -23,12 +23,12 @@
 
 
 
-      	<div class='col-md-5'>
+      	<div class='col-5 col-md-5 '>
           <form action="teacher_list.php"  method="GET" class="form-inline">
             <div class="form-group">
              <{if ($data.isteacher)}>
-              <label for="teacher_id" class="control-label">查詢教師:</label>
-              <div >
+              <label for="teacher_id" class="control-label col-6 col-md-6">查詢教師:</label>
+              <div class="col-6 col-md-6">
               <{html_options name=teacher_id id=teacher_id  options=$data.teacher_list  selected=$data.teacher_sel  onchange="submit();"  class="form-control" }>
               </div>
               <{/if}>
@@ -36,11 +36,11 @@
         </form>
       	</div>
 
-      <div class='col-md-5'>
+      <div class='col-5 col-md-5 '>
           <form action="teacher_list.php"  method="GET" class="form-inline" >
               <div class="form-group">
-                <label for="room_id" class="control-label">查詢教室:</label>
-                <div  >
+                <label for="room_id" class="control-label col-6 col-md-6">查詢教室:</label>
+                <div class="col-6 col-md-6" >
                 <{html_options name=room_id id=room_id  options=$data.room_list  selected=$data.room_sel  onchange="submit();"   class="form-control" }>
         </div>
         </div>
