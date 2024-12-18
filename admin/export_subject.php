@@ -46,8 +46,8 @@ $s = $data['info']['semester'];
         $data[$row['class_id']][$row['ss_id']][] = $sect;
 
         //在每個班級中同一科有多人上課，會用到的最大格
-        if ($max[$row['ss_id']] < count($data[$row['class_id']][$row['ss_id']])) {
-            $max[$row['ss_id']] = count($data[$row['class_id']][$row['ss_id']]);
+        if ($max[$row['ss_id']] < count($data[$row['class_id']][$row['ss_id']] ?? [] )) {
+            $max[$row['ss_id']] = count($data[$row['class_id']][$row['ss_id']] ?? []);
         }
     }
 

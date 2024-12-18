@@ -121,7 +121,7 @@ if ($_POST['do_plus']) {
                    }
                }
            }
-        $show_sects = count($sect_have_class);
+        $show_sects = count($sect_have_class ?? []);
            //var_dump($sect_have_class) ;
 
 
