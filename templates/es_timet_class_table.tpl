@@ -37,7 +37,7 @@
         <!--  科目 -->
       	<{foreach  key=s_key item=subject    from= $data.subject_name }>
       		   <span class="col-md-auto  subj" data_ref="subj_<{$s_key}>_<{$subject}>"  >
-                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="bgsubj badge badge-success ">
+                     <label  id="subj_<{$s_key}>" title='<{$subject}>' name_title='<{$subject}>' class="bgsubj badge badge-success bg-success">
       		                 <{$subject}>
                     </label>
                 </span>
