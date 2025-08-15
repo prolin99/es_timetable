@@ -66,7 +66,7 @@ $data['teacher_list'] = get_table_teacher_list();
  } elseif (intval($_GET['teacher_id'])) {
     $data['teacher_sel'] = intval($_GET['teacher_id']);
 } else {
-    $data['teacher_sel'] = key($data['teacher_list']);
+    $data['teacher_sel'] = key($data['teacher_list'] ?? []) ;
 }
 
 if (intval($_POST['over_id'])) {

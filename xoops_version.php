@@ -10,7 +10,7 @@
 $modversion['name'] = '課表';                //模組名稱
 
 //$modversion['version'] = '2.71';                //模組版次
-$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '2.9.0-Stable' : '2.9';
+$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '3.0.0-Stable' : '3.0';
 
 $modversion['author'] = 'prolin(prolin99@gmail.com)';        //模組作者
 $modversion['description'] = '展示功課表';            //模組說明

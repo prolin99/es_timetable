@@ -72,4 +72,7 @@ define("_MI_ES_TT_CONFIG_D_class_self_chk","級任不可修改教學組已排的
 
 define("_MI_ES_TT_CONFIG_fontsize","匯出word課表，文字大小");
 define("_MI_ES_TT_CONFIG_D_fontsize","調整文字大小，容納在單張中");
+
+define("_MI_ESTUDENTS_CONFIG_TITLE1", "教師的群組");
+define("_MI_ESTUDENTS_CONFIG_DESC1", "要設定教師所在的群組，才能呈現教師的姓名");
 ?>
